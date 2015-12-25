@@ -1,0 +1,59 @@
+{include file="Common/head.html"}
+
+{include file="Public/toper.html"}
+
+{include file="Public/header.html"}
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin resumebox -->
+    <div id="ResumeBox" class="resumebox">
+        <div class="maincontbox">
+            <div class="resume">
+                <span class="title">我的课程：</span>
+                <span class="content">已学习 <font color="#CB1C1D" size="5">5</font> 课</span>
+                <span class="content">未学习 <font color="#CB1C1D" size="5">37</font> 课</span>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">已学习60%</div>
+                </div>
+            </div>
+            <div class="links">
+                <a href="javascript:;">如何完成学习？</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- begin dataprofilebox -->
+    <div class="dataprofilebox coursebox maincontbox">
+        <div class="dataprofiletitle text-center">
+            <h2>第一课：全面深化三星党建模式 从最基层努力实现中国梦</h2>
+            <h5>2015年12月10日 02:18</h5>
+            <h5>浏览次数：207</h5>
+        </div>
+        <div class="dataprofilecont text-center">
+
+            <div id="coursevideo" class="coursevideo" courseid="1" testingid="1"></div>
+            <script type="text/javascript" src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ckplayer/ckplayer.js" charset="utf-8"></script>
+            <script src="{$SERVER.HOST.JS_SERVER}Themes/Default/Assets/js/ckplayer.class.js"></script>
+            
+            <!-- coursefunc -->
+            <div class="coursefunc row">
+                <div class="col-xs-6 text-left">
+                    <p><a href="javascript:;" id="ExamBtn" class="btn btn-info"> 下载课程帮助文档 </a></p>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <p>课程已学习完成？&nbsp;<a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" id="ExamBtn" class="btn btn-red"> 马上进行随堂测评 </a></p>
+                </div>
+            </div>
+        </div>
+        <div class="dataprofilelinks">
+            <p class="linkitem">
+                <span><b>上一课：&nbsp;</b></span><a href="javascript:;">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
+            </p>
+            <p class="linkitem">
+                <span><b>下一课：&nbsp;</b></span><a href="javascript:;">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
+            </p>
+        </div>
+    </div>
+</div>
+<!-- end #content -->
+{include file="Common/foot.html"}
