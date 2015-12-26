@@ -15,6 +15,18 @@ class CommonController extends BaseController
     //管理员登录信息 session存储
     protected $managerinfo;
 
+    //上传文件标准 图片:2M 视频:200M
+    protected $_upfile = array(
+        'image' => array(
+            'size' => 2097152,
+            'exts' => array('jpg', 'gif', 'png', 'jpeg'),
+        ),
+        'video' => array(
+            'size' => 209715200,
+            'exts' => array('mp4', 'swf', 'flv', 'mp3'),
+        ),
+    );
+
     public function __construct()
     {
         parent::__construct();
@@ -152,7 +164,7 @@ class CommonController extends BaseController
         $end = $totalpage<(2*$sshowpages+1) ? $totalpage : (2*$sshowpages+1);
         if ($totalpage > (2*$sshowpages+1)) {
             if ($page <= ($sshowpages+1)) {
-            } else if ($totalpage-$page <= ($sshowpages+1)) {
+            } else if ($totalpage-$page < ($sshowpages+1)) {
                 $start = $totalpage-2*$sshowpages;
                 $end = $totalpage;
             } else {

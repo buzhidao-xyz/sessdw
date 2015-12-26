@@ -13,7 +13,7 @@ class BaseController extends Controller
 {
     //分页默认参数
     protected $_page     = 1;
-    protected $_pagesize = 30;
+    protected $_pagesize = 15;
     
     //用户登录信息 session存储
     protected $userinfo;
@@ -252,6 +252,8 @@ class BaseController extends Controller
     {
         if (!$total) return false;
 
+        $sshowpages = 2;
+
         //page参数
         $page     = $this->_getPage();
         $pagesize = $this->_getPagesize();
@@ -274,15 +276,15 @@ class BaseController extends Controller
         //总页数
         $totalpage = ceil($total/$pagesize);
         $start = 1;
-        $end = $totalpage<11 ? $totalpage : 11;
-        if ($totalpage > 11) {
-            if ($page <= 6) {
-            } else if ($totalpage-$page <= 6) {
-                $start = $totalpage-10;
+        $end = $totalpage<(2*$sshowpages+1) ? $totalpage : (2*$sshowpages+1);
+        if ($totalpage > (2*$sshowpages+1)) {
+            if ($page <= ($sshowpages+1)) {
+            } else if ($totalpage-$page < ($sshowpages+1)) {
+                $start = $totalpage-2*$sshowpages;
                 $end = $totalpage;
             } else {
-                $start = $page-5;
-                $end = $page+5;
+                $start = $page-$sshowpages;
+                $end = $page+$sshowpages;
             }
         }
         //列出的页码 当前页前后5页

@@ -22,8 +22,12 @@ class IndexController extends BaseController
     public function index()
     {
         //党建新闻
-        $djarclist = $this->_getArc(1, 7);
-        $this->assign('djarclist', $djarclist);
+        $djarclist = D('Article')->getArc(null, CR('Article')->arcclass['news']['id'], null, 0, 7);
+        $this->assign('djarclist', $djarclist['data']);
+
+        //平台公告
+        $ntarclist = D('Article')->getArc(null, CR('Article')->arcclass['notice']['id'], null, 0, 7);
+        $this->assign('ntarclist', $ntarclist['data']);
 
     	$this->display();
     }

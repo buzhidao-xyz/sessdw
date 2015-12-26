@@ -1,16 +1,36 @@
-<!-- {if is_array($pagination)&&!empty($pagination)}
-<div id="pagination" class="p-l-5 p-r-5">
-    <ul class="pagination pagination-sm m-t-0 m-b-10">
-        <li class="enabled"><a href="{$pagination.url}{$pagination.firstpage}">首页</a></li>
-        {foreach $pagination.listpage as $lpage}
-        {if $lpage==$pagination.curtpage}
-        <li class="active"><a href="javascript:;">{$lpage}</a></li>
-        {else}
-        <li><a href="{$pagination.url}{$lpage}">{$lpage}</a></li>
-        {/if}
-        {/foreach}
-        <li class="enabled"><a href="{$pagination.url}{$pagination.lastpage}">尾页</a></li>
-    </ul>
+{if is_array($pagination)&&!empty($pagination)}
+<div id="pagination" class="paginationbox p-l-5 p-r-5">
+    <nav>
+        <ul class="pagination pagination-md m-t-0 m-b-10">
+            <li class="enabled"><a href="{$pagination.url}{$pagination.firstpage}">首页</a></li>
+            {if $pagination.prevpage}
+            <li class="previous">
+                <a href="{$pagination.url}{$pagination.prevpage}"><i class="fa fa-arrow-left"></i></a>
+            </li>
+            {else}
+            <li class="previous disabled">
+                <a href="javascript:void(0);"><i class="fa fa-arrow-left"></i></a>
+            </li>
+            {/if}
+            {foreach $pagination.listpage as $lpage}
+            {if $lpage==$pagination.curtpage}
+            <li class="active"><a href="javascript:;">{$lpage}</a></li>
+            {else}
+            <li><a href="{$pagination.url}{$lpage}">{$lpage}</a></li>
+            {/if}
+            {/foreach}
+            {if $pagination.nextpage}
+            <li class="next">
+                <a href="{$pagination.url}{$pagination.nextpage}"><i class="fa fa-arrow-right"></i></a>
+            </li>
+            {else}
+            <li class="next disabled">
+                <a href="javascript:void(0);"><i class="fa fa-arrow-right"></i></a>
+            </li>
+            {/if}
+            <li class="enabled"><a href="{$pagination.url}{$pagination.lastpage}">末页</a></li>
+        </ul>
+    </nav>
 </div>
 <style type="text/css" media="screen">
     #pagination {
@@ -18,19 +38,4 @@
         margin-top: 10px;
     }
 </style>
-{/if} -->
-
-<!-- pagination -->
-<div class="paginationbox">
-    <nav>
-        <ul class="pagination pagination-lg">
-            <li class="disabled"><a aria-label="Previous" href="#"><span aria-hidden="true">上一页</span></a></li>
-            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a aria-label="Next" href="#"><span aria-hidden="true">下一页</span></a></li>
-        </ul>
-    </nav>
-</div>
+{/if}

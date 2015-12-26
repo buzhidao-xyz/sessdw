@@ -127,20 +127,28 @@
     display: block;
     overflow: hidden;
     padding: 12px 17px;
+    padding-right: 0;
     background: url("../images/list_arrow_icon.png") no-repeat 3px;
     border-bottom: 1px dashed #CCCCCC;
 }
 .articlepanel .articlelistbox ul.cont li a {
+    float: left;
     display: block;
     overflow: hidden;
     color: #333333;
     font-size: 15px;
     height: 20px;
     line-height: 20px;
+    width: 260px;
 }
 .articlepanel .articlelistbox ul.cont li a:hover {
     color: #cb1c1d;
     text-decoration: underline;
+}
+.articlepanel .articlelistbox ul.cont li span.time {
+    color: #999;
+    font-size: 14px;
+    float: right;
 }
 .articlepanel .qrcodebox {
     float: left;

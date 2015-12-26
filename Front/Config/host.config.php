@@ -30,7 +30,7 @@ defined('HOST_PATH') or define('HOST_PATH', hostpath());
 
 $HOST = array(
     //服务器域名
-    'HTTP_HOST'     => 'http://'.$_SERVER['HTTP_HOST'].'/',
+    'HTTP_HOST'     => 'http://'.$_SERVER['HTTP_HOST'].HOST_PATH,
     //系统 JS静态文件服务器
     'JS_SERVER'     => HOST_PATH.MODULE_NAME.'/',
     //系统 css静态文件服务器

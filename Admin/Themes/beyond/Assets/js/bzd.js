@@ -54,3 +54,20 @@ $("form[name=ajax-form]").submit(function() {
 
     return false;
 });
+
+//AJAX请求 启用/禁用、显示/隐藏、删除
+$("a.btnenable, a.btndelete").on('click', function (){
+    $.post($(this).attr('href'), {}, function (data){
+        var status = data.error ? 'error' : 'success';
+        alertPanelShow(status, data.msg);
+        if (!data.error) {
+            var location_href = "";
+            if ("location" in data.data) {
+                location_href = data.data.location;
+            }
+            location.href = location_href ? location_href : location.href;
+        }
+    }, 'json');
+
+    return false;
+});

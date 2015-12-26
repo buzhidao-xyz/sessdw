@@ -26,11 +26,11 @@ $(function(){
             <div class="bannerbox">
                 <div id="SlideBox" class="slideBox">
                     <ul class="items">
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="三星半导体党建“春风”让员工幸福扎根"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/1.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="我院党员代表走访三星公司共谋基层党建工作"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/2.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="全面深化三星党建模式 从最基层努力实现中国梦"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/3.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="我院党员代表走访三星公司共谋基层党建工作"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/4.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="三星半导体党建“春风”让员工幸福扎根"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/5.png"></a></li>
+                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="三星半导体党建“春风”让员工幸福扎根" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/1.png"></a></li>
+                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="我院党员代表走访三星公司共谋基层党建工作" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/2.png"></a></li>
+                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="全面深化三星党建模式 从最基层努力实现中国梦" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/3.png"></a></li>
+                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="我院党员代表走访三星公司共谋基层党建工作" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/4.png"></a></li>
+                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="三星半导体党建“春风”让员工幸福扎根" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/5.png"></a></li>
                     </ul>
                 </div>
             </div>
@@ -91,7 +91,7 @@ $(function(){
             <ul class="cont list-unstyled">
                 {if isset($djarclist)&&is_array($djarclist)&&!empty($djarclist)}
                 {foreach $djarclist as $d}
-                <li><a href="{$ANY.__APP__}?s=Article/news&arcid={$d.arcid}" title="{$d.title}">{$d.title}</a></li>
+                <li><a href="{$ANY.__APP__}?s=Article/news&arcid={$d.arcid}" title="{$d.title}">{$d.title}</a><span class="time">[{'m.d'|date:{$d.createtime}}]</span></li>
                 {/foreach}
                 {/if}
             </ul>
@@ -101,13 +101,11 @@ $(function(){
         <div class="articlelistbox noticebox">
             <div class="title"><a href="{$ANY.__APP__}?s=Article/notice" class="link">平台公告</a></div>
             <ul class="cont list-unstyled">
-                <li><a href="{$ANY.__APP__}?s=Article/notice&arcid=1" title="三星半导体党建“春风”让员工幸福扎根">三星半导体党建“春风”让员工幸福扎根</a></li>
-                <li><a href="{$ANY.__APP__}?s=Article/notice&arcid=1" title="我院党员代表走访三星公司共谋基层党建工作">我院党员代表走访三星公司共谋基层党建工作</a></li>
-                <li><a href="{$ANY.__APP__}?s=Article/notice&arcid=1" title="全面深化三星党建模式 从最基层努力实现中国梦">全面深化三星党建模式 从最基层努力实现中国梦</a></li>
-                <li><a href="javascript:;" title="我院党员代表走访三星公司共谋基层党建工作">我院党员代表走访三星公司共谋基层党建工作</a></li>
-                <li><a href="javascript:;" title="三星半导体党建“春风”让员工幸福扎根">三星半导体党建“春风”让员工幸福扎根</a></li>
-                <li><a href="javascript:;" title="我院党员代表走访三星公司共谋基层党建工作">我院党员代表走访三星公司共谋基层党建工作</a></li>
-                <li><a href="javascript:;" title="全面深化三星党建模式 从最基层努力实现中国梦">全面深化三星党建模式 从最基层努力实现中国梦</a></li>
+                {if isset($ntarclist)&&is_array($ntarclist)&&!empty($ntarclist)}
+                {foreach $ntarclist as $d}
+                <li><a href="{$ANY.__APP__}?s=Article/notice&arcid={$d.arcid}" title="{$d.title}">{$d.title}</a><span class="time">[{'m.d'|date:{$d.createtime}}]</span></li>
+                {/foreach}
+                {/if}
             </ul>
         </div>
 

@@ -6,7 +6,9 @@
  */
 namespace Admin\Model;
 
-class BaseModel
+use Any\Model;
+
+class BaseModel extends Model
 {
     public function __construct()
     {
