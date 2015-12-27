@@ -1,0 +1,142 @@
+{include file="Common/head.html"}
+
+<!-- Page Content -->
+<div class="page-content">
+    
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="javascript:;">系统</a>
+            </li>
+            <li><a href="javascript:;">课程管理</a></li>
+            <li class="active">平台课程</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>平台课程管理</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            <a href="{$ANY.__APP__}?s=Course/index" class="btn btn-primary">平台课程</a>
+            <a href="{$ANY.__APP__}?s=Course/newcourse" class="btn btn-darkorange">发布课程</a>
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="#">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Page Body -->
+    <div class="page-body dashboard">
+        <div class="widget formbox">
+            <div class="widget-header bordered-bottom bordered-blue">
+                <span class="widget-caption">发布平台课程</span>
+            </div>
+            <div class="widget-body">
+                <form role="form" name="courseform" method="post" action="{$ANY.__APP__}?s=Course/coursesave" class="dataform">
+                    <div class="form-title"><b>基本信息</b></div>
+                    <div class="form-group">
+                        <label>课程标题：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="title" placeholder="课程标题" class="form-control">
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>课程分类：</label>
+                        <span class="input-icon icon-right">
+                            <select name="classid" class="select2el" style="width: 100%;">
+                                <option value="0">全部</option>
+                                {foreach $classlist as $d}
+                                <option value="{$d.id}">{$d.name}</option>
+                                {/foreach}
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>课程图片（列表示例图）：</label>
+                        <span class="input-icon icon-right">
+                            <input id="showimg" type="file" name="showimg" placeholder="课程图片、列表图示" class="file-loading">
+                        </span>
+                    </div>
+                    <div class="form-title"><b>课程视频</b></div>
+                    <div class="form-group">
+                        <label>视频封面图：</label>
+                        <span class="input-icon icon-right">
+                            <input id="videoimg" type="file" name="videoimg" placeholder="视频封面图" class="file-loading">
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>视频文件地址：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="videopath" placeholder="服务器视频文件存储目录地址，请填写相对路径 “/Upload/”目录开始 例：/Upload/course/201512/党建课程_01.mp4" class="form-control">
+                            <i class="fa fa-video-camera"></i>
+                            <p><font color="red">*由于视频文件比较大，所以系统不支持上传视频，请使用FTP工具上传至服务器相关存储目录 例：/usr/local/website/samsung/Upload/course/</font></p>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>视频文件时长（例：1:35:17）：</label>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <span class="input-icon icon-right">
+                                    <input type="text" name="videotime_h" placeholder="小时 例：0、1等" class="form-control">
+                                    <i class="fa fa-sort-numeric-asc"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="input-icon icon-right">
+                                    <input type="text" name="videotime_i" placeholder="分钟 例：0、1等" class="form-control">
+                                    <i class="fa fa-sort-numeric-asc"></i>
+                                </span>
+                            </div>
+                            <div class="col-xs-4">
+                                <span class="input-icon icon-right">
+                                    <input type="text" name="videotime_s" placeholder="秒 例：0、1等" class="form-control">
+                                    <i class="fa fa-sort-numeric-asc"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-success" type="submit"> 发布 </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+
+<link href="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/js/fileinput_locale_zh.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}js/bootstrap-fileinput.class.js"></script>
+<script>
+$(function (){
+    //课程示例图
+    var BootstrapFileInputClassObjShowimg = new BootstrapFileInputClass();
+    BootstrapFileInputClassObjShowimg.Init("showimg", JS_APP+"?s=Course/showimgupload");
+
+    //课程视频封面图
+    var BootstrapFileInputClassObjVideoimg = new BootstrapFileInputClass();
+    BootstrapFileInputClassObjVideoimg.Init("videoimg", JS_APP+"?s=Course/videoimgupload");
+});
+</script>
+{include file="Common/foot.html"}
