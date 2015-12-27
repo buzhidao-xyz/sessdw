@@ -26,11 +26,11 @@ $(function(){
             <div class="bannerbox">
                 <div id="SlideBox" class="slideBox">
                     <ul class="items">
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="三星半导体党建“春风”让员工幸福扎根" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/1.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="我院党员代表走访三星公司共谋基层党建工作" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/2.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="全面深化三星党建模式 从最基层努力实现中国梦" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/3.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="我院党员代表走访三星公司共谋基层党建工作" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/4.png"></a></li>
-                        <li><a href="{$ANY.__APP__}?s=Article/news&arcid=1" title="三星半导体党建“春风”让员工幸福扎根" target="_blank"><img src="{$SERVER.HOST.PUBLIC_SERVER}plugins/slidebox/img/5.png"></a></li>
+                        {if isset($simglist)&&is_array($simglist)&&!empty($simglist)}
+                        {foreach $simglist as $d}
+                        <li><a href="{$d.link}" title="{$d.title}" target="_blank"><img src="{$SERVER.HOST.HTTP_HOST}{$d.simgpath}"></a></li>
+                        {/foreach}
+                        {/if}
                     </ul>
                 </div>
             </div>

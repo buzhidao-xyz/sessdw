@@ -21,6 +21,10 @@ class IndexController extends BaseController
     //系统首页
     public function index()
     {
+        //轮播图片
+        $simglist = D('Advert')->getSimg();
+        $this->assign('simglist', $simglist);
+
         //党建新闻
         $djarclist = D('Article')->getArc(null, CR('Article')->arcclass['news']['id'], null, 0, 7);
         $this->assign('djarclist', $djarclist['data']);
