@@ -17,7 +17,7 @@ class AdvertModel extends CommonModel
     public function getScrollimage()
     {
         $total = M('scrollimage')->count();
-        $result = M('scrollimage')->order('sortno,createtime asc')->select();
+        $result = M('scrollimage')->order('sortno asc, createtime desc')->select();
 
         return array('total'=>$total, 'data'=>is_array($result)?$result:array());
     }
