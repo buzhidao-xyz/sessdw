@@ -15,7 +15,7 @@ var BootstrapFileInputClass = function () {
 
     //初始化fileinput控件（第一次初始化）
     oFile.Init = function(ctrlName, uploadUrl) {
-        var ctrlObj = $('#' + ctrlName);
+        var ctrlObj = $('#' + ctrlName + 'file');
 
         if (uploadUrl) {
             showUpload = true;
@@ -55,8 +55,8 @@ var BootstrapFileInputClass = function () {
         //上传成功回调
         ctrlObj.on("fileuploaded", function (event, data, previewId, index) {
             alertPanelShow('success', data.response.msg);
-            //服务端返回filename写入缓存
-            oFile.file.filename = data.response.data.filename;
+            //服务端返回file写入input
+            $('input[name='+ctrlName+']').val(data.response.data.filepath+data.response.data.filename);
         });
 
         //上传失败回调
