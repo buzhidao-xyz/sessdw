@@ -14,11 +14,16 @@ class CourseModel extends CommonModel
     }
 
     //保存复习资料信息
-    public function saveReview($data=array())
+    public function saveReview($data=array(), $reviewid=null)
     {
         if (!is_array($data) || empty($data)) return false;
 
-        $reviewid = M('course_review')->add($data);
+        if ($reviewid) {
+            $result = M('course_review')->where(array('reviewid'=>$reviewid))->save($data);
+            if (!$result) $reviewid = false;
+        } else {
+            $reviewid = M('course_review')->add($data);
+        }
         return $reviewid ? $reviewid : false;
     }
 

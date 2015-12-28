@@ -81,11 +81,10 @@ class AdvertController extends CommonController
             $error = 1;
             $msg = $Upload->getError();
         } else {
-            foreach ($info as $file) {
-                $filename = '/'.UPLOAD_PT.$file['savepath'].$file['savename'];
-            }
+            $fileinfo = array_shift($info);
             $data = array(
-                'filename' => $filename,
+                'filepath' => '/'.UPLOAD_PT.$fileinfo['savepath'],
+                'filename' => $fileinfo['savename'],
             );
         }
 

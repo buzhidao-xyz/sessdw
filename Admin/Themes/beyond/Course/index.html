@@ -95,7 +95,7 @@
                             <td>{$d.courseid}</td>
                             <td>{if $d.showimg}<img src="{$SERVER.HOST.HTTP_HOST}{$d.showimg}" style="width: 180px;">{/if}</td>
                             <td>{$d.title}</td>
-                            <td>{$classname}</td>
+                            <td>{$classlist[$d.classid].name}</td>
                             <td>{$d.learnnum}</td>
                             <td>{if $d.isshow}<font color="green">显示</font>{else}<font color="gray">隐藏</font>{/if}</td>
                             <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>

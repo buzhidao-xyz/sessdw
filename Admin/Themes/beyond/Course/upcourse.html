@@ -46,15 +46,16 @@
     <div class="page-body dashboard">
         <div class="widget formbox">
             <div class="widget-header bordered-bottom bordered-blue">
-                <span class="widget-caption">发布平台课程</span>
+                <span class="widget-caption">编辑平台课程</span>
             </div>
             <div class="widget-body">
                 <form role="form" name="courseform" method="post" action="{$ANY.__APP__}?s=Course/coursesave" class="dataform">
+                    <input type="hidden" name="courseid" value="{$courseinfo.courseid}">
                     <div class="form-title"><b>基本信息</b></div>
                     <div class="form-group">
                         <label>课程标题：</label>
                         <span class="input-icon icon-right">
-                            <input type="text" name="title" placeholder="课程标题" class="form-control">
+                            <input type="text" name="title" value="{$courseinfo.title}" placeholder="课程标题" class="form-control">
                             <i class="fa fa-user"></i>
                         </span>
                     </div>
@@ -63,7 +64,7 @@
                         <span class="input-icon icon-right">
                             <select name="classid" class="select2el" style="width: 100%;">
                                 {foreach $classlist as $d}
-                                <option value="{$d.id}">{$d.name}</option>
+                                <option value="{$d.id}" {if $courseinfo.classid==$d.id}selected{/if}>{$d.name}</option>
                                 {/foreach}
                             </select>
                         </span>
@@ -86,9 +87,9 @@
                     <div class="form-group">
                         <label>视频文件地址：</label>
                         <span class="input-icon icon-right">
-                            <input type="text" name="videopath" placeholder="服务器视频文件存储目录地址，请填写相对路径 “/Upload/”目录开始 例：/Upload/course/video/course_test.mp4" class="form-control">
+                            <input type="text" name="videopath" placeholder="服务器视频文件存储目录地址，请填写相对路径 “/Upload/”目录开始 例：/Upload/course/course_test.mp4" class="form-control">
                             <i class="fa fa-video-camera"></i>
-                            <p><font color="red">*由于视频文件比较大，所以系统不支持上传视频，请使用FTP工具上传至服务器相关存储目录 相关目录：./Upload/course/video/</font></p>
+                            <p><font color="red">*由于视频文件比较大，所以系统不支持上传视频，请使用FTP工具上传至服务器相关存储目录 相关目录：/usr/local/website/samsung/Upload/course/</font></p>
                         </span>
                     </div>
                     <div class="form-group">
@@ -147,23 +148,6 @@ $(function (){
     //课程复习资料
     BootstrapFileInputClassObj.Init("reviewid", JS_APP+"?s=Course/reviewfileupload");
 
-    //课程Form提交
-    $("form[name=courseform]").submit(function (){
-        var url = $(this).attr('action');
-        var postdata = $(this).serialize();
-        $.post(url, postdata, function (data){
-            var status = data.error ? 'error' : 'success';
-            alertPanelShow(status, data.msg);
-            if (!data.error) {
-                var location_href = "";
-                if ("location" in data.data) {
-                    location_href = data.data.location;
-                }
-                location.href = location_href ? location_href : location.href;
-            }
-        }, 'json');
-        return false;
-    });
 });
 </script>
 {include file="Common/foot.html"}

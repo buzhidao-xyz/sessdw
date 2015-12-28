@@ -77,7 +77,8 @@
                         <div class="col-xs-12">
                             <label>图片（宽高700*328）：</label>
                             <span>
-                                <input id="imagefile" type="file" name="imagefile" placeholder="显示的图片" class="file-loading">
+                                <input type="hidden" name="simgpath" value="">
+                                <input id="simgpathfile" type="file" name="simgpathfile" placeholder="显示的图片" class="file-loading">
                             </span>
                         </div>
                     </div>
@@ -150,18 +151,12 @@
 <script>
 $(function (){
     var BootstrapFileInputClassObj = new BootstrapFileInputClass();
-    BootstrapFileInputClassObj.Init("imagefile", JS_APP+"?s=Advert/simgupload");
+    BootstrapFileInputClassObj.Init("simgpath", JS_APP+"?s=Advert/simgupload");
 
     //新增轮播图片 Form提交
     $("form[name=simgform]").submit(function (){
-        var postdata = {
-            title: $(this).find("input[name=title]").val(),
-            sortno: $(this).find("input[name=sortno]").val(),
-            link: $(this).find("input[name=link]").val(),
-            simgpath: BootstrapFileInputClassObj.file.filename,
-        }
-
         var url = $(this).attr('action');
+        var postdata = $(this).serialize();
         $.post(url, postdata, function (data){
             var status = data.error ? 'error' : 'success';
             alertPanelShow(status, data.msg);

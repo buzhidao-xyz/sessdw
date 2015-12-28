@@ -6,10 +6,13 @@
  */
 namespace Admin\Controller;
 
+use Any\Upload;
+
 class CourseController extends CommonController
 {
     // 课程分类
     private $_course_class = array(
+        0 => array('id'=>0, 'name'=>'全部'),
         1 => array('id'=>1, 'name'=>'学党章'),
         2 => array('id'=>2, 'name'=>'学讲话'),
         3 => array('id'=>3, 'name'=>'学条例'),
@@ -47,7 +50,6 @@ class CourseController extends CommonController
     private function _getClassid()
     {
         $classid = mRequest('classid');
-        if (!$classid) $this->ajaxReturn(1, '请选择课程分类！');
 
         return $classid;
     }
@@ -157,11 +159,10 @@ class CourseController extends CommonController
             $error = 1;
             $msg = $Upload->getError();
         } else {
-            foreach ($info as $file) {
-                $filename = '/'.UPLOAD_PT.$file['savepath'].$file['savename'];
-            }
+            $fileinfo = array_shift($info);
             $data = array(
-                'filename' => $filename,
+                'filepath' => '/'.UPLOAD_PT.$fileinfo['savepath'],
+                'filename' => $fileinfo['savename'],
             );
         }
 
@@ -190,11 +191,10 @@ class CourseController extends CommonController
             $error = 1;
             $msg = $Upload->getError();
         } else {
-            foreach ($info as $file) {
-                $filename = '/'.UPLOAD_PT.$file['savepath'].$file['savename'];
-            }
+            $fileinfo = array_shift($info);
             $data = array(
-                'filename' => $filename,
+                'filepath' => '/'.UPLOAD_PT.$fileinfo['savepath'],
+                'filename' => $fileinfo['savename'],
             );
         }
 
@@ -245,6 +245,7 @@ class CourseController extends CommonController
             $reviewid = D('Course')->saveReview($reviewdata);
 
             $data = array(
+                'filepath' => '',
                 'filename' => $reviewid,
             );
         }
@@ -261,6 +262,12 @@ class CourseController extends CommonController
     //编辑课程
     public function upcourse()
     {
+        $courseid = $this->_getCourseid();
+        if (!$courseid) $this->pageReturn(1, '未知课程信息！', $this->_page_location);
+
+        $courseinfo = D('Course')->getCourseByID($courseid);
+        $this->assign('courseinfo', $courseinfo);
+
         $this->display();
     }
 
@@ -268,5 +275,34 @@ class CourseController extends CommonController
     public function coursesave()
     {
         $title = $this->_getTitle();
+        $classid = $this->_getClassid();
+        $showimg = $this->_getShowimg();
+        $videoimg = $this->_getVideoimg();
+        $videopath = $this->_getVideopath();
+        $videotime = $this->_getVideotime();
+        $reviewid = $this->_getReviewid();
+
+        $data = array(
+            'title'      => $title,
+            'videoimg'   => $videoimg,
+            'videopath'  => $videopath,
+            'videotime'  => $videotime,
+            'showimg'    => $showimg,
+            'classid'    => $classid,
+            'viewnum'    => 0,
+            'learnnum'   => 0,
+            'istesting'  => 0,
+            'isshow'     => 1,
+            'createtime' => TIMESTAMP,
+            'updatetime' => TIMESTAMP,
+        );
+        $courseid = D('Course')->saveCourse(null, $data);
+        if ($courseid) {
+            if ($reviewid) D('Course')->saveReview(array('courseid'=>$courseid), $reviewid);
+
+            $this->ajaxReturn(0, '课程发布成功！');
+        } else {
+            $this->ajaxReturn(0, '课程发布失败！');
+        }
     }
 }
