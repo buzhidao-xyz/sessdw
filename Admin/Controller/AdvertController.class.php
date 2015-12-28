@@ -70,7 +70,7 @@ class AdvertController extends CommonController
         $Upload->savePath = 'scrollimage/';
         $Upload->saveName = array('uniqid', '');
         $Upload->autoSub  = true;
-        $Upload->subName  = array('date', 'Ymd');
+        $Upload->subName  = array('date', 'Ym');
 
         //上传
         $error = null;

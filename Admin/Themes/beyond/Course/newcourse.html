@@ -85,9 +85,9 @@
                     <div class="form-group">
                         <label>视频文件地址：</label>
                         <span class="input-icon icon-right">
-                            <input type="text" name="videopath" placeholder="服务器视频文件存储目录地址，请填写相对路径 “/Upload/”目录开始 例：/Upload/course/201512/党建课程_01.mp4" class="form-control">
+                            <input type="text" name="videopath" placeholder="服务器视频文件存储目录地址，请填写相对路径 “/Upload/”目录开始 例：/Upload/course/course_test.mp4" class="form-control">
                             <i class="fa fa-video-camera"></i>
-                            <p><font color="red">*由于视频文件比较大，所以系统不支持上传视频，请使用FTP工具上传至服务器相关存储目录 例：/usr/local/website/samsung/Upload/course/</font></p>
+                            <p><font color="red">*由于视频文件比较大，所以系统不支持上传视频，请使用FTP工具上传至服务器相关存储目录 相关目录：/usr/local/website/samsung/Upload/course/</font></p>
                         </span>
                     </div>
                     <div class="form-group">
@@ -95,23 +95,30 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <span class="input-icon icon-right">
-                                    <input type="text" name="videotime_h" placeholder="小时 例：0、1等" class="form-control">
+                                    <input type="text" name="videotime_h" placeholder="小时 默认0" class="form-control">
                                     <i class="fa fa-sort-numeric-asc"></i>
                                 </span>
                             </div>
                             <div class="col-xs-4">
                                 <span class="input-icon icon-right">
-                                    <input type="text" name="videotime_i" placeholder="分钟 例：0、1等" class="form-control">
+                                    <input type="text" name="videotime_i" placeholder="分钟 默认0" class="form-control">
                                     <i class="fa fa-sort-numeric-asc"></i>
                                 </span>
                             </div>
                             <div class="col-xs-4">
                                 <span class="input-icon icon-right">
-                                    <input type="text" name="videotime_s" placeholder="秒 例：0、1等" class="form-control">
+                                    <input type="text" name="videotime_s" placeholder="秒 0-59" class="form-control">
                                     <i class="fa fa-sort-numeric-asc"></i>
                                 </span>
                             </div>
                         </div>
+                    </div>
+                    <div class="form-title"><b>其他信息</b></div>
+                    <div class="form-group">
+                        <label>复习资料（pdf、word文档）：</label>
+                        <span class="input-icon icon-right">
+                            <input id="reviewfile" type="file" name="reviewfile" placeholder="课程复习资料" class="file-loading">
+                        </span>
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-success" type="submit"> 发布 </button>
@@ -133,10 +140,12 @@ $(function (){
     //课程示例图
     var BootstrapFileInputClassObjShowimg = new BootstrapFileInputClass();
     BootstrapFileInputClassObjShowimg.Init("showimg", JS_APP+"?s=Course/showimgupload");
-
     //课程视频封面图
     var BootstrapFileInputClassObjVideoimg = new BootstrapFileInputClass();
     BootstrapFileInputClassObjVideoimg.Init("videoimg", JS_APP+"?s=Course/videoimgupload");
+    //课程复习资料
+    var BootstrapFileInputClassObjReviewfile = new BootstrapFileInputClass();
+    BootstrapFileInputClassObjReviewfile.Init("reviewfile", JS_APP+"?s=Course/reviewfileupload");
 });
 </script>
 {include file="Common/foot.html"}

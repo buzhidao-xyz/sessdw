@@ -29,8 +29,8 @@ var BootstrapFileInputClass = function () {
             uploadUrl: uploadUrl, //上传的地址
             multiple: false,
             uploadAsync: true, //AJAX
-            allowedFileTypes: ["image", "video"],
-            allowedFileExtensions: ['jpg', 'gif', 'png', 'mp4'],//接收的文件后缀
+            // allowedFileTypes: ["image", "video"],
+            allowedFileExtensions: ['jpg', 'gif', 'png', 'pdf', 'doc', 'docx', 'zip'],//接收的文件后缀
             showCaption: true, //是否显示标题
             showPreview: false, //是否显示预览图
             showCancel: false, //是否显示取消按钮
@@ -42,7 +42,7 @@ var BootstrapFileInputClass = function () {
             //minImageHeight: 50,//图片的最小高度
             //maxImageWidth: 1000,//图片的最大宽度
             //maxImageHeight: 1000,//图片的最大高度
-            maxFileSize: 8192,//单位为kb，如果为0表示不限制文件大小
+            maxFileSize: 20480,//单位为kb，如果为0表示不限制文件大小
             minFileCount: 0,
             maxFileCount: 1, //表示允许同时上传的最大文件个数
             enctype: 'multipart/form-data',

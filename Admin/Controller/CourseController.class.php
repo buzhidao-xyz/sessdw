@@ -52,6 +52,58 @@ class CourseController extends CommonController
         return $classid;
     }
 
+    //获取课程示例图
+    private function _getShowimg()
+    {
+        $showimg = mRequest('showimg');
+        if (!$showimg) $this->ajaxReturn(1, '请上传课程示例图！');
+
+        return $showimg;
+    }
+
+    //获取视频封面图
+    private function _getVideoimg()
+    {
+        $videoimg = mRequest('videoimg');
+        if (!$videoimg) $this->ajaxReturn(1, '请上传视频封面图！');
+
+        return $videoimg;
+    }
+
+    //获取视频文件地址
+    private function _getVideopath()
+    {
+        $videopath = mRequest('videopath');
+        if (!$videopath) $this->ajaxReturn(1, '请填写视频文件地址！');
+
+        return $videopath;
+    }
+
+    //获取视频文件时长
+    private function _getVideotime()
+    {
+        $videotime_h = mRequest('videotime_h');
+        if (!is_numeric($videotime_h)) $videotime_h = 0;
+        $videotime_i = mRequest('videotime_i');
+        if (!is_numeric($videotime_i)) $videotime_i = 0;
+        $videotime_s = mRequest('videotime_s');
+        if (!is_numeric($videotime_s)) $videotime_s = 0;
+
+        $videotime = $videotime_h*3600+$videotime_i*60+$videotime_s;
+        if ($videotime == 0) $this->ajaxReturn(1, '请填写视频文件时长！');
+
+        return $videotime;
+    }
+
+    //获取复习资料id
+    private function _getReviewid()
+    {
+        $reviewid = mRequest('reviewid');
+        // if (!$reviewid) $this->ajaxReturn(1, '请上传复习资料！');
+
+        return $reviewid;
+    }
+
     //获取搜索关键字
     private function _getKeywords()
     {
@@ -86,13 +138,118 @@ class CourseController extends CommonController
     //上传课程示例图
     public function showimgupload()
     {
-        
+        //初始化上传类
+        $Upload = new Upload();
+        $Upload->maxSize  = $this->_upfilesize['image']['size'];
+        $Upload->exts     = $this->_upfilesize['image']['exts'];
+        $Upload->rootPath = UPLOAD_PATH;
+        $Upload->savePath = 'course/img/';
+        $Upload->saveName = array('uniqid', array('', true));
+        $Upload->autoSub  = true;
+        $Upload->subName  = array('date', 'Ym');
+
+        //上传
+        $error = null;
+        $msg = '上传成功！';
+        $data = array();
+        $info = $Upload->upload();
+        if (!$info) {
+            $error = 1;
+            $msg = $Upload->getError();
+        } else {
+            foreach ($info as $file) {
+                $filename = '/'.UPLOAD_PT.$file['savepath'].$file['savename'];
+            }
+            $data = array(
+                'filename' => $filename,
+            );
+        }
+
+        $this->ajaxReturn($error, $msg, $data);
     }
     
     //上传视频封面图
     public function videoimgupload()
     {
-        
+        //初始化上传类
+        $Upload = new Upload();
+        $Upload->maxSize  = $this->_upfilesize['image']['size'];
+        $Upload->exts     = $this->_upfilesize['image']['exts'];
+        $Upload->rootPath = UPLOAD_PATH;
+        $Upload->savePath = 'course/cover/';
+        $Upload->saveName = array('uniqid', array('', true));
+        $Upload->autoSub  = true;
+        $Upload->subName  = array('date', 'Ym');
+
+        //上传
+        $error = null;
+        $msg = '上传成功！';
+        $data = array();
+        $info = $Upload->upload();
+        if (!$info) {
+            $error = 1;
+            $msg = $Upload->getError();
+        } else {
+            foreach ($info as $file) {
+                $filename = '/'.UPLOAD_PT.$file['savepath'].$file['savename'];
+            }
+            $data = array(
+                'filename' => $filename,
+            );
+        }
+
+        $this->ajaxReturn($error, $msg, $data);
+    }
+    
+    //上传复习资料
+    public function reviewfileupload()
+    {
+        //初始化上传类
+        $Upload = new Upload();
+        $Upload->maxSize  = $this->_upfilesize['attach']['size'];
+        $Upload->exts     = $this->_upfilesize['attach']['exts'];
+        $Upload->rootPath = UPLOAD_PATH;
+        $Upload->savePath = 'course/review/';
+        $Upload->saveName = array('uniqid', array('', true));
+        $Upload->autoSub  = true;
+        $Upload->subName  = array('date', 'Ym');
+
+        //上传
+        $error = null;
+        $msg = '上传成功！';
+        $data = array();
+        $info = $Upload->upload();
+        if (!$info) {
+            $error = 1;
+            $msg = $Upload->getError();
+        } else {
+            $fileinfo = array_shift($info);
+            $savepath = '/'.UPLOAD_PT.$fileinfo['savepath'];
+            $savename = $fileinfo['savename'];
+            $filename = $fileinfo['name'];
+            $filesize = $fileinfo['size'];
+            $ext = $fileinfo['ext'];
+
+            //复习资料信息写入数据库
+            $reviewdata = array(
+                'courseid' => 0,
+                'savepath' => $savepath,
+                'savename' => $savename,
+                'filename' => $filename,
+                'filesize' => $filesize,
+                'ext' => $ext,
+                'dloadnum' => 0,
+                'createtime' => TIMESTAMP,
+                'updatetime' => TIMESTAMP,
+            );
+            $reviewid = D('Course')->saveReview($reviewdata);
+
+            $data = array(
+                'filename' => $reviewid,
+            );
+        }
+
+        $this->ajaxReturn($error, $msg, $data);
     }
 
     //发布课程
@@ -110,6 +267,6 @@ class CourseController extends CommonController
     //保存课程
     public function coursesave()
     {
-
+        $title = $this->_getTitle();
     }
 }

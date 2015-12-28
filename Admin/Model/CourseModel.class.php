@@ -13,6 +13,15 @@ class CourseModel extends CommonModel
         parent::__construct();
     }
 
+    //保存复习资料信息
+    public function saveReview($data=array())
+    {
+        if (!is_array($data) || empty($data)) return false;
+
+        $reviewid = M('course_review')->add($data);
+        return $reviewid ? $reviewid : false;
+    }
+
     //获取课程
     public function getCourse($courseid=null, $classid=null, $keyword=null, $start=0, $length=9999)
     {
