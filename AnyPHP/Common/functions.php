@@ -2059,3 +2059,19 @@ function subString($text, $start=0, $limit=12) {
         return $text;
     }
 }
+
+/**
+ * 视屏时长转换 总秒数->时分秒
+ */
+function timestohis($times=0)
+{
+    $return = array('h'=>0, 'i'=>0, 's'=>0);
+
+    if ($times <= 0) return $return;
+
+    $return['h'] = floor($times/3600);
+    $return['i'] = floor(($times-$return['h']*3600)/60);
+    $return['s'] = $times-$return['h']*3600-$return['i']*60;
+
+    return $return;
+}

@@ -19,6 +19,7 @@ class CourseModel extends CommonModel
         if (!is_array($data) || empty($data)) return false;
 
         if ($reviewid) {
+            M('course_review')->where(array('courseid'=>$data['courseid']))->save(array('courseid'=>0));
             $result = M('course_review')->where(array('reviewid'=>$reviewid))->save($data);
             if (!$result) $reviewid = false;
         } else {
@@ -47,8 +48,15 @@ class CourseModel extends CommonModel
         if (!$courseid) return false;
 
         $datainfo = $this->getCourse($courseid);
+        $courseinfo = $datainfo['total'] ? $datainfo['data'][0] : array();
 
-        return $datainfo['total'] ? $datainfo['data'][0] : array();
+        //获取复习资料
+        if (!empty($courseinfo)) {
+            $reviewinfo = M('course_review')->where(array('courseid'=>$courseinfo['courseid']))->find();
+            $courseinfo['reviewinfo'] = is_array($reviewinfo)&&!empty($reviewinfo) ? $reviewinfo : array();
+        }
+
+        return $courseinfo;
     }
 
     //保存课程

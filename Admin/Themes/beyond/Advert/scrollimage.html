@@ -125,9 +125,9 @@
                             <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>
                             <td>
                                 {if $d.isshow}
-                                <a href="{$ANY.__APP__}?s=Advert/scrollimageenable&simgid={$d.simgid}&isshow=0" class="btn btn-sky btnenable">隐藏</a>
+                                <a href="{$ANY.__APP__}?s=Advert/scrollimageenable&simgid={$d.simgid}&isshow=0" class="btn btn-danger btnenable">隐藏</a>
                                 {else}
-                                <a href="{$ANY.__APP__}?s=Advert/scrollimageenable&simgid={$d.simgid}&isshow=1" class="btn btn-primary btnenable">显示</a>
+                                <a href="{$ANY.__APP__}?s=Advert/scrollimageenable&simgid={$d.simgid}&isshow=1" class="btn btn-sky btnenable">显示</a>
                                 {/if}
                                 <a href="{$ANY.__APP__}?s=Advert/scrollimagedelete&simgid={$d.simgid}" class="btn btn-danger delbtn btndelete">删除</a>
                             </td>

@@ -72,22 +72,26 @@
                     <div class="form-group">
                         <label>课程图片（列表示例图）：</label>
                         <span class="input-icon icon-right">
-                            <input type="hidden" name="showimg" value="">
+                            <img src="{$SERVER.HOST.HTTP_HOST}{$courseinfo.showimg}" class="m-b-5" style="max-height: 300px;">
+                            <input type="hidden" name="showimg" value="{$courseinfo.showimg}">
                             <input id="showimgfile" type="file" name="showimgfile" placeholder="课程图片、列表图示" class="file-loading">
+                            <p><font color="red">*不修改请留空</font></p>
                         </span>
                     </div>
                     <div class="form-title"><b>课程视频</b></div>
                     <div class="form-group">
                         <label>视频封面图：</label>
                         <span class="input-icon icon-right">
-                            <input type="hidden" name="videoimg" value="">
+                            <img src="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videoimg}" class="m-b-5" style="max-height: 300px;">
+                            <input type="hidden" name="videoimg" value="{$courseinfo.videoimg}">
                             <input id="videoimgfile" type="file" name="videoimgfile" placeholder="视频封面图" class="file-loading">
+                            <p><font color="red">*不修改请留空</font></p>
                         </span>
                     </div>
                     <div class="form-group">
                         <label>视频文件地址：</label>
                         <span class="input-icon icon-right">
-                            <input type="text" name="videopath" placeholder="服务器视频文件存储目录地址，请填写相对路径 “/Upload/”目录开始 例：/Upload/course/course_test.mp4" class="form-control">
+                            <input type="text" name="videopath" value="{$courseinfo.videopath}" placeholder="服务器视频文件存储目录地址，请填写相对路径 “/Upload/”目录开始 例：/Upload/course/course_test.mp4" class="form-control">
                             <i class="fa fa-video-camera"></i>
                             <p><font color="red">*由于视频文件比较大，所以系统不支持上传视频，请使用FTP工具上传至服务器相关存储目录 相关目录：/usr/local/website/samsung/Upload/course/</font></p>
                         </span>
@@ -97,20 +101,20 @@
                         <div class="row">
                             <div class="col-xs-4">
                                 <span class="input-icon icon-right">
-                                    <input type="text" name="videotime_h" placeholder="小时 默认0" class="form-control">
-                                    <i class="fa fa-sort-numeric-asc"></i>
+                                    <input type="text" name="videotime_h" value="{$courseinfo.videotime_h}" placeholder="小时 默认0" class="form-control">
+                                    <i class="fa fa-none">时</i>
                                 </span>
                             </div>
                             <div class="col-xs-4">
                                 <span class="input-icon icon-right">
-                                    <input type="text" name="videotime_i" placeholder="分钟 默认0" class="form-control">
-                                    <i class="fa fa-sort-numeric-asc"></i>
+                                    <input type="text" name="videotime_i" value="{$courseinfo.videotime_i}" placeholder="分钟 默认0" class="form-control">
+                                    <i class="fa fa-none">分</i>
                                 </span>
                             </div>
                             <div class="col-xs-4">
                                 <span class="input-icon icon-right">
-                                    <input type="text" name="videotime_s" placeholder="秒 0-59" class="form-control">
-                                    <i class="fa fa-sort-numeric-asc"></i>
+                                    <input type="text" name="videotime_s" value="{$courseinfo.videotime_s}" placeholder="秒 0-59" class="form-control">
+                                    <i class="fa fa-none">秒</i>
                                 </span>
                             </div>
                         </div>
@@ -119,8 +123,10 @@
                     <div class="form-group">
                         <label>复习资料（pdf、word文档）：</label>
                         <span class="input-icon icon-right">
-                            <input type="hidden" name="reviewid" value="">
+                            <p><a href="javascript:;">{if !empty($courseinfo.reviewinfo)}{$courseinfo.reviewinfo.savepath}{$courseinfo.reviewinfo.filename}{/if}</a></p>
+                            <input type="hidden" name="reviewid" value="{$courseinfo.reviewid}">
                             <input id="reviewidfile" type="file" name="reviewidfile" placeholder="课程复习资料" class="file-loading">
+                            <p><font color="red">*不修改请留空</font></p>
                         </span>
                     </div>
                     <div class="form-group text-center">
@@ -148,6 +154,23 @@ $(function (){
     //课程复习资料
     BootstrapFileInputClassObj.Init("reviewid", JS_APP+"?s=Course/reviewfileupload");
 
+    //课程Form提交
+    $("form[name=courseform]").submit(function (){
+        var url = $(this).attr('action');
+        var postdata = $(this).serialize();
+        $.post(url, postdata, function (data){
+            var status = data.error ? 'error' : 'success';
+            alertPanelShow(status, data.msg);
+            if (!data.error) {
+                var location_href = "";
+                if ("location" in data.data) {
+                    location_href = data.data.location;
+                }
+                location.href = location_href ? location_href : location.href;
+            }
+        }, 'json');
+        return false;
+    });
 });
 </script>
 {include file="Common/foot.html"}

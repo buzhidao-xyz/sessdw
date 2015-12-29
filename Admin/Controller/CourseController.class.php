@@ -11,7 +11,7 @@ use Any\Upload;
 class CourseController extends CommonController
 {
     // 课程分类
-    private $_course_class = array(
+    public $_course_class = array(
         0 => array('id'=>0, 'name'=>'全部'),
         1 => array('id'=>1, 'name'=>'学党章'),
         2 => array('id'=>2, 'name'=>'学讲话'),
@@ -266,14 +266,22 @@ class CourseController extends CommonController
         if (!$courseid) $this->pageReturn(1, '未知课程信息！', $this->_page_location);
 
         $courseinfo = D('Course')->getCourseByID($courseid);
-        $this->assign('courseinfo', $courseinfo);
 
+        //计算视频时长
+        $videotimes = timestohis($courseinfo['videotime']);
+        $courseinfo['videotime_h'] = $videotimes['h'];
+        $courseinfo['videotime_i'] = $videotimes['i'];
+        $courseinfo['videotime_s'] = $videotimes['s'];
+
+        $this->assign('courseinfo', $courseinfo);
         $this->display();
     }
 
     //保存课程
     public function coursesave()
     {
+        $courseid = $this->_getCourseid();
+
         $title = $this->_getTitle();
         $classid = $this->_getClassid();
         $showimg = $this->_getShowimg();
@@ -282,27 +290,69 @@ class CourseController extends CommonController
         $videotime = $this->_getVideotime();
         $reviewid = $this->_getReviewid();
 
+        if ($courseid) {
+            $data = array(
+                'title'      => $title,
+                'videoimg'   => $videoimg,
+                'videopath'  => $videopath,
+                'videotime'  => $videotime,
+                'showimg'    => $showimg,
+                'classid'    => $classid,
+                'updatetime' => TIMESTAMP,
+            );
+            $return = D('Course')->saveCourse($courseid, $data);
+
+            if ($reviewid) D('Course')->saveReview(array('courseid'=>$courseid), $reviewid);
+            if ($return) {
+                $this->ajaxReturn(0, '课程编辑成功！');
+            } else {
+                $this->ajaxReturn(0, '课程编辑失败！');
+            }
+        } else {
+            $data = array(
+                'title'      => $title,
+                'videoimg'   => $videoimg,
+                'videopath'  => $videopath,
+                'videotime'  => $videotime,
+                'showimg'    => $showimg,
+                'classid'    => $classid,
+                'viewnum'    => 0,
+                'learnnum'   => 0,
+                'istesting'  => 0,
+                'isshow'     => 1,
+                'createtime' => TIMESTAMP,
+                'updatetime' => TIMESTAMP,
+            );
+            $courseid = D('Course')->saveCourse(null, $data);
+
+            if ($courseid) {
+                if ($reviewid) D('Course')->saveReview(array('courseid'=>$courseid), $reviewid);
+
+                $this->ajaxReturn(0, '课程发布成功！');
+            } else {
+                $this->ajaxReturn(0, '课程发布失败！');
+            }
+        }
+    }
+
+    //显示、隐藏课程
+    public function enable()
+    {
+        $courseid = $this->_getCourseid();
+        if (!$courseid) $this->ajaxReturn(1, '未知课程信息！');
+
+        $isshow = mRequest('isshow');
+        if (!in_array($isshow, array(0,1))) $this->ajaxReturn(1, '数据错误！');
+
         $data = array(
-            'title'      => $title,
-            'videoimg'   => $videoimg,
-            'videopath'  => $videopath,
-            'videotime'  => $videotime,
-            'showimg'    => $showimg,
-            'classid'    => $classid,
-            'viewnum'    => 0,
-            'learnnum'   => 0,
-            'istesting'  => 0,
-            'isshow'     => 1,
-            'createtime' => TIMESTAMP,
+            'isshow' => $isshow,
             'updatetime' => TIMESTAMP,
         );
-        $courseid = D('Course')->saveCourse(null, $data);
-        if ($courseid) {
-            if ($reviewid) D('Course')->saveReview(array('courseid'=>$courseid), $reviewid);
-
-            $this->ajaxReturn(0, '课程发布成功！');
+        $result = M('course')->where(array('courseid'=>$courseid))->save($data);
+        if ($result) {
+            $this->ajaxReturn(0, '成功！');
         } else {
-            $this->ajaxReturn(0, '课程发布失败！');
+            $this->ajaxReturn(1, '失败！');
         }
     }
 }
