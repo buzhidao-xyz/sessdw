@@ -27,10 +27,49 @@ class TestingController extends CommonController
         return $courseid;
     }
 
-    //查看试卷详情
+    //获取试卷id
+    private function _getTestingid()
+    {
+        $testingid = mRequest('testingid');
+
+        return $testingid;
+    }
+
+    //试卷管理
+    public function index()
+    {
+        $this->display();
+    }
+
+    //添加试卷
+    public function newtesting()
+    {
+        $courseid = $this->_getCourseid();
+        $this->assign('courseid', $courseid);
+
+        //获取课程列表
+        $courselist = D('Course')->getCourse();
+        $courselist = $courselist['data'];
+        $this->assign('courselist', $courselist);
+
+        $this->display();
+    }
+
+    //查看试卷详情 - 编辑
     public function profile()
     {
         $courseid = $this->_getCourseid();
+        $testingid = $this->_getTestingid();
+
+        //获取试卷信息
+        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid);
+        if (!is_array($testinginfo) || empty($testinginfo)) {
+            header('Location:'.__APP__.'?s=Testing/newtesting&courseid='.$courseid);
+            exit;
+        }
+
+        //获取试卷的试题信息
+        
 
         $this->display();
     }

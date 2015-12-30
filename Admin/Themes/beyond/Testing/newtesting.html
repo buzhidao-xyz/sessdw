@@ -44,7 +44,114 @@
 
     <!-- Page Body -->
     <div class="page-body dashboard">
-        
+        <div class="widget formbox">
+            <div class="widget-header bordered-bottom bordered-blue">
+                <span class="widget-caption">发布课程试卷</span>
+            </div>
+            <div class="widget-body">
+                <form role="form" name="courseform" method="post" action="{$ANY.__APP__}?s=Testing/testingsave" class="dataform">
+                    <div class="form-title"><b>基本信息</b></div>
+                    <div class="form-group">
+                        <label>选择课程：</label>
+                        <span class="input-icon icon-right">
+                            <select name="courseid" class="select2el" style="width: 100%;">
+                                <option value="0"> ---请选择平台课程--- </option>
+                                {foreach $courselist as $d}
+                                <option value="{$d.courseid}" {if $courseid==$d.courseid}selected{/if}>{$d.title}</option>
+                                {/foreach}
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="status" value="1" class="colored-success" checked>
+                                <span class="text">启用该课程试卷</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-title"><b>试卷试题</b></div>
+                    <div class="form-group exambox">
+                        <div class="examitem row">
+                            <input type="hidden" name="examids[]" value="1">
+                            <input type="hidden" name="sortnos[1]" value="1">
+                            <div class="col-xs-12 m-b-10 title">
+                                <span class="no m-r-5">1.</span>
+                                <span class="word m-r-10">党的最高理想和最终目标是实现（）</span>
+                                <span class="answer m-l-10">答案：A</span>
+                                <span class="score"><input type="text" name="scores[1]" value="10">分</span>
+                                <span class="type single m-r-10">【单选】</span>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="radio" class="colored-default">
+                                    <span class="text">A. 共产主义</span>
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="radio" class="colored-default">
+                                    <span class="text">B. 马克思列宁主义</span>
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="radio" class="colored-default">
+                                    <span class="text">C. 毛泽东思想</span>
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="radio" class="colored-default">
+                                    <span class="text">D. 社会主义</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="examitem row">
+                            <input type="hidden" name="examids[]" value="2">
+                            <input type="hidden" name="sortnos[2]" value="2">
+                            <div class="col-xs-12 m-b-10 title">
+                                <span class="sortno m-r-5">2.</span>
+                                <span class="word m-r-10">党的最高理想和最终目标是实现（）</span>
+                                <span class="answer m-l-10">答案：AB</span>
+                                <span class="score"><input type="text" name="scores[2]" value="10">分</span>
+                                <span class="type multiple m-r-10">【多选】</span>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="checkbox" class="colored-default">
+                                    <span class="text">A. 共产主义</span>
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="checkbox" class="colored-default">
+                                    <span class="text">B. 马克思列宁主义</span>
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="checkbox" class="colored-default">
+                                    <span class="text">C. 毛泽东思想</span>
+                                </label>
+                            </div>
+                            <div class="col-xs-6">
+                                <label>
+                                    <input type="checkbox" class="colored-default">
+                                    <span class="text">D. 社会主义</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <a href="javascript:;" class="btn btn-red">添加试题</a>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-success" type="submit"> 发布 </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
     <!-- /Page Body -->
 </div>
