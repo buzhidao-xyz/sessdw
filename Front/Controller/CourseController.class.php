@@ -43,7 +43,7 @@ class CourseController extends CommonController
     //课程视频接口
     public function video()
     {
-        echo HOST_PATH.'Upload/course/video/course_test.mp4';
+        echo HOST_PATH.'Upload/course/video/学党章 1207.mp4';
     }
 
     //课程已学习完 接口
