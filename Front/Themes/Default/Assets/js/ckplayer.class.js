@@ -45,7 +45,7 @@ var flashvars={
     c:1,
     x:'ckplayer.xml',
     p:0,
-    i:HOST_PATH+'Upload/course/cover/course_test_cover.png',
+    i:HOST_PATH+'Upload/course/cover/学党章_1207.png',
     wh:'16:9',
     e:6,
     b:0,
