@@ -103,10 +103,10 @@
                                 {if $d.isshow}
                                 <a href="{$ANY.__APP__}?s=Course/enable&courseid={$d.courseid}&isshow=0" class="btn btn-danger btnenable">隐藏</a>
                                 {else}
-                                <a href="{$ANY.__APP__}?s=Course/enable&courseid={$d.courseid}&isshow=1" class="btn btn-sky btnenable">显示</a>
+                                <a href="{$ANY.__APP__}?s=Course/enable&courseid={$d.courseid}&isshow=1" class="btn btn-success btnenable">显示</a>
                                 {/if}
                                 <a href="{$ANY.__APP__}?s=Course/upcourse&courseid={$d.courseid}" class="btn btn-sky">编辑</a>
-                                <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$d.courseid}" class="btn btn-success">测评试卷</a>
+                                <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$d.courseid}" class="btn btn-darkorange">测评试卷</a>
                             </td>
                         </tr>
                         {/foreach}

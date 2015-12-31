@@ -23,8 +23,8 @@
         </div>
         <!-- inops buttons -->
         <div class="inops-buttons">
-            <a href="{$ANY.__APP__}?s=Course/index" class="btn btn-primary">试卷管理</a>
-            <a href="{$ANY.__APP__}?s=Course/newcourse" class="btn btn-darkorange">发布试卷</a>
+            <a href="{$ANY.__APP__}?s=Testing/index" class="btn btn-primary">试卷管理</a>
+            <a href="{$ANY.__APP__}?s=Testing/newtesting" class="btn btn-darkorange">发布试卷</a>
         </div>
         <!--Header Buttons-->
         <div class="header-buttons">
@@ -50,7 +50,7 @@
             </div>
             <div class="widget-body">
                 <div id="examboxpanel" style="display: none;"></div>
-                <form role="form" name="courseform" method="post" action="{$ANY.__APP__}?s=Testing/testingsave" class="dataform">
+                <form role="form" name="testingform" method="post" action="{$ANY.__APP__}?s=Testing/testingsave" class="dataform">
                     <div class="form-title"><b>基本信息</b></div>
                     <div class="form-group">
                         <label>选择课程：</label>
@@ -72,78 +72,7 @@
                         </div>
                     </div>
                     <div class="form-title"><b>试卷试题</b></div>
-                    <div class="form-group exambox">
-                        <div class="examitem row">
-                            <input type="hidden" name="examids[]" value="1">
-                            <input type="hidden" name="sortnos[1]" value="1">
-                            <div class="col-xs-12 m-b-10 title">
-                                <span class="no m-r-5">1.</span>
-                                <span class="word m-r-10">党的最高理想和最终目标是实现（）</span>
-                                <span class="answer m-l-10">答案：A</span>
-                                <span class="score"><input type="text" name="scores[1]" value="10">分</span>
-                                <span class="type single m-r-10">【单选】</span>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="radio" class="colored-default">
-                                    <span class="text">A. 共产主义</span>
-                                </label>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="radio" class="colored-default">
-                                    <span class="text">B. 马克思列宁主义</span>
-                                </label>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="radio" class="colored-default">
-                                    <span class="text">C. 毛泽东思想</span>
-                                </label>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="radio" class="colored-default">
-                                    <span class="text">D. 社会主义</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="examitem row">
-                            <input type="hidden" name="examids[]" value="2">
-                            <input type="hidden" name="sortnos[2]" value="2">
-                            <div class="col-xs-12 m-b-10 title">
-                                <span class="sortno m-r-5">2.</span>
-                                <span class="word m-r-10">党的最高理想和最终目标是实现（）</span>
-                                <span class="answer m-l-10">答案：AB</span>
-                                <span class="score"><input type="text" name="scores[2]" value="10">分</span>
-                                <span class="type multiple m-r-10">【多选】</span>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="checkbox" class="colored-default">
-                                    <span class="text">A. 共产主义</span>
-                                </label>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="checkbox" class="colored-default">
-                                    <span class="text">B. 马克思列宁主义</span>
-                                </label>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="checkbox" class="colored-default">
-                                    <span class="text">C. 毛泽东思想</span>
-                                </label>
-                            </div>
-                            <div class="col-xs-6">
-                                <label>
-                                    <input type="checkbox" class="colored-default">
-                                    <span class="text">D. 社会主义</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="examlistbox" class="form-group examlistbox"></div>
                     <div class="form-group">
                         <a href="{$ANY.__APP__}?s=Testing/getexambox" class="btn btn-red" id="newexambtn">添加试题</a>
                     </div>
@@ -169,6 +98,24 @@ $("#newexambtn").on('click', function () {
             alertPanelShow(status, data.msg);
         }
     });
+    return false;
+});
+
+//Form提交 保存试卷信息
+$("form[name=testingform]").submit(function (){
+    var url = $(this).attr('action');
+    var postdata = $(this).serialize();
+    $.post(url, postdata, function (data){
+        var status = data.error ? 'error' : 'success';
+        alertPanelShow(status, data.msg);
+        if (!data.error) {
+            var location_href = "";
+            if ("location" in data.data) {
+                location_href = data.data.location;
+            }
+            location.href = location_href ? location_href : location.href;
+        }
+    }, 'json');
     return false;
 });
 });

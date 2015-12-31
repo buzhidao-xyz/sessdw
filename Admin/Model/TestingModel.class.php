@@ -40,4 +40,71 @@ class TestingModel extends CommonModel
 
         return $testinginfo['total'] ? $testinginfo['data'][0] : array();
     }
+
+    //保存试卷
+    public function testingsave($data=array())
+    {
+        if (!is_array($data) || empty($data)) return false;
+
+        $examsdata = $data['exams'];
+        unset($data['exams']);
+
+        //开始事务
+        M('testing')->startTrans();
+
+        $testingid = M('testing')->add($data);
+        $examsresult = false;
+        if ($testingid) {
+            foreach ($examsdata as $k=>$d) {
+                $examsdata[$k]['testingid'] = $testingid;
+            }
+            $examsresult = M('testing_exam')->addAll($examsdata);
+        }
+
+        //提交事务
+        if ($testingid && $examsresult) {
+            M('testing')->commit();
+            return $testingid;
+        } else {
+            M('testing')->rollback();
+            return false;
+        }
+    }
+
+    //保存试题
+    public function examsave($data=array())
+    {
+        if (!is_array($data) || empty($data)) return false;
+
+        $examdata = array(
+            'type' => $data['type'],
+            'title' => $data['title'],
+            'answer' => $data['answer'],
+            'createtime' => $data['createtime'],
+            'updatetime' => $data['updatetime'],
+        );
+
+        //开始事务
+        M('exam')->startTrans();
+
+        $examid = M('exam')->add($examdata);
+        $optionsresult = false;
+        if ($examid) {
+            $optionsdata = $data['options'];
+            foreach ($optionsdata as $k=>$d) {
+                $optionsdata[$k]['examid'] = $examid;
+                $optionsdata[$k]['updatetime'] = $data['updatetime'];
+            }
+            $optionsresult = M('exam_option')->addAll($optionsdata);
+        }
+
+        //提交事务
+        if ($examid && $optionsresult) {
+            M('exam')->commit();
+            return $examid;
+        } else {
+            M('exam')->rollback();
+            return false;
+        }
+    }
 }

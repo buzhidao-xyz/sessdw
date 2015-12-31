@@ -64,34 +64,34 @@
 }
 
 /**exambox试卷样式表**/
-.exambox {
+.examlistbox {
     display: block;
     overflow: hidden;
 }
-.exambox .examitem {
+.examlistbox .examitem {
     display: block;
     overflow: hidden;
     margin-bottom: 15px;
 }
-.exambox .examitem .title {
+.examlistbox .examitem .title {
     font-weight: 700;
 }
-.exambox .examitem .title .type {
+.examlistbox .examitem .title .type {
     float: right;
 }
-.exambox .examitem .title .score {
+.examlistbox .examitem .title .score {
     float: right;
 }
-.exambox .examitem .title .score input {
+.examlistbox .examitem .title .score input {
     width: 50px;
     text-align: center;
 }
-.exambox .examitem .title .answer {
+.examlistbox .examitem .title .answer {
     color: #53a93f;
 }
-.exambox .examitem .title .single {
+.examlistbox .examitem .title .single {
     color: #11a9cc;
 }
-.exambox .examitem .title .multiple {
+.examlistbox .examitem .title .multiple {
     color: #ed4e2a;
 }

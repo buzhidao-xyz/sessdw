@@ -1,0 +1,52 @@
+{if $examinfo.type == 1}
+<div class="examitem row">
+    <input type="hidden" name="examids[]" value="{$examinfo.examid}">
+    <input type="hidden" name="sortnos[{$examinfo.examid}]" value="1" class="sortno">
+    <div class="col-xs-12 m-b-10 title">
+        <span class="no m-r-5">1.</span>
+        <span class="word m-r-10">{$examinfo.title}</span>
+        <span class="answer m-l-10">答案：{$examinfo.answer}</span>
+        <span class="score"><input type="text" name="scores[{$examinfo.examid}]" value="10">分</span>
+        <span class="type single m-r-10">【单选】</span>
+    </div>
+    {foreach $examinfo.options as $examoption}
+    <div class="col-xs-6">
+        <label>
+            <input type="radio" class="colored-default">
+            <span class="text">{$examoption.name}. {$examoption.title}</span>
+        </label>
+    </div>
+    {/foreach}
+</div>
+{/if}
+{if $examinfo.type == 2}
+<div class="examitem row">
+    <input type="hidden" name="examids[]" value="{$examinfo.examid}">
+    <input type="hidden" name="sortnos[{$examinfo.examid}]" value="1">
+    <div class="col-xs-12 m-b-10 title">
+        <span class="sortno m-r-5">1.</span>
+        <span class="word m-r-10">{$examinfo.title}</span>
+        <span class="answer m-l-10">答案：{$examinfo.answer}</span>
+        <span class="score"><input type="text" name="scores[{$examinfo.examid}]" value="10">分</span>
+        <span class="type multiple m-r-10">【多选】</span>
+    </div>
+    {foreach $examinfo.options as $examoption}
+    <div class="col-xs-6">
+        <label>
+            <input type="checkbox" class="colored-default">
+            <span class="text">{$examoption.name}. {$examoption.title}</span>
+        </label>
+    </div>
+    {/foreach}
+</div>
+{/if}
+<script>
+$(function (){
+//遍历 计算序号和排序位置
+$(".examitem").each(function (){
+    var index = $(this).index();
+    $(this).find("input.sortno").val(index+1);
+    $(this).find("span.no").html((index+1)+'.');
+});
+})
+</script>
