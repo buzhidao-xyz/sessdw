@@ -8,6 +8,12 @@ namespace Admin\Controller;
 
 class TestingController extends CommonController
 {
+    //试题类型
+    public $_exam_type = array(
+        1 => array('id'=>1, 'name'=>'单选'),
+        2 => array('id'=>2, 'name'=>'多选'),
+    );
+    
     public function __construct()
     {
         parent::__construct();
@@ -17,6 +23,7 @@ class TestingController extends CommonController
         $this->_page_location = __APP__.'?s=Testing/index';
 
         $this->assign("classlist", D('Course')->_course_class);
+        $this->assign("examtype", $this->_exam_type);
     }
 
     //获取课程id
@@ -72,5 +79,32 @@ class TestingController extends CommonController
         
 
         $this->display();
+    }
+
+    //试题管理
+    public function exam()
+    {
+        $this->display();
+    }
+
+    //获取试题box
+    public function getexambox()
+    {
+        $html = $this->fetch('Testing/exambox');
+
+        $this->ajaxReturn(0, null, array(
+            'html' => $html
+        ));
+    }
+
+    //保存试题
+    public function examsave()
+    {
+        $examtype = mRequest('examtype');
+        if (!$examtype) $this->ajaxReturn(1, '请填写试题类型！');
+
+        $examtitle = mRequest('examtitle');
+        if (!$examtitle) $this->ajaxReturn(1, '请填写试题题目！');
+
     }
 }

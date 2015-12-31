@@ -49,6 +49,7 @@
                 <span class="widget-caption">发布课程试卷</span>
             </div>
             <div class="widget-body">
+                <div id="examboxpanel" style="display: none;"></div>
                 <form role="form" name="courseform" method="post" action="{$ANY.__APP__}?s=Testing/testingsave" class="dataform">
                     <div class="form-title"><b>基本信息</b></div>
                     <div class="form-group">
@@ -144,7 +145,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <a href="javascript:;" class="btn btn-red">添加试题</a>
+                        <a href="{$ANY.__APP__}?s=Testing/getexambox" class="btn btn-red" id="newexambtn">添加试题</a>
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-success" type="submit"> 发布 </button>
@@ -159,7 +160,17 @@
 
 <script>
 $(function (){
-
+//添加试题
+$("#newexambtn").on('click', function () {
+    $.post($(this).attr("href"), {}, function (data){
+        if (!data.error) {
+            $("#examboxpanel").html(data.data.html).show();
+        } else {
+            alertPanelShow(status, data.msg);
+        }
+    });
+    return false;
+});
 });
 </script>
 {include file="Common/foot.html"}
