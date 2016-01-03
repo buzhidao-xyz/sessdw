@@ -164,7 +164,7 @@ class ManagerController extends CommonController
                 'mkey'          => $mkey,
                 'updatetime'    => TIMESTAMP,
             );
-            $managerid = D('Manager')->managersave($managerid, $data);
+            $managerid = D('Manager')->saveManager($managerid, $data);
         } else {
             $account = $this->_getAccount();
             if (!Filter::F_Account($account)) $this->ajaxReturn(1, '请填写正确的账号！');
@@ -181,7 +181,7 @@ class ManagerController extends CommonController
                 'loginnum'      => 0,
                 'isdelete'      => 0,
             );
-            $managerid = D('Manager')->managersave(null, $data);
+            $managerid = D('Manager')->saveManager(null, $data);
         }
         
         if ($managerid) {

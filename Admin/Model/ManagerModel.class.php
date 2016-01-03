@@ -83,7 +83,7 @@ class ManagerModel extends CommonModel
     }
 
     //新增/修改管理员信息
-    public function managersave($managerid=null, $data=array())
+    public function saveManager($managerid=null, $data=array())
     {
         if (!is_array($data) || empty($data)) return false;
 
