@@ -39,6 +39,12 @@
 .m-b-15 {
 	margin-bottom: 15px;
 }
+.m-t-2 {
+    margin-top: 2px;
+}
+.m-t-5 {
+    margin-top: 5px;
+}
 .m-t-130 {
 	margin-top: 130px;
 }
@@ -85,6 +91,10 @@
 .examlistbox .examitem .title .score input {
     width: 50px;
     text-align: center;
+}
+.examlistbox .examitem .title .score a.exambtndel {
+    color: #CB1C1D;
+    text-decoration: underline;
 }
 .examlistbox .examitem .title .answer {
     color: #53a93f;

@@ -12,7 +12,6 @@ class CourseController extends CommonController
 {
     // 课程分类
     public $_course_class = array(
-        0 => array('id'=>0, 'name'=>'全部'),
         1 => array('id'=>1, 'name'=>'学党章'),
         2 => array('id'=>2, 'name'=>'学讲话'),
         3 => array('id'=>3, 'name'=>'学条例'),
@@ -121,7 +120,7 @@ class CourseController extends CommonController
         $keywords = $this->_getKeywords();
 
         list($start, $length) = $this->_mkPage();
-        $data = D('Course')->getCourse(null, null, $keywords, $start, $length);
+        $data = D('Course')->getCourse(null, null, null, $keywords, $start, $length);
         $total = $data['total'];
         $datalist = $data['data'];
 

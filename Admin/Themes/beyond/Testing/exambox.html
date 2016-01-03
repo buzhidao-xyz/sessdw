@@ -86,7 +86,7 @@ bootbox.dialog({
                         var status = data.error ? 'error' : 'success';
                         alertPanelShow(status, data.msg);
                         if (!data.error) {
-                            $("#examlistbox").append(data.data.examhtml)
+                            $("#examlistbox").append(data.data.examhtml);
                         }
                     }, 'json');
                     return false;

@@ -29,11 +29,12 @@ class CourseModel extends CommonModel
     }
 
     //获取课程
-    public function getCourse($courseid=null, $classid=null, $keyword=null, $start=0, $length=9999)
+    public function getCourse($courseid=null, $classid=null, $istesting=null, $keyword=null, $start=0, $length=9999)
     {
         $where = array();
         if ($courseid) $where['courseid'] = $courseid;
         if ($classid) $where['classid'] = $classid;
+        if ($istesting !== null) $where['istesting'] = $istesting;
         if ($keyword) $where['title'] = array('like', '%'.$keyword.'%');
 
         $count = M('course')->where($where)->count();

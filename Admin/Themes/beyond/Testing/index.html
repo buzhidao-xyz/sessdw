@@ -61,7 +61,8 @@
             </div>
         </div>
 
-        <div class="widget-header bordered-bottom bordered-palegreen">
+        <div class="widget tablebox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
                 <span class="widget-caption">试卷列表</span>
                 <div class="widget-buttons">
                     <a href="#" data-toggle="maximize">
@@ -79,8 +80,6 @@
                             <th>ID</th>
                             <th>课程</th>
                             <th>试题总数</th>
-                            <th>总分</th>
-                            <th>及格分</th>
                             <th>已完成党员（人）</th>
                             <th>状态</th>
                             <th>创建日期</th>
@@ -95,8 +94,6 @@
                             <td>{$d.testingid}</td>
                             <td>{$d.title}</td>
                             <td>{$d.examnum}</td>
-                            <td>{$d.totalscore}</td>
-                            <td>{$d.passscore}</td>
                             <td>{$d.donenum}</td>
                             <td>{if $d.status}<font color="green">已启用</font>{else}<font color="red">已禁用</font>{/if}</td>
                             <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>

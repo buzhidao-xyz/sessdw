@@ -62,6 +62,7 @@
                         <label>课程分类：</label>
                         <span class="input-icon icon-right">
                             <select name="classid" class="select2el" style="width: 100%;">
+                                <option value="0"> ---请选择课程分类--- </option>
                                 {foreach $classlist as $d}
                                 <option value="{$d.id}">{$d.name}</option>
                                 {/foreach}

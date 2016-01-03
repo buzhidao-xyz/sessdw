@@ -65,7 +65,9 @@ $("a.btnenable, a.btndelete").on('click', function (){
             if ("location" in data.data) {
                 location_href = data.data.location;
             }
-            location.href = location_href ? location_href : location.href;
+            setTimeout(function (){
+                location.href = location_href ? location_href : location.href;
+            }, 300);
         }
     }, 'json');
 

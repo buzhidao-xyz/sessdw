@@ -10,8 +10,8 @@ class TestingController extends CommonController
 {
     //试题类型
     public $_exam_type = array(
-        1 => array('id'=>1, 'name'=>'单选'),
-        2 => array('id'=>2, 'name'=>'多选'),
+        1 => array('id'=>1, 'name'=>'单选', 'class'=>'single'),
+        2 => array('id'=>2, 'name'=>'多选', 'class'=>'multiple'),
     );
     
     public function __construct()
@@ -22,7 +22,6 @@ class TestingController extends CommonController
 
         $this->_page_location = __APP__.'?s=Testing/index';
 
-        $this->assign("classlist", D('Course')->_course_class);
         $this->assign("examtype", $this->_exam_type);
     }
 
@@ -52,7 +51,7 @@ class TestingController extends CommonController
         return $status;
     }
 
-    //获取试卷试题信息
+    //获取试题信息
     private function _getExams()
     {
         $examids = mRequest('examids', false);
@@ -110,7 +109,7 @@ class TestingController extends CommonController
         $courseid = $this->_getCourseid();
 
         //获取课程列表
-        $courselist = D('Course')->getCourse();
+        $courselist = D('Course')->getCourse(null, null, 0);
         $courselist = $courselist['data'];
         $this->assign('courselist', $courselist);
 
@@ -130,35 +129,45 @@ class TestingController extends CommonController
             exit;
         }
 
-        //获取试卷的试题信息
-        
-
+        $this->assign('testinginfo', $testinginfo);
         $this->display();
     }
 
     //保存试卷信息
     public function testingsave()
     {
-        $courseid = $this->_getCourseid();
-        if (!$courseid) $this->ajaxReturn(1, '请选择课程！');
+        $testingid = $this->_getTestingid();
+        if (!$testingid) {
+            $courseid = $this->_getCourseid();
+            if (!$courseid) $this->ajaxReturn(1, '请选择课程！');
 
-        $status = $this->_getStatus();
-        !$status ? $status = 0 : null;
+            $status = $this->_getStatus();
+            !$status ? $status = 0 : null;
+        }
 
         $exams = $this->_getExams();
 
-        $data = array(
-            'courseid' => $courseid,
-            'examnum' => count($exams),
-            'totalscore' => 100,
-            'passscore' => 60,
-            'donenum' => 0,
-            'status' => (int)$status,
-            'createtime' => TIMESTAMP,
-            'updatetime' => TIMESTAMP,
-            'exams' => $exams,
-        );
-        $testingid = D('Testing')->testingsave($data);
+        if ($testingid) {
+            $data = array(
+                'examnum' => count($exams),
+                'updatetime' => TIMESTAMP,
+                'exams' => $exams,
+            );
+            $testingid = D('Testing')->testingsave($testingid, $data);
+        } else {
+            $data = array(
+                'courseid' => $courseid,
+                'examnum' => count($exams),
+                'totalscore' => 100,
+                'passscore' => 60,
+                'donenum' => 0,
+                'status' => (int)$status,
+                'createtime' => TIMESTAMP,
+                'updatetime' => TIMESTAMP,
+                'exams' => $exams,
+            );
+            $testingid = D('Testing')->testingsave(null, $data);
+        }
 
         if ($testingid) {
             $this->ajaxReturn(0, '试卷发布成功！');
