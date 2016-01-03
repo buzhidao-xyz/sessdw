@@ -69,7 +69,7 @@ class ArticleModel extends CommonModel
 
         if ($arcid) {
             $result = M('article')->where(array('arcid'=>$arcid))->save($data);
-            $result = $result ? $arcid : false;
+            !$result ? $arcid = false : null;
         } else {
             $arcid = M('article')->add($data);
         }

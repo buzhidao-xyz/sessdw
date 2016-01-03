@@ -2,7 +2,7 @@
 
 <!-- Page Content -->
 <div class="page-content">
-
+    
     <!-- Page Breadcrumb -->
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
@@ -10,7 +10,8 @@
                 <i class="fa fa-home"></i>
                 <a href="javascript:;">系统</a>
             </li>
-            <li class="active">页面跳转</li>
+            <li><a href="javascript:;">综合管理</a></li>
+            <li class="active">学习达人</li>
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
@@ -18,7 +19,11 @@
     <!-- Page Header -->
     <div class="page-header position-relative">
         <div class="header-title">
-            <h1>页面跳转</h1>
+            <h1>学习达人管理</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            
         </div>
         <!--Header Buttons-->
         <div class="header-buttons">
@@ -38,26 +43,25 @@
 
     <!-- Page Body -->
     <div class="page-body dashboard">
-        {if $pagereturn.error}
-        <h1><font color="red">{$pagereturn.msg}</font></h1>
-        {else}
-        <h1><font color="green">{$pagereturn.msg}</font></h1>
-        {/if}
-        <h3>请等待<span class="no">3</span>秒 页面跳转中...</h3>
+        <div class="widget tablebox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
+                <span class="widget-caption">学习达人</span>
+                <div class="widget-buttons">
+                    <a href="#" data-toggle="maximize">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a href="#" data-toggle="collapse">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body no-padding">
+                
+            </div>
+        </div>
     </div>
     <!-- /Page Body -->
 </div>
 <!-- /Page Content -->
-
-<script>
-$(function (){
-    //倒计时
-    setInterval(function (){
-        var s = parseInt($("span.no").text())-1;
-        $("span.no").text(s);
-        if (s <= 0) window.location.href = "{$pagereturn.location}";
-    }, 1000);
-});
-</script>
 
 {include file="Common/foot.html"}

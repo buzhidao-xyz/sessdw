@@ -61,4 +61,20 @@ class UserModel extends CommonModel
 
         return $userid ? $userid : false;
     }
+
+    //获取反馈留言
+    public function getLvword($keyword=null, $start=0, $length=9999)
+    {
+        $where = array();
+        if ($keyword) $where['_complex'] = array(
+            '_logic'    => 'or',
+            'a.title'   => array('like', '%'.$keyword.'%'),
+            'a.content' => array('like', '%'.$keyword.'%'),
+        );
+
+        $total = M('lvword')->alias('a')->where($where)->count();
+        $result = M('lvword')->alias('a')->field('a.*, b.account, b.username, b.department, b.position')->join(' left join __USER__ b on a.userid=b.userid ')->where($where)->order('a.createtime desc')->select();
+
+        return array('total'=>$total, 'data'=>is_array($result)?$result:array());
+    }
 }

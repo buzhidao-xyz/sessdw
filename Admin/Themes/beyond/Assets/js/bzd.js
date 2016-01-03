@@ -56,7 +56,7 @@ $("form[name=ajax-form]").submit(function() {
 });
 
 //AJAX请求 启用/禁用、显示/隐藏、删除
-$("a.btnenable, a.btndelete").on('click', function (){
+$("a.btnenable, a.btndelete, a.btnajax").on('click', function (){
     $.post($(this).attr('href'), {}, function (data){
         var status = data.error ? 'error' : 'success';
         alertPanelShow(status, data.msg);

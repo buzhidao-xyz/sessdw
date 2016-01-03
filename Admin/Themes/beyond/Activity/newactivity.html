@@ -2,7 +2,7 @@
 
 <!-- Page Content -->
 <div class="page-content">
-
+    
     <!-- Page Breadcrumb -->
     <div class="page-breadcrumbs">
         <ul class="breadcrumb">
@@ -10,7 +10,8 @@
                 <i class="fa fa-home"></i>
                 <a href="javascript:;">系统</a>
             </li>
-            <li class="active">页面跳转</li>
+            <li><a href="javascript:;">综合管理</a></li>
+            <li class="active">活动管理</li>
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
@@ -18,7 +19,12 @@
     <!-- Page Header -->
     <div class="page-header position-relative">
         <div class="header-title">
-            <h1>页面跳转</h1>
+            <h1>发布活动</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            <a href="{$ANY.__APP__}?s=Activity/index" class="btn btn-primary">活动管理</a>
+            <a href="{$ANY.__APP__}?s=Activity/newactivity" class="btn btn-darkorange">发布活动</a>
         </div>
         <!--Header Buttons-->
         <div class="header-buttons">
@@ -38,26 +44,9 @@
 
     <!-- Page Body -->
     <div class="page-body dashboard">
-        {if $pagereturn.error}
-        <h1><font color="red">{$pagereturn.msg}</font></h1>
-        {else}
-        <h1><font color="green">{$pagereturn.msg}</font></h1>
-        {/if}
-        <h3>请等待<span class="no">3</span>秒 页面跳转中...</h3>
     </div>
     <!-- /Page Body -->
 </div>
 <!-- /Page Content -->
-
-<script>
-$(function (){
-    //倒计时
-    setInterval(function (){
-        var s = parseInt($("span.no").text())-1;
-        $("span.no").text(s);
-        if (s <= 0) window.location.href = "{$pagereturn.location}";
-    }, 1000);
-});
-</script>
 
 {include file="Common/foot.html"}

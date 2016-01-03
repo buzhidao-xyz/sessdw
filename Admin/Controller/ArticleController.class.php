@@ -10,13 +10,15 @@ class ArticleController extends CommonController
 {
     // 文章分类
     private $_article_class = array(
-        'news'   => array('id'=>1, 'name'=>'党建新闻'),
-        'notice' => array('id'=>2, 'name'=>'平台公告'),
+        1 => array('id'=>1, 'name'=>'党建新闻'),
+        2 => array('id'=>2, 'name'=>'平台公告'),
     );
 
     public function __construct()
     {
         parent::__construct();
+
+        $this->assign('articleclass', $this->_article_class);
     }
 
     //获取文章id - arcid
@@ -72,8 +74,8 @@ class ArticleController extends CommonController
     //党建新闻初始化
     private function _newsInit()
     {
-        $this->_classid = $this->_article_class['news']['id'];
-        $this->_classname = $this->_article_class['news']['name'];
+        $this->_classid = $this->_article_class[1]['id'];
+        $this->_classname = $this->_article_class[1]['name'];
         $this->assign("classid", $this->_classid);
         $this->assign("classname", $this->_classname);
 
@@ -173,8 +175,8 @@ class ArticleController extends CommonController
     //平台公告初始化
     private function _noticeInit()
     {
-        $this->_classid = $this->_article_class['notice']['id'];
-        $this->_classname = $this->_article_class['notice']['name'];
+        $this->_classid = $this->_article_class[2]['id'];
+        $this->_classname = $this->_article_class[2]['name'];
         $this->assign("classid", $this->_classid);
         $this->assign("classname", $this->_classname);
 
@@ -277,13 +279,55 @@ class ArticleController extends CommonController
         $arcid = $this->_getArcid();
         if (!$arcid) $this->ajaxReturn(1, '未知新闻公告ID！');
 
-        $result = M('article')->where(array('arcid'=>$arcid))->save(array(
-            'status' => 0
-        ));
+        $data = array(
+            'status' => 0,
+            'updatetime' => TIMESTAMP,
+        );
+        $result = M('article')->where(array('arcid'=>$arcid))->save($data);
         if ($result) {
             $this->ajaxReturn(0, '新闻公告删除成功！');
         } else {
-            $this->ajaxReturn(0, '新闻公告删除失败！');
+            $this->ajaxReturn(1, '新闻公告删除失败！');
+        }
+    }
+
+    //回收站
+    public function recycle()
+    {
+        $keywords = $this->_getKeywords();
+
+        list($start, $length) = $this->_mkPage();
+        $data = D('Article')->getArc(null, null, $keywords, 0, $start, $length);
+        $total = $data['total'];
+        $datalist = $data['data'];
+
+        $this->assign('datalist', $datalist);
+
+        $param = array(
+            'keywords'   => $keywords,
+        );
+        $this->assign('param', $param);
+        //解析分页数据
+        $this->_mkPagination($total, $param);
+
+        $this->display();
+    }
+
+    //还原
+    public function recover()
+    {
+        $arcid = $this->_getArcid();
+        if (!$arcid) $this->ajaxReturn(1, '未知新闻公告ID！');
+
+        $data = array(
+            'status' => 1,
+            'updatetime' => TIMESTAMP,
+        );
+        $result = M('article')->where(array('arcid'=>$arcid))->save($data);
+        if ($result) {
+            $this->ajaxReturn(0, '成功！');
+        } else {
+            $this->ajaxReturn(1, '失败！');
         }
     }
 }

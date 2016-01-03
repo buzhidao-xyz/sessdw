@@ -10,8 +10,8 @@
                 <i class="fa fa-home"></i>
                 <a href="javascript:;">系统</a>
             </li>
-            <li><a href="javascript:;">新闻公告</a></li>
-            <li class="active">党建新闻</li>
+            <li><a href="javascript:;">综合管理</a></li>
+            <li class="active">常见问题</li>
         </ul>
     </div>
     <!-- /Page Breadcrumb -->
@@ -19,12 +19,12 @@
     <!-- Page Header -->
     <div class="page-header position-relative">
         <div class="header-title">
-            <h1>党建新闻管理</h1>
+            <h1>常见问题管理</h1>
         </div>
         <!-- inops buttons -->
         <div class="inops-buttons">
-            <a href="{$ANY.__APP__}?s=Article/news" class="btn btn-primary">党建新闻</a>
-            <a href="{$ANY.__APP__}?s=Article/newnews" class="btn btn-darkorange">发布新闻</a>
+            <a href="{$ANY.__APP__}?s=Help/qa" class="btn btn-primary">常见问题</a>
+            <a href="{$ANY.__APP__}?s=Help/newqa" class="btn btn-darkorange">新建问题</a>
         </div>
         <!--Header Buttons-->
         <div class="header-buttons">
@@ -46,13 +46,13 @@
     <div class="page-body dashboard">
         <div class="widget searchbox">
             <div class="widget-header bordered-bottom bordered-palegreen">
-                <span class="widget-caption">新闻搜索</span>
+                <span class="widget-caption">问题搜索</span>
             </div>
             <div class="widget-body">
-                <form role="form" class="form-inline searchform" method="post" action="{$ANY.__APP__}?s=Article/news">
+                <form role="form" class="form-inline searchform" method="post" action="{$ANY.__APP__}?s=Help/qa">
                     <div class="form-group">
-                        <label>标题关键字：</label>
-                        <input type="text" name="keywords" value="{$keywords}" placeholder="标题、关键字等" class="form-control">
+                        <label>关键字：</label>
+                        <input type="text" name="keywords" value="{$keywords}" placeholder="党员名称、账号、关键字等" class="form-control" style="width: 200px;">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-success" type="submit"> 搜索 </button>
@@ -63,7 +63,7 @@
 
         <div class="widget tablebox">
             <div class="widget-header bordered-bottom bordered-palegreen">
-                <span class="widget-caption">新闻列表</span>
+                <span class="widget-caption">问题列表</span>
                 <div class="widget-buttons">
                     <a href="#" data-toggle="maximize">
                         <i class="fa fa-expand"></i>
@@ -78,11 +78,7 @@
                     <thead class="bordered-darkorange">
                         <tr role="row">
                             <th>ID</th>
-                            <th>标题</th>
-                            <th>分类</th>
-                            <th>关键字</th>
-                            <th>浏览（次）</th>
-                            <th>状态</th>
+                            <th>问题</th>
                             <th>创建日期</th>
                             <th>操作项</th>
                         </tr>
@@ -92,16 +88,18 @@
                     <tbody>
                         {foreach $datalist as $d}
                         <tr>
-                            <td>{$d.arcid}</td>
+                            <td>{$d.qaid}</td>
                             <td>{$d.title}</td>
-                            <td>{$articleclass[$d.classid]['name']}</td>
-                            <td>{$d.keyword}</td>
-                            <td>{$d.viewnum}</td>
-                            <td><font color="green">正常</font></td>
                             <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>
                             <td>
-                                <a href="{$ANY.__APP__}?s=Article/upnews&arcid={$d.arcid}" class="btn btn-sky">编辑</a>
-                                <a href="{$ANY.__APP__}?s=Article/delarc&arcid={$d.arcid}" class="btn btn-danger btndelete">删除</a>
+                                <a href="{$ANY.__APP__}?s=Help/upqa&qaid={$d.qaid}" class="btn btn-sky">编辑</a>
+                                <a href="{$ANY.__APP__}?s=Help/qadel&qaid={$d.qaid}" class="btn btn-danger btndelete">删除</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <p><b>答案：</b></p>
+                                <p>{$d.answer|html_entity_decode}</p>
                             </td>
                         </tr>
                         {/foreach}

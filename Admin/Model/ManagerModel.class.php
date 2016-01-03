@@ -82,40 +82,19 @@ class ManagerModel extends CommonModel
         return array();
     }
 
-    //启用、禁用管理员
-    public function enableManager($managerid=null, $status=1)
-    {
-        if (!$managerid || !in_array($status, array(0,1))) return false;
-
-        $result = M('manager')->where(array('managerid'=>$managerid))->save(array('status'=>$status));
-
-        return $result ? true : false;
-    }
-
     //新增/修改管理员信息
-    public function saveManager($managerid=null, $data=array(), $multi=false)
+    public function managersave($managerid=null, $data=array())
     {
         if (!is_array($data) || empty($data)) return false;
 
         if ($managerid) {
             $result = M('manager')->where(array('managerid'=>$managerid))->save($data);
+            !$result ? $managerid = false : null;
         } else {
-            $result = $multi ? M('manager')->addAll($data) : M('manager')->add($data);
+            $managerid = M('manager')->add($data);
         }
 
-        return $result;
-    }
-
-    //删除管理员信息
-    public function deleteManager($managerid=array())
-    {
-        if (!is_array($managerid) || empty($managerid)) return false;
-
-        $result = M('manager')->where(array('managerid'=>array('in', $managerid)))->save(array(
-            'isdelete' => 1,
-        ));
-
-        return $result ? true : false;
+        return $managerid;
     }
 
     //新增管理员登录日志

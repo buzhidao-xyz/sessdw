@@ -15,8 +15,6 @@ class UserController extends CommonController
     {
         parent::__construct();
 
-        $this->assign("sidebar_active", array("User","index"));
-
         $this->_page_location = __APP__.'?s=User/index';
     }
 
@@ -114,12 +112,16 @@ class UserController extends CommonController
     //新建账号
     public function newuser()
     {
+        $this->assign("sidebar_active", array("User","index"));
+
         $this->display();
     }
 
     //查看账号 - 编辑
     public function profile()
     {
+        $this->assign("sidebar_active", array("User","index"));
+
         $userid = $this->_getUserid();
         if (!$userid) $this->pageReturn(1, '未知账号信息！', $this->_page_location);
 
@@ -208,5 +210,55 @@ class UserController extends CommonController
         } else {
             $this->ajaxReturn(1, '失败！');
         }
+    }
+
+    //获取wid
+    private function _getWid()
+    {
+        $wid = mRequest('wid');
+
+        return $wid;
+    }
+
+    //反馈意见
+    public function lvword()
+    {
+        $keywords = $this->_getKeywords();
+
+        list($start, $length) = $this->_mkPage();
+        $data = D('User')->getLvword($keywords, $start, $length);
+        $total = $data['total'];
+        $datalist = $data['data'];
+
+        $this->assign('datalist', $datalist);
+
+        $param = array(
+            'keywords'   => $keywords,
+        );
+        $this->assign('param', $param);
+        //解析分页数据
+        $this->_mkPagination($total, $param);
+
+        $this->display();
+    }
+
+    //反馈意见 - 删除
+    public function lvworddel()
+    {
+        $wid = $this->_getWid();
+        if (!$wid) $this->ajaxReturn(1, '未知反馈留言！');
+
+        $result = M('lvword')->where(array('wid'=>$wid))->delete();
+        if ($result) {
+            $this->ajaxReturn(0, '反馈留言删除成功！');
+        } else {
+            $this->ajaxReturn(1, '反馈留言删除失败！');
+        }
+    }
+
+    //学习达人
+    public function learning()
+    {
+        $this->display();
     }
 }

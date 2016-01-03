@@ -178,24 +178,24 @@ class AdminController extends BaseController
 
         //如果是超级管理员-不需要获取角色-直接获取全部菜单信息
         //如果不是超级管理员-获取管理员角色-角色关联的菜单信息
-        if ($super !== 1) {
-            $roleids = array();
-            $managerrole = D('Manager')->getManagerRole($managerid);
-            if (is_array($managerrole)&&!empty($managerrole)) {
-                foreach ($managerrole as $mrole) {
-                    $roleids[] = $mrole['roleid'];
-                }
-            }
+        // if ($super !== 1) {
+        //     $roleids = array();
+        //     $managerrole = D('Manager')->getManagerRole($managerid);
+        //     if (is_array($managerrole)&&!empty($managerrole)) {
+        //         foreach ($managerrole as $mrole) {
+        //             $roleids[] = $mrole['roleid'];
+        //         }
+        //     }
 
-            //根据管理员的角色id 获取角色-菜单信息
-            $rolenodelist = D('Role')->getRoleNode($roleids);
-            if (is_array($rolenodelist)&&!empty($rolenodelist)) {
-                foreach ($rolenodelist as $node) {
-                    $node['groupid']&&!in_array($node['groupid'], $groupids) ? $groupids[] = $node['groupid'] : null;
-                    $node['nodeid']&&!in_array($node['nodeid'], $nodeids) ? $nodeids[] = $node['nodeid'] : null;
-                }
-            }
-        }
+        //     //根据管理员的角色id 获取角色-菜单信息
+        //     $rolenodelist = D('Role')->getRoleNode($roleids);
+        //     if (is_array($rolenodelist)&&!empty($rolenodelist)) {
+        //         foreach ($rolenodelist as $node) {
+        //             $node['groupid']&&!in_array($node['groupid'], $groupids) ? $groupids[] = $node['groupid'] : null;
+        //             $node['nodeid']&&!in_array($node['nodeid'], $nodeids) ? $nodeids[] = $node['nodeid'] : null;
+        //         }
+        //     }
+        // }
         
         //获取组菜单
         $grouplist = D('Menu')->getGroup($groupids);
