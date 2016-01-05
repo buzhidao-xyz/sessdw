@@ -35,16 +35,4 @@ class IndexController extends BaseController
 
     	$this->display();
     }
-
-    //获取新闻
-    private function _getArc($classid=null)
-    {
-        $where = array(
-            'classid' => $classid,
-            'status' => 1,
-        );
-        $datalist = M('article')->where($where)->order('createtime desc')->limit(0,7)->select();
-
-        return $datalist;
-    }
 }
