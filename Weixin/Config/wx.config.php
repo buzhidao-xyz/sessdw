@@ -14,7 +14,7 @@ return array(
     //认证口令
     'Token'          => 'Szsamsungdw2016AWCVGHTK',
     //消息加密密钥
-    'EncodingAESKey' => 'QCKs0AWja0rR2NhoMFEGso1SOBpDKWvXd3ED8WDiYCS',
+    'EncodingAESKey' => 'EyGpQEtN4j2XW8GplioQclxdRa1ZUqEqAzKBQm261KF',
     //微信API
     'API' => array(
         //获取access_token
