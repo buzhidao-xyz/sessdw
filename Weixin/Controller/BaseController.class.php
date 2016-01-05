@@ -320,6 +320,27 @@ class BaseController extends Controller
         return true;
     }
 
+    //检查微信用户登录状态
+    protected function _CKWXUserLogon()
+    {
+        $WXUserBase = session('WXUserBase');
+        //如果没有openid 申请授权 获取微信用户基本信息 openid等
+        if (empty($WXUserBase) || (isset($WXUserBase['ExpireTime'])&&$WXUserBase['ExpireTime']<=TIMESTAMP)) {
+            $WXUserBase = CR('Weixin')->getWXSNSUserBase(0);
+            session('WXUserBase', $WXUserBase);
+        }
+
+        //根据openid查询用户信息
+        $userInfo = D('User')->getUserByOpenID($WXUserBase['OpenID']);
+        //如果openid未查到用户信息 申请授权 获取微信用户详细信息
+        if (!is_array($userInfo)||empty($userInfo)) {
+            $WXUserInfo = CR('Weixin')->getWXSNSUserInfo(0);
+            session('WXUserInfo', $WXUserInfo);
+        }
+
+        return true;
+    }
+
     /**
      * 存取登录信息 session
      * @param int $isrefresh 是否刷新session 0:不刷新 1:刷新 默认1
@@ -361,5 +382,17 @@ class BaseController extends Controller
     protected function _setLocation()
     {
         session('location', 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].'?s='.CONTROLLER_NAME.'/'.ACTION_NAME);
+    }
+
+    //数据列表添加索引 二维数组
+    protected function _makeAutoIndex($data=array(), $start=0)
+    {
+        if (!is_array($data)) return false;
+
+        foreach ($data as $k=>$d) {
+            $data[$k]['AutoIndex'] = ++$Start;
+        }
+
+        return $data;
     }
 }

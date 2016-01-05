@@ -5,7 +5,7 @@
  */
 namespace Weixin\Controller;
 
-class IndexController extends CommonController
+class IndexController extends BaseController
 {
     public function __construct()
     {
