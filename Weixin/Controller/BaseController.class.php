@@ -4,7 +4,7 @@
  * buzhidao
  * 2015-12-07
  */
-namespace Front\Controller;
+namespace Weixin\Controller;
 
 use Any\Controller;
 use Org\Util\Log;

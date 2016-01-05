@@ -1,10 +1,10 @@
 <?php
 /**
- * Front Module 通用基类
+ * Weixin Module 通用基类
  * imbzd
  * 2015-12-07
  */
-namespace Front\Controller;
+namespace Weixin\Controller;
 
 class CommonController extends BaseController
 {
