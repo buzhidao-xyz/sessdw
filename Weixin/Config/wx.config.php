@@ -34,29 +34,29 @@ return array(
     'Menu' => array(
         'button' => array(
             array(
-                'name' => '微简历',
-                'key'  => 'M1001_WEIJIANLI',
+                'name' => '课程中心',
+                'key'  => 'M1001_COURSE',
                 'sub_button' => array(
                     array(
                         'type' => 'view',
-                        'name' => '做简历',
-                        'url'  => 'http://wx.szsecp.com/index.php?s=Resume/rlist',
+                        'name' => '学党章',
+                        'url'  => 'http://120.26.102.28/samsung/index.php?s=Course/rlist',
                     ),
                     array(
                         'type' => 'view',
-                        'name' => '简历预览',
-                        'url'  => 'http://wx.szsecp.com/index.php?s=Resume/rview',
+                        'name' => '学讲话',
+                        'url'  => 'http://120.26.102.28/samsung/index.php?s=Course/rview',
                     ),
                     array(
                         'type' => 'view',
-                        'name' => '企业用户',
-                        'url'  => 'http://wx.szsecp.com/index.php?s=User/company',
+                        'name' => '学条例',
+                        'url'  => 'http://120.26.102.28/samsung/index.php?s=Course/company',
                     ),
                 )
             ),
             array(
-                'name' => '投简历',
-                'key'  => 'M2001_TOUJIANLI',
+                'name' => '随堂测评',
+                'key'  => 'M2001_TESTING',
                 'sub_button' => array(
                     array(
                         'type' => 'view',
@@ -76,8 +76,8 @@ return array(
                 )
             ),
             array(
-                'name' => '找培训',
-                'key'  => 'M3001_PEIXUN',
+                'name' => '党员中心',
+                'key'  => 'M3001_UCENTER',
                 'sub_button' => array(
                     array(
                         'type' => 'view',

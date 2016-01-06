@@ -33,6 +33,14 @@ class IndexController extends BaseController
         $ntarclist = D('Article')->getArc(null, CR('Article')->arcclass['notice']['id'], null, 0, 7);
         $this->assign('ntarclist', $ntarclist['data']);
 
+        //获取课程总数
+        $coursenum = D('Course')->getCoursenum();
+        $this->assign('coursenum', $coursenum);
+
+        //获取党员总数
+        $usernum = D('User')->getUsernum();
+        $this->assign('usernum', $usernum);
+
     	$this->display();
     }
 }
