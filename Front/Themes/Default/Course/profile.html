@@ -24,33 +24,49 @@
 
     <!-- begin dataprofilebox -->
     <div class="dataprofilebox coursebox maincontbox">
+        {if isset($errormsg)&&$errormsg}
+        <div class="errormsg text-center">{$errormsg}</div>
+        {else}
+        {if isset($courseinfo)&&is_array($courseinfo)&&!empty($courseinfo)}
         <div class="dataprofiletitle text-center">
-            <h2>第一课：全面深化三星党建模式 从最基层努力实现中国梦</h2>
-            <h5>2015年12月10日 02:18</h5>
-            <h5>浏览次数：207</h5>
+            <h2>{$courseinfo.title}</h2>
+            <h5>{'Y年m月d日 h:i'|date:{$courseinfo.createtime}}</h5>
+            <h5>浏览次数：{$courseinfo.viewnum}</h5>
         </div>
         <div class="dataprofilecont text-center">
-
-            <div id="coursevideo" class="coursevideo" courseid="1" testingid="1"></div>
+            <!-- course video -->
+            <div id="coursevideo" class="coursevideo" courseid="{$courseinfo.courseid}" videoimg="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videoimg}" videofile="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videopath}" coursesign="{$coursesign}"></div>
             <script type="text/javascript" src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ckplayer/ckplayer.js" charset="utf-8"></script>
             <script src="{$SERVER.HOST.JS_SERVER}Themes/Default/Assets/js/ckplayer.class.js"></script>
             
             <!-- coursefunc -->
             <div class="coursefunc row">
                 <div class="col-xs-6 text-left">
-                    <p><a href="javascript:;" id="ExamBtn" class="btn btn-info"> 下载课程帮助文档 </a></p>
+                    <p><a href="javascript:;" id="ExamBtn" class="btn btn-info"> 下载课程复习资料 </a></p>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <p>课程已学习完成？&nbsp;<a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" id="ExamBtn" class="btn btn-red"> 马上进行随堂测评 </a></p>
+                    <p>课程已学习完成？&nbsp;<a href="javascript:;" id="ExamBtn" class="btn btn-red disabled"> 马上进行随堂测评 </a></p>
                 </div>
             </div>
         </div>
+        {/if}
+        {/if}
         <div class="dataprofilelinks">
             <p class="linkitem">
-                <span><b>上一课：&nbsp;</b></span><a href="javascript:;">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
+                <span><b>上一课：&nbsp;</b></span>
+                {if isset($courseprevnextinfo['prev']['courseid'])}
+                <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseprevnextinfo['prev']['courseid']}">{$courseprevnextinfo['prev']['title']}</a>
+                {else}
+                <span>无</span>
+                {/if}
             </p>
             <p class="linkitem">
-                <span><b>下一课：&nbsp;</b></span><a href="javascript:;">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
+                <span><b>下一课：&nbsp;</b></span>
+                {if isset($courseprevnextinfo['next']['courseid'])}
+                <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseprevnextinfo['next']['courseid']}">{$courseprevnextinfo['next']['title']}</a>
+                {else}
+                <span>无</span>
+                {/if}
             </p>
         </div>
     </div>

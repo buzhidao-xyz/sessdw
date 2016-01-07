@@ -24,349 +24,45 @@
 
     <!-- begin dataprofilebox -->
     <div class="dataprofilebox testingbox maincontbox">
+        {if isset($errormsg)&&$errormsg}
+        <div class="errormsg text-center">{$errormsg}</div>
+        {else}
         <div class="dataprofiletitle text-center">
-            <h2><a href="javascript:;" class="wlink" target="_blank">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a></h2>
-            <h5>2015年12月10日 02:18</h5>
+            <h2><a href="{$ANY.__APP__}?s=Course/profile&courseid={$testinginfo.courseid}" class="wlink" target="_blank">{$testinginfo.title}</a></h2>
+            <h5>{'Y年m月d日 h:i'|date:{$testinginfo.createtime}}</h5>
             <h3><font color="#CB1C1D">本课随堂测评试卷</font><a href="javascript:;" id="ExamBtn" class="btn btn-info helppdf"> 先去复习 </a></h3>
-
         </div>
         <div class="dataprofilecont">
-            <form name="examform" method="post" action="{$ANY.__APP__}?s=Testing/profile&testingid=1" class="dataform">
+            <form name="examform" method="post" action="{$ANY.__APP__}?s=Testing/check" class="dataform">
+            <input type="hidden" name="testingid" value="{$testinginfo.testingid}">
             <ul class="list-unstyled exambox">
+                {foreach $testinginfo.exams as $examinfo}
                 <li>
                     <div class="examsubject">
                         <p class="question">
-                            <span class="no">1.</span>党的最高理想和最终目标是实现（）<span class="examtype">【单选】</span>
+                            <span class="no">{$examinfo.sortno}.</span>{$examinfo.title}<span class="examtype">{if $examinfo.type == 1}【单选】{else}【多选】{/if}</span>
                         </p>
                         <div class="options row">
+                            {foreach $examinfo.options as $option}
                             <div class="option col-xs-6">
                                 <label>
-                                    <input type="radio" name="qa1" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">共产主义</span>
+                                    {if $examinfo.type == 1}
+                                    <input type="radio" name="exams[{$examinfo.examid}]" value="{$option.name}">
+                                    {else}
+                                    <input type="checkbox" name="exams[{$examinfo.examid}][]" value="{$option.name}">
+                                    {/if}
+                                    <span class="optiont">{$option.name}.</span><span class="optionc">{$option.title}</span>
                                 </label>
                             </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">马克思列宁主义</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">毛泽东思想</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">社会主义</span>
-                                </label>
-                            </div>
+                            {/foreach}
                         </div>
                     </div>
                 </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">2.</span>凡是成立党的新组织，或是撤销党的原有组织，必须由上级（）决定<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">党组织</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">政府机构</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">代表大会</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">领导</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">3.</span>党的各级组织的报刊和其他宣传工具，必须宣传党的（）<span class="examtype">【多选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="checkbox" name="qa3" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">路线</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="checkbox" name="qa3" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">方针</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="checkbox" name="qa3" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">政策和决议</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="checkbox" name="qa3" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">以上全不对</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">4.</span>党的最高理想和最终目标是实现（）<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">共产主义</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">马克思列宁主义</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">毛泽东思想</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">社会主义</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">5.</span>凡是成立党的新组织，或是撤销党的原有组织，必须由上级（）决定<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">党组织</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">政府机构</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">代表大会</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">领导</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">6.</span>党的最高理想和最终目标是实现（）<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">共产主义</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">马克思列宁主义</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">毛泽东思想</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa1" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">社会主义</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">7.</span>凡是成立党的新组织，或是撤销党的原有组织，必须由上级（）决定<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">党组织</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">政府机构</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">代表大会</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">领导</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">8.</span>凡是成立党的新组织，或是撤销党的原有组织，必须由上级（）决定<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">党组织</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">政府机构</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">代表大会</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">领导</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">9.</span>凡是成立党的新组织，或是撤销党的原有组织，必须由上级（）决定<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">党组织</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">政府机构</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">代表大会</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">领导</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="examsubject">
-                        <p class="question">
-                            <span class="no">10.</span>凡是成立党的新组织，或是撤销党的原有组织，必须由上级（）决定<span class="examtype">【单选】</span>
-                        </p>
-                        <div class="options row">
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="A">
-                                    <span class="optiont">A.</span><span class="optionc">党组织</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="B">
-                                    <span class="optiont">B.</span><span class="optionc">政府机构</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="C">
-                                    <span class="optiont">C.</span><span class="optionc">代表大会</span>
-                                </label>
-                            </div>
-                            <div class="option col-xs-6">
-                                <label>
-                                    <input type="radio" name="qa2" value="D">
-                                    <span class="optiont">D.</span><span class="optionc">领导</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                {/foreach}
             </ul>
             <div class="examinfo row">
                 <div class="col-xs-6 text-left">
-                    <p><a href="javascript:;" id="ExamBtn" class="btn btn-info"> 先去复习 </a></p>
+                    <p><a href="javascript:;" id="ExamBtn" class="btn btn-info"> 复习资料 </a></p>
                 </div>
                 <div class="col-xs-6 text-right info">
                     <p><button type="submit" id="SubBtn" class="btn btn-red"> 提交答案 </button></p>
@@ -374,12 +70,23 @@
             </div>
             </form>
         </div>
+        {/if}
         <div class="dataprofilelinks">
             <p class="linkitem">
-                <span><b>上一课测评：&nbsp;</b></span><a href="javascript:;">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
+                <span><b>上一课测评：&nbsp;</b></span>
+                {if is_array($testingprevnextinfo.prev)&&!empty($testingprevnextinfo.prev)}
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testingprevnextinfo.prev.testingid}">{$testingprevnextinfo.prev.title}</a>
+                {else}
+                无
+                {/if}
             </p>
             <p class="linkitem">
-                <span><b>下一课测评：&nbsp;</b></span><a href="javascript:;">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
+                <span><b>下一课测评：&nbsp;</b></span>
+                {if is_array($testingprevnextinfo.next)&&!empty($testingprevnextinfo.next)}
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testingprevnextinfo.next.testingid}">{$testingprevnextinfo.next.title}</a>
+                {else}
+                无
+                {/if}
             </p>
         </div>
     </div>

@@ -136,8 +136,6 @@ class UserController extends CommonController
     {
         $userid = $this->_getUserid();
 
-        $account = $this->_getAccount();
-
         $password = $this->_getPassword();
         if ($userid) {
             if ($password && !Filter::F_Password($password)) $this->ajaxReturn(1, '请填写正确的密码！');
@@ -157,7 +155,6 @@ class UserController extends CommonController
 
         if ($userid) {
             $data = array(
-                'account'    => $account,
                 'username'   => $username,
                 'department' => $department,
                 'position'   => $position,
@@ -169,6 +166,11 @@ class UserController extends CommonController
             }
             $userid = D('User')->usersave($userid, $data);
         } else {
+            $account = $this->_getAccount();
+            //查询account是否已存在
+            $flag = M('user')->where(array('account'=>$account))->count();
+            if ($flag) $this->ajaxReturn(1, '账号已存在！');
+            
             $data = array(
                 'account'    => $account,
                 'password'   => $password,

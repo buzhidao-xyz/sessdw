@@ -100,17 +100,21 @@
                     {if $courseinfo.status}
                     <a href="javascript:;" class="btn btn-default btn-study disabled">已学习</a>
                     {else}
+                    {if $courseinfo.courseid==$clearncourseid}
                     <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}" class="btn btn-default btn-study btn-red">马上去学习</a>
+                    {else}
+                    <a href="javascript:;" class="btn btn-default btn-study btn-red disabled" disabled>马上去学习</a>
+                    {/if}
                     {/if}
                     <p>
                         {if $courseinfo.status==1}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}">再次学习</a>
-                        <a href="javascript:;">完成随堂测评</a>
+                        <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}">完成随堂测评</a>
                         {else if $courseinfo.status==2}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}">再次学习</a>
                         <a href="javascript:;" class="disabled" disabled>随堂测评已完成</a>
                         {else}
-                        <a href="javascript:;">完成随堂测评</a>
+                        <a href="javascript:;" class="disabled" disabled>完成随堂测评</a>
                         {/if}
                     </p>
                 </div>

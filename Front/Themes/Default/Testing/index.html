@@ -26,10 +26,9 @@
     <div class="datalistbox testingbox maincontbox">
         <!-- listnav -->
         <ul id="listnav" class="listnav list-unstyled">
-            <li class="item active"><a href="javascript:;">全部</a></li>
-            <li class="item"><a href="javascript:;">学党章</a></li>
-            <li class="item"><a href="javascript:;">学讲话</a></li>
-            <li class="item"><a href="javascript:;">学条例</a></li>
+            {foreach $courseclass as $class}
+            <li class="item {if isset($classid)&&$classid==$class.id}active{/if}"><a href="{$ANY.__APP__}?s=Testing/index&classid={$class.id}">{$class.name}</a></li>
+            {/foreach}
         </ul>
         <script src="{$SERVER.HOST.PUBLIC_SERVER}js/jquery-scrolltofixed-min.js"></script>
         <script>
@@ -40,104 +39,31 @@
 
         <!-- testinglist -->
         <ul class="testinglist list-unstyled">
+            {if isset($testinglist)&&is_array($testinglist)&&!empty($testinglist)}
+            {foreach $testinglist as $testinginfo}
             <li>
                 <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid=1" class="name completed">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
+                {if $testinginfo.utstatus}
+                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}" class="name completed">[已学习]{$testinginfo.title}</a>
                 <span class="completed">已完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid=1" class="btn btn-primary oplink">查看成绩</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid=1" class="name completed">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="completed">已完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid=1" class="btn btn-primary oplink">查看成绩</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid=1" class="name completed">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="completed">已完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid=1" class="btn btn-primary oplink">查看成绩</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
+                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}" class="btn btn-primary oplink">查看成绩</a>
+                {else}
+                {if $testinginfo.ucstatus}
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}" class="name">[已学习]{$testinginfo.title}</a>
                 <span class="uncompleted">未完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}" class="btn btn-red oplink">开始测评</a>
+                {else}
+                <a href="javascript:;" class="name disabled" disabled><font color="#CB1C1D">[未学习]</font>{$testinginfo.title}</a>
                 <span class="uncompleted">未完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
+                <a href="javascript:;" class="btn btn-red oplink disabled" disabled>开始测评</a>
+                {/if}
+                {/if}
+                <a href="javascript:;" class="btn btn-info oplink">复习资料</a>
             </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid=1" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="javascript:;" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="javascript:;" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="javascript:;" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="javascript:;" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="javascript:;" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="javascript:;" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="javascript:;" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="javascript:;" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="javascript:;" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="javascript:;" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
-            <li>
-                <span class="t"><b>测评：</b></span>
-                <a href="javascript:;" class="name">第一课、全面深化三星党建模式三星党建模式 从最基层努力实现中国梦</a>
-                <span class="uncompleted">未完成</span>
-                <a href="javascript:;" class="btn btn-red oplink">开始测评</a>
-                <a href="javascript:;" class="btn btn-info oplink">帮助文档</a>
-            </li>
+            {/foreach}
+            {else}
+            <p><h3 class="text-center">暂无测评</h3></p>
+            {/if}
         </ul>
 
         {include file="Public/pagination.html"}

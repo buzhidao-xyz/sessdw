@@ -168,6 +168,11 @@ class ManagerController extends CommonController
         } else {
             $account = $this->_getAccount();
             if (!Filter::F_Account($account)) $this->ajaxReturn(1, '请填写正确的账号！');
+
+            //查询account是否已存在
+            $flag = M('manager')->where(array('account'=>$account))->count();
+            if ($flag) $this->ajaxReturn(1, '账号已存在！');
+
             $data = array(
                 'account'       => $account,
                 'password'      => $password,

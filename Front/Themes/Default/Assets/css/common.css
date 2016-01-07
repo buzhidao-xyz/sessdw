@@ -306,7 +306,7 @@ ul.testinglist {
     display: block;
     overflow: hidden;
     padding-bottom: 15px;
-    padding: 20px 15px;
+    /*padding: 20px 15px;*/
 }
 ul.testinglist li {
     width: 100%;
@@ -339,8 +339,8 @@ ul.testinglist li a.completed {
     color: #CB1C1D;
 }
 ul.testinglist li a.name {
-    width: 520px;
-    margin-right: 60px;
+    width: 557px;
+    margin-right: 50px;
 }
 ul.testinglist li a.name:hover {
     color: #CB1C1D;
@@ -508,6 +508,14 @@ ul.worklist li .markimg_complete {
     border-top: 0;
     border-bottom: 3px solid #E1E1E1;
     padding: 30px;
+    min-height: 570px;
+}
+.dataprofilebox .errormsg {
+    font-size: 27px;
+    font-weight: 700;
+    color: #cb1c1d;
+    min-height: 550px;
+    line-height: 300px;
 }
 .dataprofilebox .dataprofiletitle {
     padding-bottom: 10px;

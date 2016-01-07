@@ -19,4 +19,11 @@ return array(
         1 => array('id'=>1, 'name'=>'完成学习'),
         2 => array('id'=>2, 'name'=>'完成测评'),
     ),
+
+    //作业分类
+    'work_class' => array(
+        0 => array('id'=>'', 'name'=>'全部作业'),
+        1 => array('id'=>1, 'name'=>'党建作业'),
+        2 => array('id'=>2, 'name'=>'党史作业'),
+    ),
 );
