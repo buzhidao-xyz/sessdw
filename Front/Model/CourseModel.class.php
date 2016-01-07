@@ -14,14 +14,19 @@ class CourseModel extends CommonModel
     }
 
     //获取课程信息
-    public function getCourse($courseid=null, $classid=null, $start=0, $length=9999)
+    public function getCourse($courseid=null, $classid=null, $userid=null, $start=0, $length=9999)
     {
-        $where = array();
-        if ($courseid) $where['courseid'] = $courseid;
-        if ($classid) $where['classid'] = $classid;
+        if (!$userid) return false;
 
-        $count = M('course')->where($where)->count();
-        $result = M('course')->where($where)->order('createtime desc')->limit($start, $length)->select();
+        $where = array(
+            'a.isshow' => 1,
+        );
+        if ($courseid) $where['a.courseid'] = $courseid;
+        if ($classid) $where['a.classid'] = $classid;
+
+        $count = M('course')->alias('a')->where($where)->count();
+        $result = M('course')->alias('a')->field('a.*, b.status, b.begintime, b.completetime')->join(' LEFT JOIN __USER_COURSE__ b ON a.courseid=b.courseid AND b.userid= '.$userid)
+                             ->where($where)->order('createtime desc')->limit($start, $length)->select();
 
         return array('total'=>$count, 'data'=>is_array($result)?$result:array());
     }

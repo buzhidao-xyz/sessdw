@@ -191,6 +191,7 @@
     border-top: 0;
     border-bottom: 3px solid #E1E1E1;
     padding: 30px;
+    min-height: 570px;
 }
 .datalistbox ul.listbox {
     display: block;

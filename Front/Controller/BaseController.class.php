@@ -252,7 +252,7 @@ class BaseController extends Controller
     {
         if (!$total) return false;
 
-        $sshowpages = 2;
+        $sshowpages = 5;
 
         //page参数
         $page     = $this->_getPage();

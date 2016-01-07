@@ -16,11 +16,42 @@ class CourseController extends CommonController
     public function __construct()
     {
         parent::__construct();
+
+        $this->_course_class = C('USER.course_class');
+        $this->assign('courseclass', $this->_course_class);
+
+        $this->_user_course_status = C('USER.user_course_status');
+        $this->assign('usercoursestatus', $this->_user_course_status);
+    }
+
+    //获取课程分类Id
+    private function _getClassid()
+    {
+        $classid = mRequest('classid');
+
+        return $classid;
     }
 
     //课程首页
     public function index()
     {
+        $classid = $this->_getClassid();
+        $this->assign('classid', $classid);
+
+        list($start, $length) = $this->_mkPage();
+        $data = D('Course')->getCourse(null, $classid, $this->userinfo['userid'], $start, $length);
+        $total = $data['total'];
+        $courselist = $data['data'];
+
+        $this->assign('courselist', $courselist);
+
+        $param = array(
+            'classid' => $classid,
+        );
+        $this->assign('param', $param);
+        //解析分页数据
+        $this->_mkPagination($total, $param);
+
         $this->display();
     }
 
