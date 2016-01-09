@@ -1,18 +1,12 @@
 <?php
 /**
- * 文章模型逻辑控制
+ * 文章逻辑层
  * buzhidao
- * 2015-12-14
  */
-namespace Front\Controller;
-
-use Any\Controller;
+namespace Weixin\Controller;
 
 class ArticleController extends BaseController
 {
-    //导航栏目navflag标识
-    public $navflag = 'Index';
-
     //新闻分类id
     public $arcclass = array(
         'news'   => array('id'=>1, 'name'=>'党建新闻'),
@@ -24,8 +18,14 @@ class ArticleController extends BaseController
         parent::__construct();
     }
 
-    //文章模型入口
-    public function index(){}
+    public function index()
+    {
+        $this->_setLocation();
+
+        // $this->_CKWXUserLogon();
+
+        $this->news();
+    }
 
     //获取arcid
     private function _getArcid()
@@ -67,7 +67,7 @@ class ArticleController extends BaseController
     private function _newsprofile($arcid=null)
     {
         $arcprofile = D('Article')->getArcByID($arcid);
-        
+
         //浏览量+1
         M('article')->where(array('arcid'=>$arcprofile['arcid']))->save(array('viewnum'=>$arcprofile['viewnum']+1));
         

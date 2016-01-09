@@ -18,9 +18,9 @@ class WeixinModel extends CommonModel
         if (!$account) return false;
 
         $where = array(
-            'ServiceAccount' => $account,
+            'account' => $account,
         );
-        $result = M('WX_Service')->where($where)->find();
+        $result = M('wx_service')->where($where)->find();
 
         return is_array($result)&&!empty($result) ? $result : array();
     }
@@ -31,11 +31,11 @@ class WeixinModel extends CommonModel
         if (!$account || !$accesstoken) return false;
 
         $where = array(
-            'ServiceAccount' => $account,
+            'account' => $account,
         );
-        $result = M('WX_Service')->where($where)->save(array(
-            'AccessToken' => $accesstoken,
-            'ExpireTime' => $expiretime,
+        $result = M('wx_service')->where($where)->save(array(
+            'accesstoken' => $accesstoken,
+            'expiretime' => $expiretime,
         ));
 
         return $result ? true : false;

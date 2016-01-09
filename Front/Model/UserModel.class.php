@@ -22,6 +22,8 @@ class UserModel extends CommonModel
     //获取党员信息
     public function getUser($userid=null, $account=null)
     {
+        if (!$userid && !$account) return false;
+
         $where = array(
             'status' => 1,
         );

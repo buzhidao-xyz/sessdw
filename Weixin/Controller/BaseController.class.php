@@ -192,6 +192,31 @@ class BaseController extends Controller
         exit;
     }
 
+    //goto登录页
+    protected function _gotoLogin($goto=true)
+    {
+        $location = __APP__.'?s=User/login';
+        if ($goto) {
+            header('Location:'.$location);
+            exit;
+        } else {
+            return $location;
+        }
+    }
+
+    //goto登出页
+    //bool $goto 是否跳转 true:自动跳转 false:不跳转返回location
+    protected function _gotoLogout($goto=true)
+    {
+        $location = __APP__.'?s=User/logout';
+        if ($goto) {
+            header('Location:'.$location);
+            exit;
+        } else {
+            return $location;
+        }
+    }
+
     //跳转到系统首页
     protected function _gotoIndex($goto=true)
     {
@@ -312,9 +337,12 @@ class BaseController extends Controller
     protected function _CKUserLogon()
     {
         $userinfo = session('userinfo');
-        //如果未登录 跳转到登录页Admin/Login
+        //如果没有用户信息或者用户信息为空 表示未登录
         if (!$userinfo || !is_array($userinfo)) {
-            $this->_gotoIndex();
+            //如果是AJAX请求 返回登录location 否则跳转到登录页User/login
+            !IS_AJAX ? $this->_gotoLogin() : $this->ajaxReturn(0, '请先登录！', array(
+                'location' => __APP__.'?s=User/login',
+            ));
         }
 
         return true;
@@ -325,13 +353,13 @@ class BaseController extends Controller
     {
         $WXUserBase = session('WXUserBase');
         //如果没有openid 申请授权 获取微信用户基本信息 openid等
-        if (empty($WXUserBase) || (isset($WXUserBase['ExpireTime'])&&$WXUserBase['ExpireTime']<=TIMESTAMP)) {
+        if (empty($WXUserBase) || (isset($WXUserBase['expiretime'])&&$WXUserBase['expiretime']<=TIMESTAMP)) {
             $WXUserBase = CR('Weixin')->getWXSNSUserBase(0);
             session('WXUserBase', $WXUserBase);
         }
 
         //根据openid查询用户信息
-        $userInfo = D('User')->getUserByOpenID($WXUserBase['OpenID']);
+        $userInfo = D('User')->getUserByOpenID($WXUserBase['openid']);
         //如果openid未查到用户信息 申请授权 获取微信用户详细信息
         if (!is_array($userInfo)||empty($userInfo)) {
             $WXUserInfo = CR('Weixin')->getWXSNSUserInfo(0);

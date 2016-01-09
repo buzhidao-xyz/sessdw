@@ -46,12 +46,14 @@ class WeixinController extends BaseController
 
         $account = C('WX.Account');
         $ServiceInfo = D('Weixin')->getServiceByAccount($account);
-        if (empty($ServiceInfo)) exit;
+        if (empty($ServiceInfo)) {
+            echo '未知微信公众号！';exit;
+        }
 
-        $expiretimestamp = strtotime($ServiceInfo['ExpireTime']);
+        $expiretimestamp = strtotime($ServiceInfo['expiretime']);
         if (TIMESTAMP < $expiretimestamp) {
             //未过期
-            $access_token = $ServiceInfo['AccessToken'];
+            $access_token = $ServiceInfo['accesstoken'];
         } else {
             //已过期 重新请求微信服务端
             $WXObj = new Weixin($this->_weixininfo);
@@ -72,7 +74,7 @@ class WeixinController extends BaseController
     //申请授权 获取微信用户基本信息 openid等
     public function getWXSNSUserBase($ck=1)
     {
-        $mystate = 'Szsecpwx_snsapi_base';
+        $mystate = 'Sessdw_snsapi_base';
 
         $state = mRequest('state');
         if (!$state) {
@@ -97,20 +99,20 @@ class WeixinController extends BaseController
 
         $result_data = $result['data'];
         return array(
-            'AccessToken'  => $result_data['access_token'],
-            'ExpiresIn'    => $result_data['expires_in'],
-            'ExpireTime'   => TIMESTAMP+$result_data['expires_in']-1800,
-            'RefreshToken' => $result_data['refresh_token'],
-            'OpenID'       => $result_data['openid'],
-            'Scope'        => $result_data['scope'],
-            'UnionID'      => $result_data['unionid'],
+            'accesstoken'  => $result_data['access_token'],
+            'expiresin'    => $result_data['expires_in'],
+            'expiretime'   => TIMESTAMP+$result_data['expires_in']-1800,
+            'refreshtoken' => $result_data['refresh_token'],
+            'openid'       => $result_data['openid'],
+            'scope'        => $result_data['scope'],
+            'unionid'      => $result_data['unionid'],
         );
     }
 
     //申请授权 获取微信用户详细信息
     public function getWXSNSUserInfo($ck=1)
     {
-        $mystate = 'Szsecpwx_snsapi_userinfo';
+        $mystate = 'Sessdw_snsapi_userinfo';
 
         $state = mRequest('state');
         if (!$state) {
@@ -135,37 +137,39 @@ class WeixinController extends BaseController
 
         $result_data = $result['data'];
         $WXUserBaseInfo = array(
-            'AccessToken'  => $result_data['access_token'],
-            'ExpiresIn'    => $result_data['expires_in'],
-            'ExpireTime'   => TIMESTAMP+$result_data['expires_in']-1800,
-            'RefreshToken' => $result_data['refresh_token'],
-            'OpenID'       => $result_data['openid'],
-            'Scope'        => $result_data['scope'],
+            'accesstoken'  => $result_data['access_token'],
+            'expiresin'    => $result_data['expires_in'],
+            'expiretime'   => TIMESTAMP+$result_data['expires_in']-1800,
+            'refreshtoken' => $result_data['refresh_token'],
+            'openid'       => $result_data['openid'],
+            'scope'        => $result_data['scope'],
         );
 
         //调用SNSUserInfo接口获取用户详细信息
         $WXObj = new Weixin($this->_weixininfo);
-        $result = $WXObj->Oauth2SNSUser($WXUserBaseInfo['AccessToken'], $WXUserBaseInfo['OpenID']);
+        $result = $WXObj->Oauth2SNSUser($WXUserBaseInfo['accesstoken'], $WXUserBaseInfo['openid']);
 
         if ($result['error']) $this->pageReturn(1, '微信用户信息获取失败！');
 
         $result_data = $result['data'];
         return array(
-            'OpenID'    => $result_data['openid'],
-            'NickName'  => $result_data['nickname'],
-            'Sex'       => $result_data['sex'],
-            'Province'  => $result_data['province'],
-            'City'      => $result_data['city'],
-            'Country'   => $result_data['country'],
-            'Avatar'    => $result_data['headimgurl'],
-            'Privilege' => implode(',', $result_data['privilege']),
-            'Unionid'   => $result_data['unionid'],
+            'openid'    => $result_data['openid'],
+            'nickname'  => $result_data['nickname'],
+            'sex'       => $result_data['sex'],
+            'province'  => $result_data['province'],
+            'city'      => $result_data['city'],
+            'country'   => $result_data['country'],
+            'avatar'    => $result_data['headimgurl'],
+            'privilege' => implode(',', $result_data['privilege']),
+            'unionid'   => $result_data['unionid'],
         );
     }
 
     //创建菜单
     public function createmenu()
     {
+        return false;
+
         $menu = C('WX.Menu');
 
         $WXObj = new Weixin($this->_weixininfo);

@@ -1,0 +1,470 @@
+/**
+ * 基础CSS样式表
+ * buzhidao
+ * 2015-12-08
+ */
+html {
+
+}
+body {
+
+}
+div {
+
+}
+table {
+
+}
+ul {
+
+}
+ul li {
+
+}
+input {
+
+}
+h1, h2, h3, h4, h5 {
+
+}
+
+a:hover {
+    color: #CB1C1D;
+    text-decoration: none;
+}
+
+.btn.btn-red {
+    background: #CB1C1D none repeat scroll 0 0;
+    border-color: #CB1C1D;
+    color: #fff;
+    border-radius: 0;
+    font-size: 18px;
+    line-height: 23px;
+}
+.btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red.active, .open .dropdown-toggle.btn-red {
+    background: #a71011 none repeat scroll 0 0;
+    border-color: #a71011;
+}
+.btn.btn-info {
+    border-radius: 0;
+    font-size: 18px;
+    line-height: 23px;
+}
+.btn.btn-primary {
+    border-radius: 0;
+    font-size: 18px;
+    line-height: 23px;
+}
+
+.form-control:focus {
+    border-color: #CB1C1D;
+}
+
+/*content样式*/
+.content {
+    margin: 0;
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    min-height: 438px;
+}
+
+.maincontbox {
+    margin: 0 auto;
+    display: block;
+    overflow: hidden;
+}
+
+/*Resume样式表*/
+.resumebox {
+    width: 100%;
+    height: auto;
+    padding: 5px 0;
+    display: block;
+    overflow: hidden;
+    background: #F5F6F7;
+    border-bottom: 1px solid #e1e1e1;
+    font-size: 15px;
+}
+.resumebox .resume {
+    float: left;
+}
+.resumebox .resume span.title {
+    font-weight: 600;
+}
+.resumebox .resume span.content {
+    margin-right: 15px;
+}
+.resumebox .resume .progress {
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+.resumebox .resume .progress .progress-bar {
+    background: #CB1C1D;
+}
+.resumebox .resume-testing .progress .progress-bar {
+    background: #348fe2;
+}
+.resumebox .resume-work .progress .progress-bar {
+    background: #ec971f;
+}
+
+/*resumenav样式*/
+.resumenav {
+    display: block;
+    overflow: hidden;
+}
+.resumenav ul {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+.resumenav ul li {
+    float: left;
+    display: block;
+    overflow: hidden;
+}
+.resumenav ul li a {
+    display: block;
+    overflow: hidden;
+    float: left;
+    width: auto;
+    height: auto;
+    font-size: 13px;
+    text-align: center;
+    margin-left: 5px;
+    padding: 5px 10px;
+    color: #88673e;
+}
+.resumenav ul li a:hover {
+    color: #CB1C1D;
+    background: #E1E1E1;
+    text-decoration: none;
+}
+.resumenav ul li.active a {
+    color: #CB1C1D;
+    background: #E1E1E1;
+    text-decoration: none;
+}
+
+/*datalist样式表*/
+.datalistbox {
+    display: block;
+    overflow: hidden;
+    padding: 10px 5px;
+}
+.datalistbox ul.listbox {
+    display: block;
+    overflow: hidden;
+    margin-left: 0;
+    padding-left: 0;
+}
+.datalistbox ul.listbox li {
+    display: block;
+    overflow: hidden;
+    padding: 25px 0;
+    border-bottom: 1px dashed #E1E1E1;
+}
+.datalistbox ul.listbox li a:hover {
+    color: #CB1C1D;
+}
+.datalistbox ul.listbox li a.btn-red:hover {
+    color: #FFFFFF;
+}
+.datalistbox ul.listbox li .img-logo {
+    float: left;
+    padding-left: 15px;
+}
+.datalistbox ul.listbox li .cont {
+    float: left;
+    margin-left: 30px;
+}
+.datalistbox ul.listbox li .cont a.title {
+    display: block;
+    font-size: 21px;
+    width: 470px;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.datalistbox ul.listbox li .cont .course_s_icon {
+    margin-top: 5px;
+}
+.datalistbox ul.listbox li .cont .tongji {
+    display: block;
+    float: right;
+    margin-top: 10px;
+    position: relative;
+    font-size: 14px;
+}
+.datalistbox ul.listbox li .ops {
+    float: right;
+    padding: 9px 15px;
+    padding-left: 0;
+    width: 230px;
+}
+.datalistbox ul.listbox li .ops a.btn-study {
+    width: 100%;
+    font-size: 14px;
+    border-radius: 1px;
+}
+.datalistbox ul.listbox li .ops p {
+    text-align: center;
+    padding: 15px 0 5px 0;
+    margin-bottom: 0;
+}
+.datalistbox ul.listbox li .ops p a {
+    margin: 0 10px;
+    color: #CB1C1D;
+    font-size: 14px;
+    text-decoration: underline;
+}
+.datalistbox ul.listbox li .ops p a.disabled {
+    color: #A1A1A1;
+}
+
+/*profile page*/
+.dataprofilebox {
+    display: block;
+    overflow: hidden;
+    padding: 5px;
+}
+.dataprofilebox .errormsg {
+    font-size: 27px;
+    font-weight: 700;
+    color: #cb1c1d;
+    min-height: 550px;
+    line-height: 300px;
+}
+.dataprofilebox .dataprofiletitle {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F1F1F1;
+}
+.dataprofilebox .dataprofiletitle h2 {
+    font-size: 23px;
+    padding-bottom: 5px;
+}
+.dataprofilebox .dataprofiletitle h2 a.wlink {
+    color: #333333;
+}
+.dataprofilebox .dataprofiletitle h2 a.wlink:hover {
+    color: #cb1c1d;
+}
+.dataprofilebox .dataprofiletitle h5 {
+    color: #999999;
+    margin: 5px 0;
+    font-size: 13px;
+}
+.dataprofilebox .dataprofiletitle a.helppdf {
+    position: absolute;
+    margin-top: -5px;
+    margin-left: 275px;
+}
+.dataprofilebox .dataprofiletitle span.score {
+    display: inline-block;
+    position: absolute;
+    margin-top: -15px;
+    margin-left: 237px;
+    font-size: 45px;
+    color: #CB1C1D;
+}
+.dataprofilebox .dataprofilecont {
+    color: #333333;
+    font-size: 14px;
+    font-family: "宋体,Arial Narrow,arial,serif";
+    padding-top: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #F1F1F1;
+}
+.dataprofilebox .dataprofilecont .coursevideo {
+    padding-bottom: 30px;
+}
+.dataprofilebox .dataprofilecont .coursefunc {
+    padding: 15px 0;
+    border-top: 1px dashed #F1F1F1;
+}
+.dataprofilebox .dataprofilecont .coursefunc p {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.dataprofilebox .dataprofilelinks {
+    font-size: 14px;
+    padding-top: 20px;
+}
+
+/*testing profile*/
+.dataprofilebox .dataprofilecont {
+    display: block;
+    overflow: hidden;
+    padding: 15px 10px;
+}
+.dataprofilebox .dataprofilecont img {
+    width: 100%;
+    max-width: 100%;
+}
+.dataprofilebox .dataprofilecont ul.exambox {
+    display: block;
+    overflow: hidden;
+}
+.dataprofilebox .dataprofilecont ul.exambox li {
+    display: block;
+    overflow: hidden;
+    padding: 20px 0;
+    border-bottom: 1px dashed #E1E1E1;
+    color: #333333;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .examsubject {
+    float: left;
+    width: 750px;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .examresult {
+    float: right;
+    width: 135px;
+    margin-top: 30px;
+    text-align: center;
+}
+.dataprofilebox .dataprofilecont ul.exambox li p.question {
+    font-size: 17px;
+    font-weight: 700;
+}
+.dataprofilebox .dataprofilecont ul.exambox li p.question span.no {
+    padding-right: 10px;
+}
+.dataprofilebox .dataprofilecont ul.exambox li p.question span.examtype {
+    float: right;
+    color: #337ab7;
+}
+.dataprofilebox .dataprofilecont ul.exambox li p.question span.myoptions {
+    font-weight: 700;
+    padding: 0 5px;
+}
+.dataprofilebox .dataprofilecont ul.exambox li p.question span.right {
+    color: #5cb85c;
+}
+.dataprofilebox .dataprofilecont ul.exambox li p.question span.wrong {
+    color: #CB1C1D;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .options {
+    display: block;
+    overflow: hidden;
+    margin-top: 5px;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .options .option {
+    font-size: 16px;
+    padding: 5px 12px;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .options .option label {
+    color: #333333;
+    margin-bottom: 0;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .options .option span.optiont {
+    padding-right: 5px;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .options .right span {
+    font-weight: 700;
+    color: #5cb85c;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .options .wrong span {
+    font-weight: 700;
+    color: #CB1C1D;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .answer {
+    font-size: 16px;
+    font-weight: 700;
+    color: #5cb85c;
+    padding-top: 10px;
+    margin-bottom: 0;
+}
+.dataprofilebox .dataprofilecont .examinfo {
+    display: block;
+    overflow: hidden;
+    margin-top: 30px;
+}
+.dataprofilebox .dataprofilecont .examinfo .info {
+    font-size: 15px;
+}
+
+/*arclist样式表*/
+.arclist {
+    display: block;
+    overflow: hidden;
+}
+.arclist li {
+    display: block;
+    overflow: hidden;
+    width: auto;
+    height: auto;
+    padding: 15px 0;
+    border-bottom: 1px dashed #D1D1D1;
+}
+.arclist li .time {
+    float: left;
+    display: block;
+    overflow: hidden;
+    /*width: 60px;*/
+    height: auto;
+    text-align: center;
+    padding-top: 3px;
+    background: #F5F6F7;
+}
+.arclist li .time p.y {
+    font-size: 23px;
+    color: #CB1C1D;
+    margin-bottom: 3px;
+}
+.arclist li .time p.md {
+    font-size: 15px;
+    color: #CB1C1D;
+    margin-bottom: 5px;
+}
+.arclist li .cont {
+    float: left;
+    display: block;
+    overflow: hidden;
+    padding-left: 5px;
+}
+.arclist li .cont .title {
+    font-size: 13px;
+    margin-bottom: 5px;
+    padding-left: 23px;
+    background: url("../images/icon_flag.gif") no-repeat 3px 3px;
+}
+.arclist li .cont .title a {
+    display: block;
+    height: 19px;
+    line-height: 19px;
+    overflow: hidden;
+}
+.arclist li .cont .desc {
+    font-size: 13px;
+    text-indent: 26px;
+    height: 36px;
+    overflow: hidden;
+}
+
+/*pagination样式表*/
+.pagination {
+    float: right;
+}
+.pagination > li > a {
+    border-radius: 1px !important;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background: #CB1C1D none repeat scroll 0 0 !important;
+    border-color: #CB1C1D !important;
+}
+.pager li > a, .pager li > span, .pagination > li > a {
+    border-color: #E1E1E1;
+}
+.pager li > a:hover, 
+.pager li > a:focus, 
+.pager li > span:hover,
+.pager li > span:focus,
+.pagination > li > a:hover,
+.pagination > li > a:focus {
+    color: #CB1C1D;
+    background: #F1F1F1;
+    border-color: #CB1C1D;
+}
