@@ -22,7 +22,7 @@ class ArticleController extends BaseController
     {
         $this->_setLocation();
 
-        $this->_CKWXUserLogon();
+        // $this->_CKWXUserLogon();
 
         $this->news();
     }
@@ -38,7 +38,7 @@ class ArticleController extends BaseController
     //新闻
     public function news()
     {
-        $this->_CKWXUserLogon();
+        // $this->_CKWXUserLogon();
 
         $this->assign("resumenavflag", "news");
 
@@ -80,7 +80,7 @@ class ArticleController extends BaseController
     //公告
     public function notice()
     {
-        $this->_CKWXUserLogon();
+        // $this->_CKWXUserLogon();
         
         $this->assign("resumenavflag", "notice");
         

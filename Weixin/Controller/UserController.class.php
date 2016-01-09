@@ -124,7 +124,7 @@ class UserController extends BaseController
         $this->_CKGotoHome();
 
         //检查是否已记录过微信用户openid
-        $this->_CKWXUser();
+        // $this->_CKWXUser();
 
         $this->display();
     }
@@ -143,8 +143,8 @@ class UserController extends BaseController
             $this->ajaxReturn(1, '账号或密码错误！');
         }
 
-        $WXUserBase = session('WXUserBase');
-        $userInfo['openid'] = $WXUserBase['openid'];
+        // $WXUserBase = session('WXUserBase');
+        // $userInfo['openid'] = $WXUserBase['openid'];
         $location = $this->_loginSuccess($userInfo);
 
         $this->ajaxReturn(0, '登录成功！', array(
@@ -156,7 +156,7 @@ class UserController extends BaseController
     private function _loginSuccess($userInfo=array())
     {
         $sessionUserInfo = array(
-            'openid'   => $userInfo['openid'],
+            // 'openid'   => $userInfo['openid'],
             'userid'   => $userInfo['userid'],
             'account'  => $userInfo['account'],
             'username' => $userInfo['username'],
@@ -164,7 +164,7 @@ class UserController extends BaseController
         $this->_GSUserinfo($sessionUserInfo);
 
         //关联WX_USER表并设置自动登录
-        D('User')->linkWXUser($sessionUserInfo['openid'], $sessionUserInfo['userid']);
+        // D('User')->linkWXUser($sessionUserInfo['openid'], $sessionUserInfo['userid']);
 
         $location = session('location');
         !$location ? $location = __APP__.'?s=Index/index' : null;
@@ -180,7 +180,7 @@ class UserController extends BaseController
     public function logout()
     {
         //注销微信用户自动登录
-        D('User')->WXUserAutoLoginDisabled($this->userinfo['openid']);
+        // D('User')->WXUserAutoLoginDisabled($this->userinfo['openid']);
         //注销登录用户信息
         $this->_USUserinfo();
 

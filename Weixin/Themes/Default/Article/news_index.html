@@ -19,7 +19,7 @@
                     <p class="title">
                         <a href="{$ANY.__APP__}?s=Article/news&arcid={$d.arcid}" title="{$d.title}">{$d.title}</a>
                     </p>
-                    <div class="desc">{$d.content|html_entity_decode|htmlSubString:100}</div>
+                    <div class="desc">{$d.content|html_entity_decode|htmlSubString:85}</div>
                 </div>
             </li>
             {/foreach}
