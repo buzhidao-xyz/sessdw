@@ -243,7 +243,8 @@ a:hover {
     border-bottom: 1px solid #F1F1F1;
 }
 .dataprofilebox .dataprofiletitle h2 {
-    font-size: 23px;
+    font-size: 21px;
+    padding: 0 10px;
     padding-bottom: 5px;
 }
 .dataprofilebox .dataprofiletitle h2 a.wlink {
@@ -276,7 +277,6 @@ a:hover {
     font-family: "宋体,Arial Narrow,arial,serif";
     padding-top: 30px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #F1F1F1;
 }
 .dataprofilebox .dataprofilecont .coursevideo {
     padding-bottom: 30px;
