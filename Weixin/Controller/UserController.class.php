@@ -110,7 +110,7 @@ class UserController extends BaseController
             'avatar'     => $WXUserInfo['avatar'],
             'privilege'  => $WXUserInfo['privilege'],
             'unionid'    => $WXUserInfo['unionid'],
-            'createtime' => date('Y-m-d H:i:s', TIMESTAMP),
+            'createtime' => TIMESTAMP,
             'userid'     => '',
             'autologin'  => 1,
         );

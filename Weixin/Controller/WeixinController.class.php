@@ -50,8 +50,7 @@ class WeixinController extends BaseController
             echo '未知微信公众号！';exit;
         }
 
-        $expiretimestamp = strtotime($ServiceInfo['expiretime']);
-        if (TIMESTAMP < $expiretimestamp) {
+        if (TIMESTAMP < $ServiceInfo['expiretime']) {
             //未过期
             $access_token = $ServiceInfo['accesstoken'];
         } else {
@@ -64,7 +63,7 @@ class WeixinController extends BaseController
             $result_data = $result['data'];
             //存储access_token
             $access_token = $result_data['access_token'];
-            $expiretime = date('Y-m-d H:i:s', TIMESTAMP+$result_data['expires_in']-1800);
+            $expiretime = TIMESTAMP+$result_data['expires_in']-1800;
             D('Weixin')->setServiceAccessTokenByAccount($account, $access_token, $expiretime);
         }
 
