@@ -246,6 +246,7 @@ a:hover {
     font-size: 21px;
     padding: 0 10px;
     padding-bottom: 5px;
+    margin-top: 10px;
 }
 .dataprofilebox .dataprofiletitle h2 a.wlink {
     color: #333333;
