@@ -3,7 +3,7 @@
     <nav>
         <ul class="pagination pagination-md m-t-0 m-b-0 list-unstyled">
             <li class="enabled"><a href="{$pagination.url}{$pagination.firstpage}">首页</a></li>
-            {if $pagination.prevpage}
+            <!-- {if $pagination.prevpage}
             <li class="previous">
                 <a href="{$pagination.url}{$pagination.prevpage}"><i class="fa fa-arrow-left"></i></a>
             </li>
@@ -11,7 +11,7 @@
             <li class="previous disabled">
                 <a href="javascript:void(0);"><i class="fa fa-arrow-left"></i></a>
             </li>
-            {/if}
+            {/if} -->
             {foreach $pagination.listpage as $lpage}
             {if $lpage==$pagination.curtpage}
             <li class="active"><a href="javascript:;">{$lpage}</a></li>
@@ -19,7 +19,7 @@
             <li><a href="{$pagination.url}{$lpage}">{$lpage}</a></li>
             {/if}
             {/foreach}
-            {if $pagination.nextpage}
+            <!-- {if $pagination.nextpage}
             <li class="next">
                 <a href="{$pagination.url}{$pagination.nextpage}"><i class="fa fa-arrow-right"></i></a>
             </li>
@@ -27,7 +27,7 @@
             <li class="next disabled">
                 <a href="javascript:void(0);"><i class="fa fa-arrow-right"></i></a>
             </li>
-            {/if}
+            {/if} -->
             <li class="enabled"><a href="{$pagination.url}{$pagination.lastpage}">末页</a></li>
         </ul>
     </nav>
