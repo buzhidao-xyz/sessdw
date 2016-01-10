@@ -1,0 +1,63 @@
+{include file="Common/head.html"}
+
+{include file="Public/header.html"}
+
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin resumebox -->
+    <div id="ResumeBox" class="resumebox">
+        <div class="resume">
+            <span class="cont">已学习 <font color="#CB1C1D">17</font> 课</span>
+            <span class="cont">未学习 <font color="#CB1C1D">3</font> 课</span>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">已学习60%</div>
+            </div>
+        </div>
+
+        <div class="resumenav m-t-5">
+            <ul id="listnav" class="list-unstyled">
+                {foreach $courseclass as $class}
+                <li class="item {if isset($classid)&&$classid==$class.id}active{/if}"><a href="{$ANY.__APP__}?s=Course/index&classid={$class.id}">{$class.name}</a></li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+
+    <!-- begin dataprofilebox -->
+    <div class="dataprofilebox coursebox maincontbox">
+        {if isset($errormsg)&&$errormsg}
+        <div class="errormsg text-center">{$errormsg}</div>
+        {else}
+        {if isset($courseinfo)&&is_array($courseinfo)&&!empty($courseinfo)}
+        <div class="dataprofiletitle text-center">
+            <h2>{$courseinfo.title}</h2>
+            <h5>{'Y年m月d日 h:i'|date:{$courseinfo.createtime}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浏览次数：{$courseinfo.viewnum}</h5>
+        </div>
+        <div class="dataprofilecont text-center">
+            <!-- course video -->
+            <div id="coursevideo" class="coursevideo" courseid="{$courseinfo.courseid}" videoimg="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videoimg}" videofile="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videopath}" coursesign="{$coursesign}"></div>
+            <script type="text/javascript" src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ckplayer/ckplayer.js" charset="utf-8"></script>
+            <script src="{$SERVER.HOST.JS_SERVER}Themes/Default/Assets/js/ckplayer.class.js"></script>
+            
+            <!-- coursefunc -->
+            <div class="coursefunc row">
+                <div class="col-xs-6">
+                    <p><a href="javascript:;" id="ExamBtn" class="btn btn-block btn-info"> 复习资料 </a></p>
+                </div>
+                <div class="col-xs-6">
+                    {if $courseinfo.status==1}
+                    <p><a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}" id="ExamBtn" class="btn btn-block btn-red"> 随堂测评 </a></p>
+                    {else if $courseinfo.status==2}
+                    <p><a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}" id="ExamBtn" class="btn btn-block btn-red"> 查看成绩 </a></p>
+                    {else}
+                    <p><a href="javascript:;" id="ExamBtn" class="btn btn-block btn-red disabled"> 随堂测评 </a></p>
+                    {/if}
+                </div>
+            </div>
+        </div>
+        {/if}
+        {/if}
+    </div>
+</div>
+<!-- end #content -->
+{include file="Common/foot.html"}

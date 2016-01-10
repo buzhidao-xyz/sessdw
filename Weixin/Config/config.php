@@ -33,6 +33,8 @@ return array(
 	'LOAD_EXT_CONFIG' => array(
 		//支付配置
 		// 'PAY'   => 'pay.config',
+		//党员配置
+		'USER' => 'user.config',
 		//微信接口配置信息
 		'WX'   => 'wx.config',
 	),

@@ -38,8 +38,6 @@ a:hover {
     border-color: #CB1C1D;
     color: #fff;
     border-radius: 0;
-    font-size: 18px;
-    line-height: 23px;
 }
 .btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red.active, .open .dropdown-toggle.btn-red {
     background: #a71011 none repeat scroll 0 0;
@@ -47,13 +45,9 @@ a:hover {
 }
 .btn.btn-info {
     border-radius: 0;
-    font-size: 18px;
-    line-height: 23px;
 }
 .btn.btn-primary {
     border-radius: 0;
-    font-size: 18px;
-    line-height: 23px;
 }
 
 .form-control:focus {
@@ -66,7 +60,7 @@ a:hover {
     padding: 0;
     display: block;
     overflow: hidden;
-    min-height: 438px;
+    min-height: 453px;
 }
 
 .maincontbox {
@@ -83,23 +77,36 @@ a:hover {
     display: block;
     overflow: hidden;
     background: #F5F6F7;
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 1px solid #E1E1E1;
     font-size: 15px;
 }
 .resumebox .resume {
-    float: left;
+    float: none;
+    display: block;
+    overflow: hidden;
+    padding: 0 10px;
+    font-size: 12px;
+    /*background: #EFEFEF;*/
+    border-bottom: 1px solid #EFEFEF;
 }
 .resumebox .resume span.title {
     font-weight: 600;
+    height: auto;
 }
-.resumebox .resume span.content {
+.resumebox .resume span.cont {
+    height: auto;
+    padding: 3px 0;
     margin-right: 15px;
+    display: inline-block;
 }
 .resumebox .resume .progress {
-    border-radius: 3px;
+    height: 13px;
     margin-bottom: 5px;
+    border-radius: 3px;
 }
 .resumebox .resume .progress .progress-bar {
+    height: 13px;
+    line-height: 13px;
     background: #CB1C1D;
 }
 .resumebox .resume-testing .progress .progress-bar {
@@ -162,7 +169,7 @@ a:hover {
 .datalistbox ul.listbox li {
     display: block;
     overflow: hidden;
-    padding: 25px 0;
+    padding: 10px 0;
     border-bottom: 1px dashed #E1E1E1;
 }
 .datalistbox ul.listbox li a:hover {
@@ -172,42 +179,50 @@ a:hover {
     color: #FFFFFF;
 }
 .datalistbox ul.listbox li .img-logo {
-    float: left;
-    padding-left: 15px;
+    
+}
+.datalistbox ul.listbox li .img-logo img {
+    width: 95%;
+    max-height: 90px;
 }
 .datalistbox ul.listbox li .cont {
-    float: left;
-    margin-left: 30px;
+    float: none;
 }
 .datalistbox ul.listbox li .cont a.title {
     display: block;
-    font-size: 21px;
-    width: 470px;
-    height: 32px;
-    line-height: 32px;
+    font-size: 13px;
+    width: auto;
+    /*height: 15px;
+    line-height: 15px;*/
     overflow: hidden;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
+    text-indent: 10px;
+    background: url("../images/icon_arrow_right.gif") no-repeat left 1px;
+}
+.datalistbox ul.listbox li .cont a.done {
+    color: #CB1C1D;
 }
 .datalistbox ul.listbox li .cont .course_s_icon {
+    height: 23px;
     margin-top: 5px;
 }
 .datalistbox ul.listbox li .cont .tongji {
     display: block;
     float: right;
-    margin-top: 10px;
+    margin-top: 5px;
     position: relative;
-    font-size: 14px;
+    font-size: 12px;
 }
 .datalistbox ul.listbox li .ops {
-    float: right;
-    padding: 9px 15px;
-    padding-left: 0;
-    width: 230px;
+    width: auto;
+    padding: 5px 0px;
+    display: block;
+    overflow: hidden;
 }
 .datalistbox ul.listbox li .ops a.btn-study {
     width: 100%;
-    font-size: 14px;
+    padding: 3px 10px;
     border-radius: 1px;
 }
 .datalistbox ul.listbox li .ops p {
@@ -218,7 +233,6 @@ a:hover {
 .datalistbox ul.listbox li .ops p a {
     margin: 0 10px;
     color: #CB1C1D;
-    font-size: 14px;
     text-decoration: underline;
 }
 .datalistbox ul.listbox li .ops p a.disabled {
@@ -239,11 +253,11 @@ a:hover {
     line-height: 300px;
 }
 .dataprofilebox .dataprofiletitle {
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     border-bottom: 1px solid #F1F1F1;
 }
 .dataprofilebox .dataprofiletitle h2 {
-    font-size: 21px;
+    font-size: 19px;
     padding: 0 10px;
     padding-bottom: 5px;
     margin-top: 10px;
@@ -257,7 +271,7 @@ a:hover {
 .dataprofilebox .dataprofiletitle h5 {
     color: #999999;
     margin: 5px 0;
-    font-size: 13px;
+    font-size: 12px;
 }
 .dataprofilebox .dataprofiletitle a.helppdf {
     position: absolute;
@@ -280,7 +294,7 @@ a:hover {
     padding-bottom: 30px;
 }
 .dataprofilebox .dataprofilecont .coursevideo {
-    padding-bottom: 30px;
+    padding-bottom: 0px;
 }
 .dataprofilebox .dataprofilecont .coursefunc {
     padding: 15px 0;
@@ -312,13 +326,13 @@ a:hover {
 .dataprofilebox .dataprofilecont ul.exambox li {
     display: block;
     overflow: hidden;
-    padding: 20px 0;
+    padding: 10px 0;
     border-bottom: 1px dashed #E1E1E1;
     color: #333333;
 }
 .dataprofilebox .dataprofilecont ul.exambox li .examsubject {
     float: left;
-    width: 750px;
+    width: auto;
 }
 .dataprofilebox .dataprofilecont ul.exambox li .examresult {
     float: right;
@@ -327,8 +341,9 @@ a:hover {
     text-align: center;
 }
 .dataprofilebox .dataprofilecont ul.exambox li p.question {
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 700;
+    margin-bottom: 5px;
 }
 .dataprofilebox .dataprofilecont ul.exambox li p.question span.no {
     padding-right: 10px;
@@ -353,8 +368,8 @@ a:hover {
     margin-top: 5px;
 }
 .dataprofilebox .dataprofilecont ul.exambox li .options .option {
-    font-size: 16px;
-    padding: 5px 12px;
+    font-size: 13px;
+    padding: 0px 10px;
 }
 .dataprofilebox .dataprofilecont ul.exambox li .options .option label {
     color: #333333;
@@ -378,10 +393,28 @@ a:hover {
     padding-top: 10px;
     margin-bottom: 0;
 }
+.dataprofilebox .dataprofilecont ul.exambox li .resultinfo {
+    padding: 0;
+    padding-top: 5px;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .resultinfo .myoptions {
+    font-size: 13px;
+    font-weight: 700;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .resultinfo .right {
+    color: #5cb85c;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .resultinfo .wrong {
+    color: #CB1C1D;
+}
+.dataprofilebox .dataprofilecont ul.exambox li .resultinfo img {
+    width: 16px;
+    height: 16px;
+}
 .dataprofilebox .dataprofilecont .examinfo {
     display: block;
     overflow: hidden;
-    margin-top: 30px;
+    margin-top: 0px;
 }
 .dataprofilebox .dataprofilecont .examinfo .info {
     font-size: 15px;

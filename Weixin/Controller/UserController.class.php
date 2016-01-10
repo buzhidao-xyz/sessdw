@@ -130,7 +130,7 @@ class UserController extends BaseController
     }
 
     //执行登录检查逻辑
-    public function loginck()
+    public function logincheck()
     {
         $this->_CKGotoHome();
 
@@ -185,5 +185,13 @@ class UserController extends BaseController
         $this->_USUserinfo();
 
         $this->_gotoLogin();
+    }
+
+    //个人中心
+    public function home()
+    {
+        $this->_CKUserLogon();
+        
+        $this->display();
     }
 }

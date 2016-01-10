@@ -43,6 +43,9 @@ class BaseController extends Controller
 
         //输出导航栏目navflag标识
         $this->assign('navflag', $this->navflag);
+
+        //记录location
+        $this->_setLocation();
     }
 
     /**
@@ -409,7 +412,7 @@ class BaseController extends Controller
     //记录location
     protected function _setLocation()
     {
-        session('location', 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].'?s='.CONTROLLER_NAME.'/'.ACTION_NAME);
+        session('location', 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING']);
     }
 
     //数据列表添加索引 二维数组
