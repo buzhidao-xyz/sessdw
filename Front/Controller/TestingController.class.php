@@ -71,7 +71,7 @@ class TestingController extends CommonController
     //随堂测评 试卷页
     public function exam()
     {
-        $courseid = $this->_getClassid();
+        $courseid = $this->_getCourseid();
         $testingid = $this->_getTestingid();
 
         $testinginfo = D('Testing')->getTestingByID($courseid, $testingid);
@@ -184,11 +184,13 @@ class TestingController extends CommonController
     {
         $userid = $this->userinfo['userid'];
 
+        $courseid = $this->_getCourseid();
         $testingid = $this->_getTestingid();
-        $testinginfo = D('Testing')->getTestingByID(null, $testingid);
+        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid);
 
         if (!is_array($testinginfo) || empty($testinginfo) || !$testinginfo['utstatus']) $this->_gotoIndex();
 
+        $testingid = $testinginfo['testingid'];
         //获取用户做的试卷答案
         $usertestingresult = M('user_testing_result')->where(array('userid'=>$userid,'testingid'=>$testingid))->select();
         foreach ($testinginfo['exams'] as $k=>$exam) {
