@@ -14,13 +14,7 @@
             </div>
         </div>
 
-        <div class="resumenav m-t-5">
-            <ul id="listnav" class="list-unstyled">
-                {foreach $courseclass as $class}
-                <li class="item {if isset($classid)&&$classid==$class.id}active{/if}"><a href="{$ANY.__APP__}?s=Course/index&classid={$class.id}">{$class.name}</a></li>
-                {/foreach}
-            </ul>
-        </div>
+        {include file="Public/resumenav_course.html"}
     </div>
 
     <!-- begin datalistbox -->

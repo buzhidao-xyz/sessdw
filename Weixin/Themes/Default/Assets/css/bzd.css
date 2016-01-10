@@ -135,12 +135,12 @@ a:hover {
     display: block;
     overflow: hidden;
     float: left;
-    width: auto;
+    width: 100%;
     height: auto;
     font-size: 13px;
     text-align: center;
-    margin-left: 5px;
-    padding: 5px 10px;
+    /*margin-left: 5px;*/
+    padding: 5px 7px;
     color: #88673e;
 }
 .resumenav ul li a:hover {

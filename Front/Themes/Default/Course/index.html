@@ -39,48 +39,6 @@
 
         <!-- listbox -->
         <ul class="listbox">
-            <!-- <li>
-                <div class="img-logo">
-                    <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_list_img.png" class="img-responsive img-rounded center-block">
-                </div>
-                <div class="cont">
-                    <a href="{$ANY.__APP__}?s=Course/profile" title="第一课：全面深化三星党建模式 从最基层努力实现中国梦" class="title">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                    <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_s_done_icon.png" class="course_s_icon">
-                    <span class="tongji">已有 <font color="#CB1C1D" size="5">175</font> 位党员参加学习</span>
-                </div>
-                <div class="ops">
-                    <a href="javascript:;" class="btn btn-default btn-study disabled">已学习</a>
-                    <p><a href="javascript:;">再次学习</a><a href="javascript:;" class="disabled" disabled>随堂测评已完成</a></p>
-                </div>
-            </li>
-            <li>
-                <div class="img-logo">
-                    <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_list_img.png" class="img-responsive img-rounded center-block">
-                </div>
-                <div class="cont">
-                    <a href="{$ANY.__APP__}?s=Course/profile" title="第一课：全面深化三星党建模式 从最基层努力实现中国梦" class="title">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                    <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_s_done_icon.png" class="course_s_icon">
-                    <span class="tongji">已有 <font color="#CB1C1D" size="5">175</font> 位党员参加学习</span>
-                </div>
-                <div class="ops">
-                    <a href="javascript:;" class="btn btn-default btn-study disabled">已学习</a>
-                    <p><a href="javascript:;">再次学习</a><a href="javascript:;">完成随堂测评</a></p>
-                </div>
-            </li>
-            <li>
-                <div class="img-logo">
-                    <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_list_img.png" class="img-responsive img-rounded center-block">
-                </div>
-                <div class="cont">
-                    <a href="{$ANY.__APP__}?s=Course/profile" title="第一课：全面深化三星党建模式 从最基层努力实现中国梦" class="title">第一课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                    <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_s_none_icon.png" class="course_s_icon">
-                    <span class="tongji">已有 <font color="#CB1C1D" size="5">175</font> 位党员参加学习</span>
-                </div>
-                <div class="ops">
-                    <a href="{$ANY.__APP__}?s=Course/profile" class="btn btn-default btn-study btn-red">马上去学习</a>
-                    <p><a href="javascript:;">完成随堂测评</a></p>
-                </div>
-            </li> -->
             {if isset($courselist)&&is_array($courselist)&&!empty($courselist)}
             {foreach $courselist as $courseinfo}
             <li>
@@ -112,7 +70,7 @@
                         <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}">完成随堂测评</a>
                         {else if $courseinfo.status==2}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}">再次学习</a>
-                        <a href="javascript:;" class="disabled" disabled>随堂测评已完成</a>
+                        <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}" class="" style="color: #337ab7;">随堂测评成绩</a>
                         {else}
                         <a href="javascript:;" class="disabled" disabled>完成随堂测评</a>
                         {/if}

@@ -45,7 +45,13 @@
                     <p><a href="javascript:;" id="ExamBtn" class="btn btn-info"> 下载课程复习资料 </a></p>
                 </div>
                 <div class="col-xs-6 text-right">
+                    {if $courseinfo.status==1}
+                    <p>课程已学习完成？&nbsp;<a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}" id="ExamBtn" class="btn btn-default btn-red"> 马上进行随堂测评 </a></p>
+                    {else if $courseinfo.status==2}
+                    <p>课程已学习完成？&nbsp;<a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}" id="ExamBtn" class="btn btn-default btn-red"> 查看随堂测评成绩 </a></p>
+                    {else}
                     <p>课程已学习完成？&nbsp;<a href="javascript:;" id="ExamBtn" class="btn btn-red disabled"> 马上进行随堂测评 </a></p>
+                    {/if}
                 </div>
             </div>
         </div>

@@ -36,11 +36,12 @@
                 <li>
                     <div class="examsubject">
                         <p class="question">
-                            <span class="no">{$examinfo.sortno}.</span>{$examinfo.title}<span class="myoptions {if $examinfo.result}right{else}wrong{/if}">{$examinfo.useranswer}</span>
+                            <span class="no">{$examinfo.sortno}.</span>{$examinfo.title}
+                            <!-- <span class="myoptions {if $examinfo.result}right{else}wrong{/if}">{$examinfo.useranswer}</span> -->
                         </p>
                         <div class="options row">
                             {foreach $examinfo.options as $option}
-                            <div class="option col-xs-6 {if strpos($examinfo.useranswer,$option.name)!==false}{if strpos($examinfo.answer,$option.name)!==false}right{else}wrong{/if}{/if}">
+                            <div class="option col-xs-6">
                                 <label>
                                     <span class="optiont">{$option.name}.</span><span class="optionc">{$option.title}</span>
                                 </label>
@@ -51,9 +52,10 @@
                     <div class="examresult">
                         {if $examinfo.result}
                         <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/icon_right.png" class="img-responsive center-block">
+                        <p class="answer">你的答案：{$examinfo.answer}</p>
                         {else}
                         <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/icon_wrong.png" class="img-responsive center-block">
-                        <p class="answer">正确答案：{$examinfo.answer}</p>
+                        <p class="answer" style="color: #CB1C1D;">你的答案：{$examinfo.answer}</p>
                         {/if}
                     </div>
                 </li>

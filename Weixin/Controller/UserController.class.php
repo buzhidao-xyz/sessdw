@@ -195,6 +195,37 @@ class UserController extends BaseController
         //检查登录
         $this->_CKUserLogon();
         
+        $this->assign("resumenavflag", "home");
+
+
+        $this->display();
+    }
+
+    //学习经历
+    public function course()
+    {
+        //记录location
+        $this->_setLocation();
+        //检查登录
+        $this->_CKUserLogon();
+        
+        $this->assign("resumenavflag", "course");
+
+
+        $this->display();
+    }
+
+    //反馈意见
+    public function lvword()
+    {
+        //记录location
+        $this->_setLocation();
+        //检查登录
+        $this->_CKUserLogon();
+        
+        $this->assign("resumenavflag", "lvword");
+
+
         $this->display();
     }
 }
