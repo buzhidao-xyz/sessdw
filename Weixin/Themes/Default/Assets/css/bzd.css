@@ -151,7 +151,7 @@ a:hover {
 .datalistbox {
     display: block;
     overflow: hidden;
-    padding: 10px 5px;
+    padding: 5px;
 }
 .datalistbox ul.listbox {
     display: block;
@@ -397,7 +397,7 @@ a:hover {
     overflow: hidden;
     width: auto;
     height: auto;
-    padding: 12px 0;
+    padding: 10px 0;
     border-bottom: 1px dashed #D1D1D1;
 }
 .arclist li .time {
