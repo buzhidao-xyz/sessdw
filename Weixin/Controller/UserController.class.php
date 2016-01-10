@@ -190,6 +190,9 @@ class UserController extends BaseController
     //个人中心
     public function home()
     {
+        //记录location
+        $this->_setLocation();
+        //检查登录
         $this->_CKUserLogon();
         
         $this->display();

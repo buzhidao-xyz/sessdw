@@ -43,9 +43,6 @@ class BaseController extends Controller
 
         //输出导航栏目navflag标识
         $this->assign('navflag', $this->navflag);
-
-        //记录location
-        $this->_setLocation();
     }
 
     /**

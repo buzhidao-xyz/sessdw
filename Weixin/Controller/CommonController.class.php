@@ -12,6 +12,9 @@ class CommonController extends BaseController
     {
         parent::__construct();
 
+        //记录location
+        $this->_setLocation();
+        
         //检查登录
         $this->_CKUserLogon();
     }
