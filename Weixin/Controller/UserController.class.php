@@ -167,7 +167,7 @@ class UserController extends BaseController
         // D('User')->linkWXUser($sessionUserInfo['openid'], $sessionUserInfo['userid']);
 
         $location = session('location');
-        !$location ? $location = __APP__.'?s=Index/index' : null;
+        !$location ? $location = __APP__.'?s=User/home' : null;
 
         if (IS_AJAX) return $location;
 
@@ -197,6 +197,9 @@ class UserController extends BaseController
         
         $this->assign("resumenavflag", "home");
 
+        $userid = $this->userinfo['userid'];
+        $userinfo = D('User')->getUser($userid);
+        $this->assign('userinfo', $userinfo);
 
         $this->display();
     }
@@ -227,5 +230,56 @@ class UserController extends BaseController
 
 
         $this->display();
+    }
+
+    //修改密码
+    public function chpasswd()
+    {
+        //记录location
+        $this->_setLocation();
+        //检查登录
+        $this->_CKUserLogon();
+        
+        $this->assign("resumenavflag", "home");
+
+        $this->display();
+    }
+
+    //确认修改密码
+    public function chpasswddo()
+    {
+        //检查登录
+        $this->_CKUserLogon();
+
+        $userid = $this->userinfo['userid'];
+        $userinfo = D('User')->getUser($userid);
+
+        //原密码
+        $password0 = mRequest('password0');
+        if (D('User')->passwordEncrypt($password0, $userinfo['ukey']) != $userinfo['password']) {
+            $this->ajaxReturn(1, '原密码错误！');
+        }
+        //新密码
+        $password = mRequest('password');
+        if (!Filter::F_Password($password)) {
+            $this->ajaxReturn(1, "新密码不符合规则！");
+        }
+        $password1 = mRequest('password1');
+        if ($password != $password1) {
+            $this->ajaxReturn(1, "两次密码不一致！");
+        }
+
+        $password = D('User')->passwordEncrypt($password, $userinfo['ukey']);
+        $result = M('user')->where(array('userid'=>$userid))->save(array(
+            'password' => $password,
+            'updatetime' => TIMESTAMP,
+        ));
+        if ($result) {
+            $this->ajaxReturn(0, '密码修改成功！', array(
+                'location' => __APP__.'?s=User/home'
+            ));
+        } else {
+            $this->ajaxReturn(1, '密码修改失败！');
+        }
     }
 }

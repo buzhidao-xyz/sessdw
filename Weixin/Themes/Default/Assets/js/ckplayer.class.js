@@ -58,4 +58,4 @@ var params={
 };
 // CKobject.embedSWF(PUBLIC_SERVER+'plugins/ckplayer/ckplayer.swf','coursevideo','ckplayer_coursevideo','800','450',flashvars,params);
 var video=[videofile];
-CKobject.embed(PUBLIC_SERVER+'plugins/ckplayer/ckplayer.swf','coursevideo','ckplayer_coursevideo','100%','100%',false,flashvars,video,params);
+CKobject.embed(PUBLIC_SERVER+'plugins/ckplayer/ckplayer.swf','coursevideo','ckplayer_coursevideo','100%','100%',true,flashvars,video,params);
