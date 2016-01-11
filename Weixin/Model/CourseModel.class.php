@@ -34,11 +34,11 @@ class CourseModel extends CommonModel
     }
 
     //获取课程详情
-    public function getCourseByID($courseid=null)
+    public function getCourseByID($courseid=null, $userid=null)
     {
         if (!$courseid) return false;
 
-        $datainfo = $this->getCourse($courseid);
+        $datainfo = $this->getCourse($courseid, null, $userid);
         $courseinfo = $datainfo['total'] ? $datainfo['data'][0] : array();
 
         //获取复习资料
@@ -88,14 +88,22 @@ class CourseModel extends CommonModel
         );
     }
 
-    //获取党员已学习的课程 最大的课程id
-    public function getLearnedCourseidMax($userid=null, $classid=null)
+    public function getCLearnCourseid($userid=null, $classid=null)
     {
         if (!$userid || !$classid) return false;
 
         // $result = M('user_course')->where(array('userid'=>$userid, 'status'=>array('in', array(1,2))))->order('courseid desc')->limit(0,1)->find();
-        $result = M('course')->alias('a')->join(' __USER_COURSE__ b on a.courseid=b.courseid and b.userid='.$userid.' and b.status in (1,2) ')->where(array('a.classid'=>$classid))->order('a.courseid desc')->limit(0,1)->find();
+        $learnedcoursemax = M('course')->alias('a')->join(' __USER_COURSE__ b on a.courseid=b.courseid and b.userid='.$userid.' and b.status in (1,2) ')->where(array('a.classid'=>$classid))->order('a.courseid desc')->limit(0,1)->find();
+        $ccourseid = !empty($learnedcoursemax) ? $learnedcoursemax['courseid'] : 0;
 
-        return is_array($result) ? $result : array();
+        $where = array(
+            'a.isshow' => 1,
+            'a.courseid' => array('GT', $ccourseid),
+            'a.classid'  => $classid,
+        );
+        $nextcourseinfo = M('course')->alias('a')->field('a.*, b.status, b.begintime, b.completetime')->join(' LEFT JOIN __USER_COURSE__ b ON a.courseid=b.courseid and b.userid='.$userid)
+                                 ->where($where)->order('a.courseid asc')->limit(0, 1)->find();
+
+        return !empty($nextcourseinfo) ? $nextcourseinfo['courseid'] : 0;
     }
 }

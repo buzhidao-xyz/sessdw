@@ -65,6 +65,8 @@ class TestingController extends CommonController
     //随堂测评 试卷页
     public function exam()
     {
+        $userid = $this->userinfo['userid'];
+
         $classid = $this->_getClassid();
         $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
@@ -72,7 +74,7 @@ class TestingController extends CommonController
         $courseid = $this->_getCourseid();
         $testingid = $this->_getTestingid();
 
-        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid);
+        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid, $userid);
         $this->assign('testinginfo', $testinginfo);
 
         if (!is_array($testinginfo) || empty($testinginfo)) {
@@ -98,7 +100,7 @@ class TestingController extends CommonController
 
         $testingid = $this->_getTestingid();
         $testingid = session('testingid_'.$testingid);
-        $testinginfo = D('Testing')->getTestingByID(null, $testingid);
+        $testinginfo = D('Testing')->getTestingByID(null, $testingid, $userid);
 
         if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) $this->_gotoIndex();
 
@@ -192,7 +194,7 @@ class TestingController extends CommonController
 
         $courseid = $this->_getCourseid();
         $testingid = $this->_getTestingid();
-        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid);
+        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid, $userid);
 
         if (!is_array($testinginfo) || empty($testinginfo) || !$testinginfo['utstatus']) $this->_gotoIndex();
 

@@ -41,11 +41,11 @@ class TestingModel extends CommonModel
     }
 
     //获取试卷信息 通过ID
-    public function getTestingByID($courseid=null, $testingid=null)
+    public function getTestingByID($courseid=null, $testingid=null, $userid=null)
     {
-        if (!$courseid && !$testingid) return false;
+        if (!$courseid && !$testingid && !$userid) return false;
 
-        $testinginfo = $this->getTesting($testingid, $courseid);
+        $testinginfo = $this->getTesting($testingid, $courseid, null, $userid);
         $testinginfo = $testinginfo['total'] ? $testinginfo['data'][0] : array();
         if (!empty($testinginfo)) {
             $testingid = $testinginfo['testingid'];
