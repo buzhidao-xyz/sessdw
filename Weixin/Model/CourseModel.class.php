@@ -104,6 +104,6 @@ class CourseModel extends CommonModel
         $nextcourseinfo = M('course')->alias('a')->field('a.*, b.status, b.begintime, b.completetime')->join(' LEFT JOIN __USER_COURSE__ b ON a.courseid=b.courseid and b.userid='.$userid)
                                  ->where($where)->order('a.courseid asc')->limit(0, 1)->find();
 
-        return !empty($nextcourseinfo) ? $nextcourseinfo['courseid'] : 0;
+        return !empty($nextcourseinfo) ? $nextcourseinfo['courseid'] : ($ccourseid ? $ccourseid : 0);
     }
 }
