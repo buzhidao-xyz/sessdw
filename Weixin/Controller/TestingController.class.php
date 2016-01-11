@@ -166,7 +166,7 @@ class TestingController extends CommonController
             //添加用户测评结果详细信息
             $result2 = M('user_testing_result')->addAll($usertestingresult);
             $result3 = M('user_course')->where(array('userid'=>$userid,'courseid'=>$testinginfo['courseid']))->save(array('status'=>2));
-            if ($result1 && $result2 && $result3) {
+            if ($result && $result1 && $result2 && $result3) {
                 M('testing')->commit();
             } else {
                 M('testing')->rollback();

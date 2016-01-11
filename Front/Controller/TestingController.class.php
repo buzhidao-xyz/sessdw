@@ -72,6 +72,8 @@ class TestingController extends CommonController
     //随堂测评 试卷页
     public function exam()
     {
+        $userid = $this->userinfo['userid'];
+
         $classid = $this->_getClassid();
         $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
@@ -79,7 +81,7 @@ class TestingController extends CommonController
         $courseid = $this->_getCourseid();
         $testingid = $this->_getTestingid();
 
-        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid);
+        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid, $userid);
         $this->assign('testinginfo', $testinginfo);
 
         if (!is_array($testinginfo) || empty($testinginfo)) {
@@ -101,6 +103,8 @@ class TestingController extends CommonController
     //批阅试卷
     public function check()
     {
+        $userid = $this->userinfo['userid'];
+
         $classid = $this->_getClassid();
         $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
@@ -111,8 +115,11 @@ class TestingController extends CommonController
         $testingid = session('testingid_'.$testingid);
         $testinginfo = D('Testing')->getTestingByID(null, $testingid);
 
-        if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) $this->_gotoIndex();
-
+        if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) {
+            header('location:'.__APP__.'?s=Course/index&courseid='.$testinginfo['courseid'].'&classid='.$classid);
+            exit;
+        }
+        
         //获取用户答案
         $exams = mRequest('exams', false);
 
@@ -164,10 +171,14 @@ class TestingController extends CommonController
             
             M('testing')->startTrans();
 
+            //测评完成人数+1
+            $result = M('testing')->where(array('testingid'=>$testingid))->setInc('donenum');
+            //添加用户测评信息
             $result1 = M('user_testing')->add($usertesting);
+            //添加用户测评结果详细信息
             $result2 = M('user_testing_result')->addAll($usertestingresult);
             $result3 = M('user_course')->where(array('userid'=>$userid,'courseid'=>$testinginfo['courseid']))->save(array('status'=>2));
-            if ($result1 && $result2 && $result3) {
+            if ($result && $result1 && $result2 && $result3) {
                 M('testing')->commit();
             } else {
                 M('testing')->rollback();
@@ -199,7 +210,7 @@ class TestingController extends CommonController
 
         $courseid = $this->_getCourseid();
         $testingid = $this->_getTestingid();
-        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid);
+        $testinginfo = D('Testing')->getTestingByID($courseid, $testingid, $userid);
 
         if (!is_array($testinginfo) || empty($testinginfo) || !$testinginfo['utstatus']) $this->_gotoIndex();
 

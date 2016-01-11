@@ -23,6 +23,7 @@ class TestingModel extends CommonModel
         if ($testingid) $where['a.testingid'] = $testingid;
         if ($courseid) $where['a.courseid'] = $courseid;
         if ($classid) $where['b.classid'] = $classid;
+        if ($userid) $where['c.userid'] = $userid;
         $subQuery = M('testing')->alias('a')
                                 ->field('a.*, b.title, b.classid, b.viewnum, b.learnnum, c.status as ucstatus')
                                 ->join('__COURSE__ b on a.courseid=b.courseid')
@@ -42,11 +43,11 @@ class TestingModel extends CommonModel
     }
 
     //获取试卷信息 通过ID
-    public function getTestingByID($courseid=null, $testingid=null)
+    public function getTestingByID($courseid=null, $testingid=null, $userid=null)
     {
         if (!$courseid && !$testingid) return false;
 
-        $testinginfo = $this->getTesting($testingid, $courseid);
+        $testinginfo = $this->getTesting($testingid, $courseid, null, $userid);
         $testinginfo = $testinginfo['total'] ? $testinginfo['data'][0] : array();
         if (!empty($testinginfo)) {
             $testingid = $testinginfo['testingid'];

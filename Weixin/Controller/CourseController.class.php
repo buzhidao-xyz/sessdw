@@ -2,11 +2,15 @@
 /**
  * 在线课程逻辑层
  * buzhidao
+ * 2015-12-08
  */
 namespace Weixin\Controller;
 
 class CourseController extends CommonController
 {
+    //导航栏目navflag标识
+    public $navflag = 'Course';
+
     public function __construct()
     {
         parent::__construct();
@@ -34,6 +38,7 @@ class CourseController extends CommonController
         return $courseid;
     }
 
+    //课程首页
     public function index()
     {
         $userid = $this->userinfo['userid'];

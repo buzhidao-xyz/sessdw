@@ -6,8 +6,6 @@
  */
 namespace Front\Controller;
 
-use Any\Controller;
-
 class CourseController extends CommonController
 {
     //导航栏目navflag标识
@@ -43,6 +41,8 @@ class CourseController extends CommonController
     //课程首页
     public function index()
     {
+        $userid = $this->userinfo['userid'];
+
         $classid = $this->_getClassid();
         $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
@@ -61,12 +61,9 @@ class CourseController extends CommonController
         //解析分页数据
         $this->_mkPagination($total, $param);
 
-        //获取党员已学习的课程 最大的课程id
-        $learnedcoursemax = D('Course')->getLearnedCourseidMax($this->userinfo['userid'], $classid);
-        //获取应该学习的下一课程id
-        $ccourseid = !empty($learnedcoursemax) ? $learnedcoursemax['courseid'] : 0;
-        $courseprevnextinfo = D('Course')->getPrevNextCourse($ccourseid, $classid);
-        $this->assign('clearncourseid', !empty($courseprevnextinfo['next']) ? $courseprevnextinfo['next']['courseid'] : 0);
+        //获取党员当前应该学习的课程id
+        $clearncourseid = D('Course')->getCLearnCourseid($userid, $classid);
+        $this->assign('clearncourseid', $clearncourseid);
 
         $this->display();
     }
@@ -84,13 +81,15 @@ class CourseController extends CommonController
      */
     public function profile()
     {
+        $userid = $this->userinfo['userid'];
+
         $classid = $this->_getClassid();
         $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         $courseid = $this->_getCourseid();
 
-        $courseinfo = D('Course')->getCourseByID($courseid);
+        $courseinfo = D('Course')->getCourseByID($courseid, $userid);
         $this->assign('courseinfo', $courseinfo);
 
         if (!is_array($courseinfo) || empty($courseinfo)) $this->_gotoIndex();
@@ -99,29 +98,33 @@ class CourseController extends CommonController
         $courseprevnextinfo = D('Course')->getPrevNextCourse($courseid, $classid);
         $this->assign('courseprevnextinfo', $courseprevnextinfo);
 
-        //记录开始学习时间
-        if (!$courseinfo['begintime']) {
-            M('user_course')->add(array(
-                'userid'       => $this->userinfo['userid'],
-                'courseid'     => $courseinfo['courseid'],
-                'status'       => 0,
-                'begintime'    => TIMESTAMP,
-                'completetime' => 0,
-            ));
-        }
-
-        //浏览次数加一
-        M('course')->where(array('courseid'=>$courseinfo['courseid']))->save(array('viewnum'=>$courseinfo['viewnum']+1));
+        //获取党员当前应该学习的课程id
+        $clearncourseid = D('Course')->getCLearnCourseid($userid, $classid);
+        $this->assign('clearncourseid', $clearncourseid);
 
         //判断上一课是否已学习 如果未学习 显示去学习的信息
-        if (is_array($courseprevnextinfo['prev'])&&!empty($courseprevnextinfo['prev'])&&!$courseprevnextinfo['prev']['status']) {
+        if ($courseid > $clearncourseid) {
             $this->assign('errormsg', '请先学习上一课程！');
-        }
+        } else {
+            //记录开始学习时间
+            if (!$courseinfo['begintime']) {
+                M('user_course')->add(array(
+                    'userid'       => $this->userinfo['userid'],
+                    'courseid'     => $courseinfo['courseid'],
+                    'status'       => 0,
+                    'begintime'    => TIMESTAMP,
+                    'completetime' => 0,
+                ));
+            }
 
-        //生成coursesign
-        $coursesign = md5($courseinfo['courseid'].TIMESTAMP);
-        session('coursesign_'.$courseinfo['courseid'], $coursesign);
-        $this->assign('coursesign', $coursesign);
+            //浏览次数加一
+            M('course')->where(array('courseid'=>$courseinfo['courseid']))->save(array('viewnum'=>$courseinfo['viewnum']+1));
+
+            //生成coursesign
+            $coursesign = md5($courseinfo['courseid'].TIMESTAMP);
+            session('coursesign_'.$courseinfo['courseid'], $coursesign);
+            $this->assign('coursesign', $coursesign);
+        }
 
         $this->display();
     }
@@ -151,6 +154,7 @@ class CourseController extends CommonController
         if (!$usercourseinfo['status']) {
             M('user_course')->where($where)->save(array(
                 'status' => 1,
+                'completetime' => TIMESTAMP,
             ));
 
             //课程已学习党员数+1
