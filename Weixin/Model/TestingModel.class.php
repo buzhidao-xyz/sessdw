@@ -22,6 +22,7 @@ class TestingModel extends CommonModel
         if ($testingid) $where['a.testingid'] = $testingid;
         if ($courseid) $where['a.courseid'] = $courseid;
         if ($classid) $where['b.classid'] = $classid;
+        if ($userid) $where['c.userid'] = $userid;
         $subQuery = M('testing')->alias('a')
                                 ->field('a.*, b.title, b.classid, b.viewnum, b.learnnum, c.status as ucstatus')
                                 ->join('__COURSE__ b on a.courseid=b.courseid')

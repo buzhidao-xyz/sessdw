@@ -2,6 +2,7 @@
 /**
  * 随堂测评逻辑层
  * buzhidao
+ * 2016-01-11
  */
 namespace Weixin\Controller;
 
@@ -88,7 +89,7 @@ class TestingController extends CommonController
 
         $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $classid);
         $this->assign('testingprevnextinfo', $testingprevnextinfo);
-        
+
         session('testingid_'.$testinginfo['testingid'], $testinginfo['testingid']);
         $this->display();
     }
