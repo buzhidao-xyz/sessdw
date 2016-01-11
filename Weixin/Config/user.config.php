@@ -7,7 +7,7 @@
 return array(
     //课程分类
     'course_class' => array(
-        0 => array('id'=>'', 'name'=>'全部'),
+        // 0 => array('id'=>'', 'name'=>'全部'),
         1 => array('id'=>1, 'name'=>'学党章'),
         2 => array('id'=>2, 'name'=>'学讲话'),
         3 => array('id'=>3, 'name'=>'学条例'),
@@ -22,7 +22,7 @@ return array(
 
     //作业分类
     'work_class' => array(
-        0 => array('id'=>'', 'name'=>'全部作业'),
+        // 0 => array('id'=>'', 'name'=>'全部作业'),
         1 => array('id'=>1, 'name'=>'党建作业'),
         2 => array('id'=>2, 'name'=>'党史作业'),
     ),

@@ -44,6 +44,7 @@ class CourseController extends CommonController
     public function index()
     {
         $classid = $this->_getClassid();
+        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         list($start, $length) = $this->_mkPage();
@@ -61,10 +62,10 @@ class CourseController extends CommonController
         $this->_mkPagination($total, $param);
 
         //获取党员已学习的课程 最大的课程id
-        $learnedcoursemax = D('Course')->getLearnedCourseidMax($this->userinfo['userid']);
+        $learnedcoursemax = D('Course')->getLearnedCourseidMax($this->userinfo['userid'], $classid);
         //获取应该学习的下一课程id
         $ccourseid = !empty($learnedcoursemax) ? $learnedcoursemax['courseid'] : 0;
-        $courseprevnextinfo = D('Course')->getPrevNextCourse($ccourseid);
+        $courseprevnextinfo = D('Course')->getPrevNextCourse($ccourseid, $classid);
         $this->assign('clearncourseid', !empty($courseprevnextinfo['next']) ? $courseprevnextinfo['next']['courseid'] : 0);
 
         $this->display();
@@ -83,6 +84,10 @@ class CourseController extends CommonController
      */
     public function profile()
     {
+        $classid = $this->_getClassid();
+        $classid = !$classid ? 1 : $classid;
+        $this->assign('classid', $classid);
+
         $courseid = $this->_getCourseid();
 
         $courseinfo = D('Course')->getCourseByID($courseid);
@@ -91,7 +96,7 @@ class CourseController extends CommonController
         if (!is_array($courseinfo) || empty($courseinfo)) $this->_gotoIndex();
 
         //获取上一课程、下一课程
-        $courseprevnextinfo = D('Course')->getPrevNextCourse($courseid);
+        $courseprevnextinfo = D('Course')->getPrevNextCourse($courseid, $classid);
         $this->assign('courseprevnextinfo', $courseprevnextinfo);
 
         //记录开始学习时间

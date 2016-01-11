@@ -29,10 +29,10 @@
                 </div> -->
                 <div class="cont">
                     {if $courseinfo.status}
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}" title="{$courseinfo.title}" class="title done">{$courseinfo.title}</a>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" title="{$courseinfo.title}" class="title done">{$courseinfo.title}</a>
                     <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_s_done_icon.png" class="course_s_icon">
                     {else}
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}" title="{$courseinfo.title}" class="title">{$courseinfo.title}</a>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" title="{$courseinfo.title}" class="title">{$courseinfo.title}</a>
                     <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_s_none_icon.png" class="course_s_icon">
                     {/if}
                     <span class="tongji">已有 <font color="#CB1C1D" size="3">{$courseinfo.learnnum}</font> 位党员参加学习</span>
@@ -43,7 +43,7 @@
                         <a href="javascript:;" class="btn btn-default btn-study disabled">已学习</a>
                         {else}
                         {if $courseinfo.courseid==$clearncourseid}
-                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}" class="btn btn-default btn-study btn-red">马上去学习</a>
+                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" class="btn btn-default btn-study btn-red">马上去学习</a>
                         {else}
                         <a href="javascript:;" class="btn btn-default btn-study btn-red disabled" disabled>马上去学习</a>
                         {/if}
@@ -51,9 +51,9 @@
                     </div>
                     <div class="col-xs-6">
                         {if $courseinfo.status==1}
-                        <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}" class="btn btn-block btn-study btn-info">完成随堂测评</a>
+                        <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" class="btn btn-block btn-study btn-info">完成随堂测评</a>
                         {else if $courseinfo.status==2}
-                        <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}" class="btn btn-block btn-study btn-info">查看成绩</a>
+                        <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" class="btn btn-block btn-study btn-info">随堂测评成绩</a>
                         {else}
                         <a href="javascript:;" class="btn btn-block btn-study btn-info disabled" disabled>完成随堂测评</a>
                         {/if}

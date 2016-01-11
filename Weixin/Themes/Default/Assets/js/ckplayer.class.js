@@ -8,6 +8,7 @@
  * @param int courseid 课程id
  * @param string containerid 视频容器ID
  */
+var classid = $("#coursevideo").attr('classid');
 var courseid = $("#coursevideo").attr('courseid');
 var videoimg = $("#coursevideo").attr('videoimg');
 var videofile = $("#coursevideo").attr('videofile');
@@ -32,7 +33,7 @@ function CourseVideoEndedHandler(){
     var url = JS_APP+'?s=Course/scomplete&courseid='+courseid+'&coursesign='+coursesign;
     $.post(url, {}, function (data){
         //开启马上去测评按钮
-        var CourseExamUrl = JS_APP+'?s=Testing/exam&courseid='+courseid;
+        var CourseExamUrl = JS_APP+'?s=Testing/exam&courseid='+courseid+'&classid='+classid;
         $("a#ExamBtn").attr('href', CourseExamUrl).removeClass('disabled');
     }, 'json');
 }

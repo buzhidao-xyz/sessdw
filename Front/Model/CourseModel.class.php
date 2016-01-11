@@ -63,13 +63,14 @@ class CourseModel extends CommonModel
     }
 
     //获取上一课程、下一课程
-    public function getPrevNextCourse($courseid=null)
+    public function getPrevNextCourse($courseid=null, $classid=null)
     {
-        if ($courseid === null) return false;
+        if ($courseid === null || !$classid) return false;
 
         $where = array(
             'a.isshow' => 1,
             'a.courseid' => array('LT', $courseid),
+            'a.classid'  => $classid,
         );
         $prevcourseinfo = M('course')->alias('a')->field('a.*, b.status, b.begintime, b.completetime')->join(' LEFT JOIN __USER_COURSE__ b ON a.courseid=b.courseid ')
                                  ->where($where)->order('a.courseid desc')->limit(0, 1)->find();
@@ -77,6 +78,7 @@ class CourseModel extends CommonModel
         $where = array(
             'a.isshow' => 1,
             'a.courseid' => array('GT', $courseid),
+            'a.classid'  => $classid,
         );
         $nextcourseinfo = M('course')->alias('a')->field('a.*, b.status, b.begintime, b.completetime')->join(' LEFT JOIN __USER_COURSE__ b ON a.courseid=b.courseid ')
                                  ->where($where)->order('a.courseid asc')->limit(0, 1)->find();
@@ -88,11 +90,12 @@ class CourseModel extends CommonModel
     }
 
     //获取党员已学习的课程 最大的课程id
-    public function getLearnedCourseidMax($userid=null)
+    public function getLearnedCourseidMax($userid=null, $classid=null)
     {
-        if (!$userid) return false;
+        if (!$userid || !$classid) return false;
 
-        $result = M('user_course')->where(array('userid'=>$userid, 'status'=>array('in', array(1,2))))->order('courseid desc')->limit(0,1)->find();
+        // $result = M('user_course')->where(array('userid'=>$userid, 'status'=>array('in', array(1,2))))->order('courseid desc')->limit(0,1)->find();
+        $result = M('course')->alias('a')->join(' __USER_COURSE__ b on a.courseid=b.courseid and b.userid='.$userid.' and b.status in (1,2) ')->where(array('a.classid'=>$classid))->order('a.courseid desc')->limit(0,1)->find();
 
         return is_array($result) ? $result : array();
     }

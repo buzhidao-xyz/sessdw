@@ -46,7 +46,7 @@
                     <img src="{$SERVER.HOST.HTTP_HOST}{$courseinfo.showimg}" class="img-responsive img-rounded center-block" style="width: 180px; height: 90px;">
                 </div>
                 <div class="cont">
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}" title="{$courseinfo.title}" class="title">{$courseinfo.title}</a>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" title="{$courseinfo.title}" class="title">{$courseinfo.title}</a>
                     {if $courseinfo.status}
                     <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_s_done_icon.png" class="course_s_icon">
                     {else}
@@ -59,18 +59,18 @@
                     <a href="javascript:;" class="btn btn-default btn-study disabled">已学习</a>
                     {else}
                     {if $courseinfo.courseid==$clearncourseid}
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}" class="btn btn-default btn-study btn-red">马上去学习</a>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" class="btn btn-default btn-study btn-red">马上去学习</a>
                     {else}
                     <a href="javascript:;" class="btn btn-default btn-study btn-red disabled" disabled>马上去学习</a>
                     {/if}
                     {/if}
                     <p>
                         {if $courseinfo.status==1}
-                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}">再次学习</a>
-                        <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}">完成随堂测评</a>
+                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}">再次学习</a>
+                        <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}">完成随堂测评</a>
                         {else if $courseinfo.status==2}
-                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}">再次学习</a>
-                        <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}" class="" style="color: #337ab7;">随堂测评成绩</a>
+                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}">再次学习</a>
+                        <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" class="" style="color: #337ab7;">随堂测评成绩</a>
                         {else}
                         <a href="javascript:;" class="disabled" disabled>完成随堂测评</a>
                         {/if}

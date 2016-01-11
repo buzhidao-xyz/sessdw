@@ -122,14 +122,15 @@ class TestingModel extends CommonModel
     }
 
     //获取上一试卷、下一试卷
-    public function getPrevNextTesting($testingid=null)
+    public function getPrevNextTesting($testingid=null, $classid=null)
     {
-        if ($testingid === null) return false;
+        if ($testingid === null || !$classid) return false;
 
         $where = array(
             'a.status' => 1,
             'a.testingid' => array('LT', $testingid),
             'b.isshow' => 1,
+            'b.classid' => $classid,
         );
         $prevtestinginfo = M('testing')->alias('a')->field('a.*, b.title')->join(' __COURSE__ b ON a.courseid=b.courseid ')
                                       ->where($where)->order('a.testingid desc')->limit(0, 1)->find();
@@ -138,6 +139,7 @@ class TestingModel extends CommonModel
             'a.status' => 1,
             'a.testingid' => array('GT', $testingid),
             'b.isshow' => 1,
+            'b.classid' => $classid,
         );
         $nexttestinginfo = M('testing')->alias('a')->field('a.*, b.title')->join(' __COURSE__ b ON a.courseid=b.courseid ')
                                       ->where($where)->order('a.testingid asc')->limit(0, 1)->find();

@@ -29,7 +29,7 @@
         </div>
         <div class="dataprofilecont text-center">
             <!-- course video -->
-            <div id="coursevideo" class="coursevideo" courseid="{$courseinfo.courseid}" videoimg="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videoimg}" videofile="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videopath}" coursesign="{$coursesign}"></div>
+            <div id="coursevideo" class="coursevideo" classid="{$courseinfo.classid}" courseid="{$courseinfo.courseid}" videoimg="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videoimg}" videofile="{$SERVER.HOST.HTTP_HOST}{$courseinfo.videopath}" coursesign="{$coursesign}"></div>
             <script type="text/javascript" src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ckplayer/ckplayer.js" charset="utf-8"></script>
             <script src="{$SERVER.HOST.JS_SERVER}Themes/Default/Assets/js/ckplayer.class.js"></script>
             
@@ -40,9 +40,9 @@
                 </div>
                 <div class="col-xs-6">
                     {if $courseinfo.status==1}
-                    <p><a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}" id="ExamBtn" class="btn btn-block btn-red"> 随堂测评 </a></p>
+                    <p><a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" id="ExamBtn" class="btn btn-block btn-red"> 随堂测评 </a></p>
                     {else if $courseinfo.status==2}
-                    <p><a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}" id="ExamBtn" class="btn btn-block btn-red"> 查看成绩 </a></p>
+                    <p><a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" id="ExamBtn" class="btn btn-block btn-red"> 查看成绩 </a></p>
                     {else}
                     <p><a href="javascript:;" id="ExamBtn" class="btn btn-block btn-red disabled"> 随堂测评 </a></p>
                     {/if}

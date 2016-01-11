@@ -44,14 +44,14 @@
             <li>
                 <span class="t"><b>测评：</b></span>
                 {if $testinginfo.utstatus}
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}" class="name completed">[已学习]{$testinginfo.title}</a>
+                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="name completed">[已学习]{$testinginfo.title}</a>
                 <span class="completed">已完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}" class="btn btn-primary oplink">查看成绩</a>
+                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="btn btn-primary oplink">查看成绩</a>
                 {else}
                 {if $testinginfo.ucstatus}
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}" class="name">[已学习]{$testinginfo.title}</a>
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="name">[已学习]{$testinginfo.title}</a>
                 <span class="uncompleted">未完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}" class="btn btn-red oplink">开始测评</a>
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="btn btn-red oplink">开始测评</a>
                 {else}
                 <a href="javascript:;" class="name disabled" disabled><font color="#CB1C1D">[未学习]</font>{$testinginfo.title}</a>
                 <span class="uncompleted">未完成</span>

@@ -42,6 +42,7 @@ class TestingController extends CommonController
     public function index()
     {
         $classid = $this->_getClassid();
+        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         list($start, $length) = $this->_mkPage();
@@ -64,6 +65,10 @@ class TestingController extends CommonController
     //随堂测评 试卷页
     public function exam()
     {
+        $classid = $this->_getClassid();
+        $classid = !$classid ? 1 : $classid;
+        $this->assign('classid', $classid);
+
         $courseid = $this->_getCourseid();
         $testingid = $this->_getTestingid();
 
@@ -75,11 +80,11 @@ class TestingController extends CommonController
         } else if (!$testinginfo['ucstatus']) {
             $this->assign('errormsg', '请先学习该课程！');
         } else if ($testinginfo['utstatus']) {
-            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid);
+            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid.'&classid='.$classid);
             exit;
         }
 
-        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid);
+        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $classid);
         $this->assign('testingprevnextinfo', $testingprevnextinfo);
         
         session('testingid_'.$testinginfo['testingid'], $testinginfo['testingid']);
@@ -108,7 +113,7 @@ class TestingController extends CommonController
         $gotscore = 0;
         foreach ($testinginfo['exams'] as $k=>$exam) {
             if (!isset($exams[$exam['examid']])) {
-                header('location:'.__APP__.'?s=Testing/exam&testingid='.$testingid);
+                header('location:'.__APP__.'?s=Testing/exam&testingid='.$testingid.'&classid='.$classid);
                 exit;
             }
 
@@ -161,7 +166,7 @@ class TestingController extends CommonController
                 M('testing')->rollback();
             }
 
-            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid);
+            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid.'&classid='.$classid);
             exit;
         } else {
             //不及格
@@ -179,6 +184,10 @@ class TestingController extends CommonController
     //随堂测评结果页
     public function profile()
     {
+        $classid = $this->_getClassid();
+        $classid = !$classid ? 1 : $classid;
+        $this->assign('classid', $classid);
+
         $userid = $this->userinfo['userid'];
 
         $courseid = $this->_getCourseid();
@@ -200,7 +209,7 @@ class TestingController extends CommonController
         }
         $this->assign('testinginfo', $testinginfo);
 
-        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid);
+        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $classid);
         $this->assign('testingprevnextinfo', $testingprevnextinfo);
         
         $this->display();

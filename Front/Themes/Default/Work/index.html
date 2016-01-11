@@ -53,7 +53,7 @@
                     <div class="clink">对应课程：<a href="javascript:;" target="_blank">第一课、全面深化三星党建模式 从最基层努力实现中国梦</a></div>
                 </div>
                 <div class="ops">
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1" class="btn btn-red">马上去完成</a>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="btn btn-red">马上去完成</a>
                 </div>
                 <div class="markimg_uncomplete"></div>
             </li>
@@ -95,6 +95,28 @@
                 </div>
                 <div class="markimg_complete"></div>
             </li>
+            {if isset($worklist)&&is_array($worklist)&&!empty($worklist)}
+            {foreach $worklist as $workinfo}
+            <li>
+                <div class="no">1</div>
+                <div class="workinfo">
+                    <div class="titlebox clearfix">
+                        <span class="title">全面深化三星党建模式 课外作业</span>
+                        <span class="time">布置时间：2015-12-13</span>
+                    </div>
+                    <div class="desc">全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业</div>
+                    <div class="sinfo">
+                        <span class="catalog">作业类别：<a href="javascript:;">党建作业</a></span>
+                    </div>
+                    <div class="clink">对应课程：<a href="javascript:;" target="_blank">第一课、全面深化三星党建模式 从最基层努力实现中国梦</a></div>
+                </div>
+                <div class="ops">
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="btn btn-red">马上去完成</a>
+                </div>
+                <div class="markimg_uncomplete"></div>
+            </li>
+            {/foreach}
+            {/if}
         </ul>
 
         {include file="Public/pagination.html"}
