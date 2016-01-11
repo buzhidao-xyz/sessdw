@@ -73,7 +73,7 @@
                                 <span class="word m-r-10">{$examinfo.title}</span>
                                 <span class="answer m-l-10">答案：{$examinfo.answer}</span>
                                 <span class="score">
-                                    <input type="text" name="scores[{$examinfo.examid}]" value="10">分
+                                    <input type="text" name="scores[{$examinfo.examid}]" value="{$examinfo.score}">分
                                     <a href="javascript:;" class="exambtndel">[删除]</a>
                                 </span>
                                 <span class="type {$examtype[$examinfo.type]['class']} m-r-10 m-t-2">【{$examtype[$examinfo.type]['name']}】</span>
