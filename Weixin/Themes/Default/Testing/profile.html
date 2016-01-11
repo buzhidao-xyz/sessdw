@@ -46,7 +46,7 @@
                             {/foreach}
                         </div>
                         <div class="resultinfo row">
-                            <div class="col-xs-6 text-left"><span class="myoptions {if $examinfo.result}right{else}wrong{/if}">你的答案：{$examinfo.useranswer}</span></div>
+                            <div class="col-xs-6 text-left"><span class="myoptions {if $examinfo.result}right{else}wrong{/if}">你的答案：{if $examinfo.useranswer}{$examinfo.useranswer}{else}无{/if}</span></div>
                             <div class="col-xs-6 text-right">
                                 {if $examinfo.result}
                                 <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/icon_right.png" class="img-responsive center-block">
