@@ -331,7 +331,7 @@ a:hover {
     color: #333333;
 }
 .dataprofilebox .dataprofilecont ul.exambox li .examsubject {
-    float: left;
+    float: none;
     width: auto;
 }
 .dataprofilebox .dataprofilecont ul.exambox li .examresult {

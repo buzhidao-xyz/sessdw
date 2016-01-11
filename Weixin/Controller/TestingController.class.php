@@ -103,7 +103,10 @@ class TestingController extends CommonController
         $testingid = session('testingid_'.$testingid);
         $testinginfo = D('Testing')->getTestingByID(null, $testingid, $userid);
 
-        if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) $this->_gotoIndex();
+        if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) {
+            header('location:'.__APP__.'?s=Course/index&courseid='.$testinginfo['courseid'].'&classid='.$classid);
+            exit;
+        }
 
         //获取用户答案
         $exams = mRequest('exams', false);
