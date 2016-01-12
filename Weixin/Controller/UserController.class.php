@@ -214,6 +214,17 @@ class UserController extends BaseController
         
         $this->assign("resumenavflag", "course");
 
+        $userid = $this->userinfo['userid'];
+
+        list($start, $length) = $this->_mkPage();
+        $data = D('User')->getUserCourse($userid, null, $start, $length);
+        $total = $data['total'];
+        $usercourselist = $data['data'];
+
+        $this->assign('usercourselist', $usercourselist);
+
+        //解析分页数据
+        $this->_mkPagination($total);
 
         $this->display();
     }

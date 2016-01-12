@@ -20,39 +20,26 @@
         <div class="dataprofilecont">
             <div class="scorebox">-----你的课程测评平均得分：<font color="#CB1C1D">80分</font></div>
             <ul class="coursedlist list-unstyled">
+                {if isset($usercourselist)&&is_array($usercourselist)&&!empty($usercourselist)}
+                {foreach $usercourselist as $usercourseinfo}
                 <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
+                    <p class="time">
+                        <span>- {'Y年m月d日 h:i'|date:{$usercourseinfo.completetime}}</span>
+                        {if $usercourseinfo.status==1}
+                        <span style="float: right; color: #CB1C1D;">[已学习]</span>
+                        {else if $usercourseinfo.status==2}
+                        <span style="float: right; color: #348fe2;">[已测评]</span>
+                        {else}
+                        <span style="float: right; color: #A1A1A1;">[未学习]</span>
+                        {/if}
+                    </p>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$usercourseinfo.courseid}&classid={$usercourseinfo.classid}" class="title">{$usercourseinfo.title}</a>
                 </li>
-                <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                </li>
-                <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                </li>
-                <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                </li>
-                <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                </li>
-                <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                </li>
-                <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                </li>
-                <li>
-                    <p class="time">- 2016-01-11 13:37:05</p>
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="title">第三课：全面深化三星党建模式 从最基层努力实现中国梦</a>
-                </li>
+                {/foreach}
+                {/if}
             </ul>
+
+            {include file="Public/pagination.html"}
         </div>
     </div>
 </div>
@@ -64,19 +51,23 @@
     padding: 0 0 10px 0;
     font-weight: 700;
 }
-ul.coursedlist li {
+ul.coursedlist {
     padding: 5px 0;
     border-left: 1px solid #575757;
-    border-bottom: 1px dashed #EFEFEF;
+}
+ul.coursedlist li {
+    padding: 7px 0;
+    border-bottom: 1px dashed #F1F1F1;
 }
 ul.coursedlist li p.time {
     color: #575757;
+    font-size: 12px;
     margin-bottom: 3px;
 }
 ul.coursedlist li a.title {
     /*color: #CB1C1D;*/
     font-size: 12px;
-    margin-left: 15px;
+    margin-left: 12px;
     display: inline-block;
 }
 </style>

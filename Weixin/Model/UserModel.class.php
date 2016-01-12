@@ -100,4 +100,32 @@ class UserModel extends CommonModel
 
         return $result ? true : false;
     }
+
+    //按照权值计算测评平均得分
+    public function gcUserScore($userid=null, $courseclass=array())
+    {
+        if (!$userid || !is_array($courseclass) || empty($courseclass)) return false;
+
+        //课程试卷完成情况 按权重计算得分
+        foreach ($courseclass as $classinfo) {
+            $coursenum = M('testing')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 and b.classid='.$classid)->where(array('a.status'=>1))->count();
+
+        }
+    }
+
+    //获取用户学习课程的学习经历
+    public function getUserCourse($userid=null, $courseid=null, $start=0, $length=9999)
+    {
+        if (!$userid) return false;
+
+        $where = array(
+            'a.userid' => $userid,
+        );
+        if ($courseid) $where['a.courseid'] = $courseid;
+
+        $total = M('user_course')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 ')->where($where)->count();
+        $result = M('user_course')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 ')->field('a.*, b.title, b.classid')->where($where)->order('a.completetime desc')->limit($start, $length)->select();
+
+        return array('total'=>$total, 'data'=>is_array($result)?$result:array());
+    }
 }
