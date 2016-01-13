@@ -101,15 +101,20 @@ class UserModel extends CommonModel
         return $result ? true : false;
     }
 
-    //按照权值计算测评平均得分
-    public function gcUserScore($userid=null, $courseclass=array())
+    //统计学习课程情况
+    public function gcUserCourseLearn($userid=null, $courseclass=array())
     {
         if (!$userid || !is_array($courseclass) || empty($courseclass)) return false;
 
-        //课程试卷完成情况 按权重计算得分
+        //学习情况
+        $learninfo = array();
+        
+        //课程试卷完成情况 按分类统计
         foreach ($courseclass as $classinfo) {
-            $coursenum = M('testing')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 and b.classid='.$classid)->where(array('a.status'=>1))->count();
-
+            $subquery = M('testing')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 and b.classid='.$classinfo['id'])->field('a.*, b.title, b.classid')->where(array('a.status'=>1))->buildSql();
+            $coursenum = M('testing')->table($subquery.' sub')->count();
+            $totalscore = M('user_testing')->alias('ut')->join(' inner join '.$subquery.' sub on ut.testingid=sub.testingid ')->where(array('ut.userid'=>$userid))->sum('ut.gotscore');
+            // dump($totalscore);exit;
         }
     }
 

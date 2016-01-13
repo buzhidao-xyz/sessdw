@@ -19,6 +19,9 @@ class UserController extends BaseController
     public function __construct()
     {
         parent::__construct();
+
+        $this->_course_class = C('USER.course_class');
+        $this->assign('courseclass', $this->_course_class);
     }
 
     //检测如果已登录 则跳转到home页
@@ -223,6 +226,9 @@ class UserController extends BaseController
 
         $this->assign('usercourselist', $usercourselist);
 
+        //统计课程学习情况
+        $usercourselearninfo = D('User')->gcUserCourseLearn($userid, $this->_course_class);
+        // dump($usercourselearninfo);exit;
         //解析分页数据
         $this->_mkPagination($total);
 
