@@ -207,48 +207,6 @@ class UserController extends BaseController
         $this->display();
     }
 
-    //学习经历
-    public function course()
-    {
-        //记录location
-        $this->_setLocation();
-        //检查登录
-        $this->_CKUserLogon();
-        
-        $this->assign("resumenavflag", "course");
-
-        $userid = $this->userinfo['userid'];
-
-        list($start, $length) = $this->_mkPage();
-        $data = D('User')->getUserCourse($userid, null, $start, $length);
-        $total = $data['total'];
-        $usercourselist = $data['data'];
-
-        $this->assign('usercourselist', $usercourselist);
-
-        //统计课程学习情况
-        $usercourselearninfo = D('User')->gcUserCourseLearn($userid, $this->_course_class);
-        // dump($usercourselearninfo);exit;
-        //解析分页数据
-        $this->_mkPagination($total);
-
-        $this->display();
-    }
-
-    //反馈意见
-    public function lvword()
-    {
-        //记录location
-        $this->_setLocation();
-        //检查登录
-        $this->_CKUserLogon();
-        
-        $this->assign("resumenavflag", "lvword");
-
-
-        $this->display();
-    }
-
     //修改密码
     public function chpasswd()
     {
@@ -297,6 +255,78 @@ class UserController extends BaseController
             ));
         } else {
             $this->ajaxReturn(1, '密码修改失败！');
+        }
+    }
+
+    //学习经历
+    public function course()
+    {
+        //记录location
+        $this->_setLocation();
+        //检查登录
+        $this->_CKUserLogon();
+        
+        $this->assign("resumenavflag", "course");
+
+        $userid = $this->userinfo['userid'];
+
+        list($start, $length) = $this->_mkPage();
+        $data = D('User')->getUserCourse($userid, null, $start, $length);
+        $total = $data['total'];
+        $usercourselist = $data['data'];
+
+        $this->assign('usercourselist', $usercourselist);
+
+        //统计课程学习情况
+        $usercourselearninfo = D('User')->gcUserCourseLearn($userid, $this->_course_class);
+        //统计作业完成情况
+        $userworkfiledinfo = D('User')->getUserWorkFiled($userid, C('USER.work_weight'));
+        $this->assign('usergotscore', $usercourselearninfo['total']['weightscore']+$userworkfiledinfo['weightscore']);
+
+        //解析分页数据
+        $this->_mkPagination($total);
+
+        $this->display();
+    }
+
+    //反馈意见
+    public function lvword()
+    {
+        //记录location
+        $this->_setLocation();
+        //检查登录
+        $this->_CKUserLogon();
+        
+        $this->assign("resumenavflag", "lvword");
+
+        $this->display();
+    }
+
+    //反馈意见-保存
+    public function lvwordsave()
+    {
+        //检查登录
+        $this->_CKUserLogon();
+
+        $userid = $this->userinfo['userid'];
+
+        $title = mRequest('title');
+        if (!$title) $this->ajaxReturn(1, '请填写标题！');
+        $content = mRequest('content');
+        if (!$content) $this->ajaxReturn(1, '请填写内容！');
+
+        $data = array(
+            'userid' => $userid,
+            'title' => $title,
+            'content' => $content,
+            'createtime' => TIMESTAMP,
+            'updatetime' => TIMESTAMP,
+        );
+        $wid = M('lvword')->add($data);
+        if ($wid) {
+            $this->ajaxReturn(0, '提交成功！');
+        } else {
+            $this->ajaxReturn(1, '提交失败！');
         }
     }
 }

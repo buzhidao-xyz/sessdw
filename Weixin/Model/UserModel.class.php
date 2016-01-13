@@ -112,6 +112,8 @@ class UserModel extends CommonModel
             'total' => array(
                 'coursetotalnum' => 0,
                 'courselearnnum' => 0,
+                'coursenonenum'  => 0,
+                'percent'        => 0,
                 'totalscore' => 0,
                 'avgscore' => 0,
                 'weightscore' => 0,
@@ -134,9 +136,13 @@ class UserModel extends CommonModel
             //计算权重分
             $weightscore = floor($avgscore*$classinfo['weight']);
             
+            $coursenonenum = $coursetotalnum-$courselearnnum;
+            $percent = $coursetotalnum>0 ? floor($courselearnnum/$coursetotalnum*100) : 0;
             $usercourselearninfo['listi'][$classinfo['id']] = array(
                 'coursetotalnum' => $coursetotalnum,
                 'courselearnnum' => $courselearnnum,
+                'coursenonenum'  => $coursenonenum,
+                'percent'        => $percent,
                 'totalscore'     => $totalscore,
                 'avgscore'       => $avgscore,
                 'weightscore'    => $weightscore,
@@ -145,12 +151,14 @@ class UserModel extends CommonModel
             //合计 课程数量、总分、权重分
             $usercourselearninfo['total']['coursetotalnum'] += $coursetotalnum;
             $usercourselearninfo['total']['courselearnnum'] += $courselearnnum;
+            $usercourselearninfo['total']['coursenonenum'] += $coursenonenum;
             $usercourselearninfo['total']['totalscore'] += $totalscore;
             $usercourselearninfo['total']['weightscore'] += $weightscore;
         }
 
         //合计 计算平均分
         $usercourselearninfo['total']['avgscore'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['totalscore']/$usercourselearninfo['total']['coursetotalnum']) : 0;
+        $usercourselearninfo['total']['percent'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['courselearnnum']/$usercourselearninfo['total']['coursetotalnum']*100) : 0;
 
         return $usercourselearninfo;
     }
@@ -170,5 +178,36 @@ class UserModel extends CommonModel
         $result = M('user_course')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 ')->field('a.*, b.title, b.classid')->where($where)->order('a.completetime desc')->limit($start, $length)->select();
 
         return array('total'=>$total, 'data'=>is_array($result)?$result:array());
+    }
+
+    //获取用户完成作业情况
+    public function getUserWork($userid=null, $workid=null)
+    {
+        
+    }
+
+    //获取用户上传报告的作业完成情况
+    public function getUserWorkFiled($userid=null, $weight=1)
+    {
+        if (!$userid) return false;
+
+        //上传报告的作业总数
+        $worktotalnum = M('work')->where(array('type'=>2))->count();
+        //已完成的上传报告的作业总数
+        $workdonenum = M('user_work')->alias('a')->join(' __WORK__ b on b.workid=a.workid and b.type=2 ')->where(array('a.status'=>1))->count();
+        //总得分
+        $totalscore = $workdonenum*100;
+        //平均得分
+        $avgscore = $worktotalnum>0 ? floor($totalscore/$worktotalnum) : 0;
+        //权重得分
+        $weightscore = floor($avgscore*$weight);
+
+        return array(
+            'worktotalnum' => $worktotalnum,
+            'workdonenum'  => $workdonenum,
+            'totalscore'   => $totalscore,
+            'avgscore'     => $avgscore,
+            'weightscore'  => $weightscore,
+        );
     }
 }

@@ -18,7 +18,7 @@
     <!-- begin dataprofilebox -->
     <div class="dataprofilebox maincontbox">
         <div class="dataprofilecont">
-            <div class="scorebox">-----你的课程测评平均得分：<font color="#CB1C1D">80分</font></div>
+            <div class="scorebox">-----你的课程测评平均得分：<font color="#CB1C1D">{$usergotscore}分</font></div>
             <ul class="coursedlist list-unstyled">
                 {if isset($usercourselist)&&is_array($usercourselist)&&!empty($usercourselist)}
                 {foreach $usercourselist as $usercourseinfo}
