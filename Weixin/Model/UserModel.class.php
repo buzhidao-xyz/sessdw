@@ -107,7 +107,16 @@ class UserModel extends CommonModel
         if (!$userid || !is_array($courseclass) || empty($courseclass)) return false;
 
         //课程学习情况
-        $usercourselearninfo = array();
+        $usercourselearninfo = array(
+            'listi' => array(),
+            'total' => array(
+                'coursetotalnum' => 0,
+                'courselearnnum' => 0,
+                'totalscore' => 0,
+                'avgscore' => 0,
+                'weightscore' => 0,
+            ),
+        );
         
         //课程试卷完成情况 按分类统计
         foreach ($courseclass as $classinfo) {
@@ -125,17 +134,23 @@ class UserModel extends CommonModel
             //计算权重分
             $weightscore = floor($avgscore*$classinfo['weight']);
             
-            $usercourselearninfo[$classinfo['id']] = array(
+            $usercourselearninfo['listi'][$classinfo['id']] = array(
                 'coursetotalnum' => $coursetotalnum,
                 'courselearnnum' => $courselearnnum,
                 'totalscore'     => $totalscore,
                 'avgscore'       => $avgscore,
                 'weightscore'    => $weightscore,
             );
+
+            //合计 课程数量、总分、权重分
+            $usercourselearninfo['total']['coursetotalnum'] += $coursetotalnum;
+            $usercourselearninfo['total']['courselearnnum'] += $courselearnnum;
+            $usercourselearninfo['total']['totalscore'] += $totalscore;
+            $usercourselearninfo['total']['weightscore'] += $weightscore;
         }
 
-        //合计
-        
+        //合计 计算平均分
+        $usercourselearninfo['total']['avgscore'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['totalscore']/$usercourselearninfo['total']['coursetotalnum']) : 0;
 
         return $usercourselearninfo;
     }
@@ -147,6 +162,7 @@ class UserModel extends CommonModel
 
         $where = array(
             'a.userid' => $userid,
+            'a.status' => array('in', array(1,2)),
         );
         if ($courseid) $where['a.courseid'] = $courseid;
 
