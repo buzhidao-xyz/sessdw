@@ -101,21 +101,43 @@ class UserModel extends CommonModel
         return $result ? true : false;
     }
 
-    //统计学习课程情况
+    //统计课程学习情况
     public function gcUserCourseLearn($userid=null, $courseclass=array())
     {
         if (!$userid || !is_array($courseclass) || empty($courseclass)) return false;
 
-        //学习情况
-        $learninfo = array();
+        //课程学习情况
+        $usercourselearninfo = array();
         
         //课程试卷完成情况 按分类统计
         foreach ($courseclass as $classinfo) {
             $subquery = M('testing')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 and b.classid='.$classinfo['id'])->field('a.*, b.title, b.classid')->where(array('a.status'=>1))->buildSql();
-            $coursenum = M('testing')->table($subquery.' sub')->count();
+            //该分类总课程数
+            $coursetotalnum = M('testing')->table($subquery.' sub')->count();
+            //已学习课程数
+            $courselearnnum = M('user_course')->alias('uc')->join(' inner join '.$subquery.' sub on uc.courseid=sub.courseid ')->where(array('uc.userid'=>$userid, 'uc.status'=>array('in', array(1,2))))->count();
+            //课程测评总得分数
             $totalscore = M('user_testing')->alias('ut')->join(' inner join '.$subquery.' sub on ut.testingid=sub.testingid ')->where(array('ut.userid'=>$userid))->sum('ut.gotscore');
-            // dump($totalscore);exit;
+            $totalscore = $totalscore>0 ? $totalscore : 0;
+
+            //计算该类平均分
+            $avgscore = $coursetotalnum>0 ? floor($totalscore/$coursetotalnum) : 0;
+            //计算权重分
+            $weightscore = floor($avgscore*$classinfo['weight']);
+            
+            $usercourselearninfo[$classinfo['id']] = array(
+                'coursetotalnum' => $coursetotalnum,
+                'courselearnnum' => $courselearnnum,
+                'totalscore'     => $totalscore,
+                'avgscore'       => $avgscore,
+                'weightscore'    => $weightscore,
+            );
         }
+
+        //合计
+        
+
+        return $usercourselearninfo;
     }
 
     //获取用户学习课程的学习经历
