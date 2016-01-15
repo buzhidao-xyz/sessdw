@@ -180,7 +180,7 @@ class UserModel extends CommonModel
         return array('total'=>$total, 'data'=>is_array($result)?$result:array());
     }
 
-    //获取用户完成作业情况
+    //获取用户作业
     public function getUserWork($userid=null, $workid=null)
     {
         
@@ -209,5 +209,51 @@ class UserModel extends CommonModel
             'avgscore'     => $avgscore,
             'weightscore'  => $weightscore,
         );
+    }
+
+    //检查作业完成情况
+    public function ckUserCourseWork($userid=null, $courseid=null)
+    {
+        if (!$userid) return false;
+
+        //查出所有课程作业
+        $where = array(
+            'a.type' => 1
+        );
+        if ($courseid) $where['a.courseid'] = is_array($courseid) ? array('in', $courseid) : $courseid;
+        $workcourse = M('work')->alias('a')->join(' left join __USER_WORK__ b on a.workid=b.workid and b.userid='.$userid.' and b.status=1 ')->field('a.*, b.userid, b.status, b.completetime')->where($where)->select();
+
+        //筛选未完成的课程作业的课程id
+        $courseids = array(0);
+        $courseworkids = array();
+        if (is_array($workcourse) && !empty($workcourse)) {
+            foreach ($workcourse as $workinfo) {
+                if ($workinfo['userid']&&$workinfo['status']) continue;
+
+                $courseids[] = $workinfo['courseid'];
+                $courseworkids[$workinfo['courseid']][] = $workinfo['workid'];
+            }
+        }
+
+        //检查课程是否已完成(已学习并完成测评)
+        $donecourse = M('user_course')->where(array('userid'=>$userid, 'courseid'=>array('in', $courseids), 'status'=>2))->select();
+        if (is_array($donecourse) && !empty($donecourse)) {
+            $data = array();
+            foreach ($donecourse as $courseinfo) {
+                foreach ($courseworkids[$courseinfo['courseid']] as $workid) {
+                    $data[] = array(
+                        'userid' => $userid,
+                        'workid' => $workid,
+                        'status' => 1,
+                        'completetime' => $courseinfo['completetime'],
+                    );
+                }
+            }
+
+            //新增作业完成记录
+            if (!empty($data)) M('user_work')->addAll($data);
+        }
+
+        return true;
     }
 }

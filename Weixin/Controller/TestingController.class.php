@@ -169,12 +169,17 @@ class TestingController extends CommonController
             $result1 = M('user_testing')->add($usertesting);
             //添加用户测评结果详细信息
             $result2 = M('user_testing_result')->addAll($usertestingresult);
+            //更新用户课程学习状态
             $result3 = M('user_course')->where(array('userid'=>$userid,'courseid'=>$testinginfo['courseid']))->save(array('status'=>2));
+            
             if ($result && $result1 && $result2 && $result3) {
                 M('testing')->commit();
             } else {
                 M('testing')->rollback();
             }
+            
+            //更新课程作业完成情况
+            D('User')->ckUserCourseWork($userid, $testinginfo['courseid']);
 
             header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid.'&classid='.$classid);
             exit;

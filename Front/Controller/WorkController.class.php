@@ -41,10 +41,16 @@ class WorkController extends CommonController
     public function index()
     {
         $classid = $this->_getClassid();
+        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
+        $userid = $this->userinfo['userid'];
+
+        //检查作业完成情况
+        D('User')->ckUserCourseWork($userid);
+
         list($start, $length) = $this->_mkPage();
-        $data = D('Work')->getWork(null, $classid, $this->userinfo['userid'], $start, $length);
+        $data = D('Work')->getWork(null, $classid, $userid, $start, $length);
         $total = $data['total'];
         $worklist = $data['data'];
 

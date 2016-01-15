@@ -16,6 +16,8 @@ class WorkModel extends CommonModel
     //获取作业
     public function getWork($workid=null, $classid=null, $userid=null, $start=0, $length=9999)
     {
+        if (!$userid) return false;
+
         $where = array();
         if ($workid) $where['a.workid'] = $workid;
         if ($classid) $where['a.classid'] = $classid;
@@ -30,9 +32,9 @@ class WorkModel extends CommonModel
     }
 
     //获取作业信息 通过ID
-    public function getWorkByID($workid=null)
+    public function getWorkByID($workid=null, $userid=null)
     {
-        if (!$workid) return false;
+        if (!$workid || !$userid) return false;
 
         $workinfo = $this->getWork($workid);
 
