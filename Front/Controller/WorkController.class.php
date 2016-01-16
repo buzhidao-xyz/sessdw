@@ -19,6 +19,9 @@ class WorkController extends CommonController
 
         $this->_work_class = C('USER.work_class');
         $this->assign('workclass', $this->_work_class);
+
+        $this->_work_type = C('USER.work_type');
+        $this->assign('worktype', $this->_work_type);
     }
 
     //获取分类Id

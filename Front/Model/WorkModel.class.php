@@ -23,7 +23,7 @@ class WorkModel extends CommonModel
         if ($classid) $where['a.classid'] = $classid;
 
         $total = M('work')->alias('a')->where($where)->count();
-        $result = M('work')->alias('a')->field('a.*, b.title as coursetitle, c.status, c.completetime')
+        $result = M('work')->alias('a')->field('a.*, b.title as coursetitle, b.classid as courseclass, c.status, c.completetime')
                            ->join(' left join __COURSE__ b on a.courseid=b.courseid ')
                            ->join(' left join __USER_WORK__ c on a.workid=c.workid and c.userid='.$userid)
                            ->where($where)->order('a.createtime desc')->select();

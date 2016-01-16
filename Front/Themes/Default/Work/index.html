@@ -39,81 +39,49 @@
 
         <!-- worklist -->
         <ul class="worklist list-unstyled">
-            <li>
-                <div class="no">1</div>
-                <div class="workinfo">
-                    <div class="titlebox clearfix">
-                        <span class="title">全面深化三星党建模式 课外作业</span>
-                        <span class="time">布置时间：2015-12-13</span>
-                    </div>
-                    <div class="desc">全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业</div>
-                    <div class="sinfo">
-                        <span class="catalog">作业类别：<a href="javascript:;">党建作业</a></span>
-                    </div>
-                    <div class="clink">对应课程：<a href="javascript:;" target="_blank">第一课、全面深化三星党建模式 从最基层努力实现中国梦</a></div>
-                </div>
-                <div class="ops">
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="btn btn-red">马上去完成</a>
-                </div>
-                <div class="markimg_uncomplete"></div>
-            </li>
-            <li>
-                <div class="no">2</div>
-                <div class="workinfo">
-                    <div class="titlebox clearfix">
-                        <span class="title">全面深化三星党建模式 课外作业</span>
-                        <span class="time">布置时间：2015-12-13</span>
-                    </div>
-                    <div class="desc">全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业</div>
-                    <div class="sinfo">
-                        <span class="catalog">作业类别：<a href="javascript:;">党建作业</a></span>
-                    </div>
-                    <div class="clink">对应课程：<a href="javascript:;" target="_blank">无</a></div>
-                </div>
-                <div class="ops">
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1" class="btn btn-red">马上去完成</a>
-                    <p class="text-center m-t-5"><a href="javascript:;" class="subreport">提交报告</a></p>
-                </div>
-                <div class="markimg_uncomplete"></div>
-            </li>
-            <li>
-                <div class="no">3</div>
-                <div class="workinfo">
-                    <div class="titlebox clearfix">
-                        <span class="title">全面深化三星党建模式 课外作业</span>
-                        <span class="time">布置时间：2015-12-13</span>
-                    </div>
-                    <div class="desc">全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业</div>
-                    <div class="sinfo">
-                        <span class="catalog">作业类别：<a href="javascript:;">党建作业</a></span>
-                        <span class="time">2015-12-19</span>
-                    </div>
-                    <div class="clink">对应课程：<a href="javascript:;" target="_blank">第一课、全面深化三星党建模式 从最基层努力实现中国梦</a></div>
-                </div>
-                <div class="ops">
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1" class="btn btn-primary">查看作业</a>
-                </div>
-                <div class="markimg_complete"></div>
-            </li>
             {if isset($worklist)&&is_array($worklist)&&!empty($worklist)}
             {foreach $worklist as $workinfo}
             <li>
-                <div class="no">1</div>
+                <div class="no">{$workinfo.workid}</div>
                 <div class="workinfo">
                     <div class="titlebox clearfix">
-                        <span class="title">全面深化三星党建模式 课外作业</span>
-                        <span class="time">布置时间：2015-12-13</span>
+                        <span class="title">{$workinfo.title}</span>
+                        <span class="time">布置时间：{'Y-m-d'|date:{$workinfo.createtime}}</span>
                     </div>
-                    <div class="desc">全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业，全面深化三星党建模式 课外作业</div>
+                    <div class="desc">{$workinfo.desc}</div>
                     <div class="sinfo">
-                        <span class="catalog">作业类别：<a href="javascript:;">党建作业</a></span>
+                        <span class="catalog">作业类别：<a href="javascript:;">{$workclass[$workinfo.type]['name']}</a></span>
+                        {if $workinfo.status}<span class="time">{'Y-m-d'|date:{$workinfo.createtime}}</span>{/if}
                     </div>
-                    <div class="clink">对应课程：<a href="javascript:;" target="_blank">第一课、全面深化三星党建模式 从最基层努力实现中国梦</a></div>
+                    <div class="clink">
+                        {if $workinfo.type==1}
+                        对应课程：<a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" target="_blank">{$workinfo.coursetitle}</a>
+                        {else}
+                        对应课程：<a href="javascript:;" target="_blank">无</a>【请上传报告】
+                        {/if}
+                    </div>
                 </div>
                 <div class="ops">
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid=1&classid=1" class="btn btn-red">马上去完成</a>
+                    {if $workinfo.status}
+                        {if $workinfo.type==1}
+                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-primary">查看作业</a>
+                        {else}
+                        <a href="javascript:;" class="btn btn-primary">查看作业</a>
+                        {/if}
+                    {else}
+                        {if $workinfo.type==1}
+                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-red">马上去完成</a>
+                        {else}
+                        <a href="javascript:;" class="btn btn-red">马上去完成</a>
+                        <p class="text-center m-t-5"><a href="javascript:;" id="SubReport" class="subreport">提交报告</a></p>
+                        {/if}
+                    {/if}
                 </div>
+                {if $workinfo.status}
+                <div class="markimg_complete"></div>
+                {else}
                 <div class="markimg_uncomplete"></div>
+                {/if}
             </li>
             {/foreach}
             {/if}
@@ -123,4 +91,14 @@
     </div>
 </div>
 <!-- end #content -->
+
+<script type="text/javascript">
+$(function (){
+    //提交报告Form
+    $("#SubReport").on('click', function (){
+        
+    });
+});
+</script>
+
 {include file="Common/foot.html"}
