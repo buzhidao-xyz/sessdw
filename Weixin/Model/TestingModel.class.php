@@ -22,11 +22,12 @@ class TestingModel extends CommonModel
         if ($testingid) $where['a.testingid'] = $testingid;
         if ($courseid) $where['a.courseid'] = $courseid;
         if ($classid) $where['b.classid'] = $classid;
-        if ($userid) $where['c.userid'] = $userid;
+        // if ($userid) $where['c.userid'] = $userid;
+        $cwhere = $userid ? ' and c.userid='.$userid.' ' : '';
         $subQuery = M('testing')->alias('a')
                                 ->field('a.*, b.title, b.classid, b.viewnum, b.learnnum, c.status as ucstatus')
                                 ->join('__COURSE__ b on a.courseid=b.courseid')
-                                ->join(' LEFT JOIN __USER_COURSE__ c on a.courseid=c.courseid ')
+                                ->join(' LEFT JOIN __USER_COURSE__ c on a.courseid=c.courseid '.$cwhere)
                                 ->where($where)->order('a.createtime desc')->buildSql();
 
         $total = M('testing')->table($subQuery.' sub')->count();

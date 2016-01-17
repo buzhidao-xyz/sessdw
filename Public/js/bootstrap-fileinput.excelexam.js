@@ -30,7 +30,7 @@ var BootstrapFileInputClass = function () {
             multiple: false,
             uploadAsync: true, //AJAX
             // allowedFileTypes: ["image", "video"],
-            allowedFileExtensions: ['jpg', 'gif', 'png', 'pdf', 'doc', 'docx', 'zip', 'xls', 'xlsx'],//接收的文件后缀
+            allowedFileExtensions: ['xls', 'xlsx'],//接收的文件后缀
             showCaption: true, //是否显示标题
             showPreview: false, //是否显示预览图
             showCancel: false, //是否显示取消按钮
@@ -55,8 +55,8 @@ var BootstrapFileInputClass = function () {
         //上传成功回调
         ctrlObj.on("fileuploaded", function (event, data, previewId, index) {
             alertPanelShow('success', data.response.msg);
-            //服务端返回file写入input
-            $('input[name='+ctrlName+']').val(data.response.data.filepath+data.response.data.filename);
+            //服务端返回数据
+            $("#examlistbox").append(data.response.data.examhtml);
         });
 
         //上传失败回调
