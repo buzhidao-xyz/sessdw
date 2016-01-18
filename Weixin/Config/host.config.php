@@ -24,7 +24,7 @@ function hostpath()
     }
 
     $hostpath = defined('APP_INDEX') ? $hostpath.'/' : substr($hostpath, 0, strrpos($hostpath,'/')).'/';
-    return stripslashes($hostpath);
+    return stripslashes(str_replace('//', '/', $hostpath));
 }
 defined('HOST_PATH') or define('HOST_PATH', hostpath());
 
