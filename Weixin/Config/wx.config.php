@@ -38,9 +38,9 @@ return array(
                 'key'  => 'M1001',
                 'sub_button' => array(
                     array(
-                        'type' => 'click',
+                        'type' => 'view',
                         'name' => 'SESS党委简介',
-                        'key'  => 'M1001_001_JIANJIE',
+                        'url'  => 'http://120.26.102.28/samsung/Weixin/index.php?s=Article/index',
                     ),
                     array(
                         'type' => 'click',
