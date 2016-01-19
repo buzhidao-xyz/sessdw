@@ -8,7 +8,7 @@ namespace Weixin\Controller;
 
 use Any\Controller;
 
-class RouteController extends BaseController
+class HRouteController extends BaseController
 {
     public function __construct()
     {
