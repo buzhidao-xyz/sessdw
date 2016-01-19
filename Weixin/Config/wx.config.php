@@ -32,6 +32,75 @@ return array(
     ),
     //自定义菜单
     'Menu' => array(
-        
+        'button' => array(
+            array(
+                'name' => '党务公示',
+                'key'  => 'M1001',
+                'sub_button' => array(
+                    array(
+                        'type' => 'media_id',
+                        'name' => 'SESS党委简介',
+                        'media_id'  => '200802399',
+                    ),
+                    array(
+                        'type' => 'media_id',
+                        'name' => '党委组织结构',
+                        'media_id'  => '200801876',
+                    ),
+                )
+            ),
+            array(
+                'name' => '党建活动',
+                'key'  => 'M2001',
+                'sub_button' => array(
+                    array(
+                        'type' => 'click',
+                        'name' => '活动公告',
+                        'key'  => 'M2001_001_ACTIVITY',
+                    ),
+                    array(
+                        'type' => 'media_id',
+                        'name' => '活动分享',
+                        'media_id'  => '202149437',
+                    ),
+                    array(
+                        'type' => 'media_id',
+                        'name' => '入党知识',
+                        'media_id'  => '200801933',
+                    ),
+                    array(
+                        'type' => 'click',
+                        'name' => '来互动吧',
+                        'key'  => 'M2001_001_HUDONG',
+                    ),
+                    array(
+                        'type' => 'click',
+                        'name' => '党刊',
+                        'key'  => 'M2001_001_DANGKAN',
+                    ),
+                )
+            ),
+            array(
+                'name' => '三学一做',
+                'key'  => 'M3001',
+                'sub_button' => array(
+                    array(
+                        'type' => 'view',
+                        'name' => '新闻公告',
+                        'url'  => 'http://139.196.199.135/Weixin/index.php?s=Article/index',
+                    ),
+                    array(
+                        'type' => 'view',
+                        'name' => '在线课程',
+                        'url'  => 'http://139.196.199.135/Weixin/index.php?s=Course/index',
+                    ),
+                    array(
+                        'type' => 'view',
+                        'name' => '个人中心',
+                        'url'  => 'http://139.196.199.135/Weixin/index.php?s=User/home',
+                    ),
+                )
+            )
+        )
     ),
 );
