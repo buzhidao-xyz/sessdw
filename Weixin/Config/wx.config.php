@@ -38,14 +38,14 @@ return array(
                 'key'  => 'M1001',
                 'sub_button' => array(
                     array(
-                        'type' => 'media_id',
+                        'type' => 'click',
                         'name' => 'SESS党委简介',
-                        'media_id'  => '200802399',
+                        'key'  => 'M1001_001_JIANJIE',
                     ),
                     array(
-                        'type' => 'media_id',
+                        'type' => 'click',
                         'name' => '党委组织结构',
-                        'media_id'  => '200801876',
+                        'key'  => 'M1001_002_JIEGOU',
                     ),
                 )
             ),
@@ -59,24 +59,24 @@ return array(
                         'key'  => 'M2001_001_ACTIVITY',
                     ),
                     array(
-                        'type' => 'media_id',
+                        'type' => 'click',
                         'name' => '活动分享',
-                        'media_id'  => '202149437',
+                        'key'  => 'M2001_002_FENXIANG',
                     ),
                     array(
-                        'type' => 'media_id',
+                        'type' => 'click',
                         'name' => '入党知识',
-                        'media_id'  => '200801933',
+                        'key'  => 'M2001_003_ZHISHI',
                     ),
                     array(
                         'type' => 'click',
                         'name' => '来互动吧',
-                        'key'  => 'M2001_001_HUDONG',
+                        'key'  => 'M2001_004_HUDONG',
                     ),
                     array(
                         'type' => 'click',
                         'name' => '党刊',
-                        'key'  => 'M2001_001_DANGKAN',
+                        'key'  => 'M2001_005_DANGKAN',
                     ),
                 )
             ),
