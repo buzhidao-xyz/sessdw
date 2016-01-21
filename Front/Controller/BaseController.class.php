@@ -21,6 +21,22 @@ class BaseController extends Controller
     //导航栏目navflag标识
     public $navflag;
     
+    //上传文件标准 图片:2M 视频:200M
+    protected $_upfile = array(
+        'image' => array(
+            'size' => 2097152,
+            'exts' => array('jpg', 'gif', 'png', 'jpeg'),
+        ),
+        'video' => array(
+            'size' => 209715200,
+            'exts' => array('mp4', 'swf', 'flv', 'mp3'),
+        ),
+        'attach' => array(
+            'size' => 20971520,
+            'exts' => array('pdf', 'doc', 'docx', 'xls', 'xlsx'),
+        ),
+    );
+    
     public function __construct()
     {
         parent::__construct();
@@ -43,6 +59,10 @@ class BaseController extends Controller
 
         //输出导航栏目navflag标识
         $this->assign('navflag', $this->navflag);
+
+        //获取作业数量（未完成）
+        $undoneworknum = D('Work')->getUndoneWorkNum($this->userinfo['userid']);
+        $this->assign('undoneworknum', $undoneworknum);
     }
 
     /**

@@ -18,7 +18,7 @@
                 <li><a href="{$ANY.__APP__}?s=Index/index" {if isset($navflag)&&$navflag=='Index'}class="now"{/if}>首页</a></li>
                 <li><a href="{$ANY.__APP__}?s=Course/index" {if isset($navflag)&&$navflag=='Course'}class="now"{/if}>课程中心</a></li>
                 <li><a href="{$ANY.__APP__}?s=Testing/index" {if isset($navflag)&&$navflag=='Testing'}class="now"{/if}>随堂测评</a></li>
-                <li><a href="{$ANY.__APP__}?s=Work/index" {if isset($navflag)&&$navflag=='Work'}class="now"{/if}>我的作业(2)</a></li>
+                <li><a href="{$ANY.__APP__}?s=Work/index" {if isset($navflag)&&$navflag=='Work'}class="now"{/if}>我的作业({$undoneworknum})</a></li>
             </ul>
             {else}
             <div id="Headernavnotice" class="notice">

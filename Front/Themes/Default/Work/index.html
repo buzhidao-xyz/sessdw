@@ -38,7 +38,18 @@
         </script>
 
         <!-- upload -->
-        <div id="workfilepanel" style="display: none;"></div>
+        <div id="workfilepanel" style="display: none;">
+            <form role="form" name="workfileform" method="post" action="{$ANY.__APP__}?s=Work/workfileupload">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="text" name="workid" value="0">
+                            <input type="file" name="workfile" placeholder="作业报告（word文档）">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
 
         <!-- worklist -->
         <ul class="worklist list-unstyled">
@@ -69,14 +80,14 @@
                         {if $workinfo.type==1}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-primary">查看作业</a>
                         {else}
-                        <a href="javascript:;" class="btn btn-primary">查看作业</a>
+                        <a href="{$SERVER.HOST.HTTP_HOST}{$workinfo.savepath}{$workinfo.savename}" target="_blank" class="btn btn-primary">查看作业</a>
                         {/if}
                     {else}
                         {if $workinfo.type==1}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-red">马上去完成</a>
                         {else}
-                        <a href="{$ANY.__APP__}?s=Work/workfilepanel&workid={$workinfo.workid}" class="btn btn-red workfilebtn">马上去完成</a>
-                        <p class="text-center m-t-5"><a href="javascript:;" id="SubReport" class="subreport workfilebtn">提交报告</a></p>
+                        <a href="javascript:;" class="btn btn-red workfilebtn" workid="{$workinfo.workid}">马上去完成</a>
+                        <p class="text-center m-t-5"><a href="javascript:;" class="subreport workfilebtn" workid="{$workinfo.workid}">提交报告</a></p>
                         {/if}
                     {/if}
                 </div>
@@ -95,13 +106,21 @@
 </div>
 <!-- end #content -->
 
-<script type="text/javascript">
+<script src="{$SERVER.HOST.PUBLIC_SERVER}js/jquery.form.js"></script>
+<script>
 $(function (){
-//提交报告Panel
-$("a.workfilebtn").on('click', function (){
-    
-});
-});
+    //选择文件
+    $("a.workfilebtn").on('click', function (){
+        $("form[name=workfileform]").find("input[name=workid]").val($(this).attr('workid'));
+        $("form[name=workfileform]").find("input[name=workfile]").click();
+    });
+    //上传文件
+    $("form[name=workfileform]").find("input[name=workfile]").on('change', function (){
+        $("form[name=workfileform]").ajaxSubmit(function (data){
+            alert(data.msg);
+        });
+    });
+})
 </script>
 
 {include file="Common/foot.html"}

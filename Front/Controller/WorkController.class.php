@@ -6,7 +6,7 @@
  */
 namespace Front\Controller;
 
-use Any\Controller;
+use Any\Upload;
 
 class WorkController extends CommonController
 {
@@ -67,5 +67,63 @@ class WorkController extends CommonController
         $this->_mkPagination($total, $param);
 
         $this->display();
+    }
+
+    //上传文件 - 作业报告
+    public function workfileupload()
+    {
+        //初始化上传类
+        $Upload = new Upload();
+        $Upload->maxSize  = 2097152; //2M
+        $Upload->exts     = array('doc', 'docx');
+        $Upload->rootPath = UPLOAD_PATH;
+        $Upload->savePath = 'file/workfile/';
+        $Upload->saveName = array('uniqid', array('', true));
+        $Upload->autoSub  = true;
+        $Upload->subName  = array('date', 'Ym');
+
+        //上传
+        $error = null;
+        $msg = '报告提交成功！';
+        $data = array();
+        $info = $Upload->upload();
+        if (!$info) {
+            $error = 1;
+            $msg = $Upload->getError();
+        } else {
+            $workid = mRequest('workid');
+            if (!$workid) $this->ajaxReturn(1, '请选择作业！');
+
+            $fileinfo = array_shift($info);
+            $data = array(
+                'userid' => $this->userinfo['userid'],
+                'workid' => $workid,
+                'savepath' => '/'.UPLOAD_PT.$fileinfo['savepath'],
+                'savename' => $fileinfo['savename'],
+                'filename' => $fileinfo['name'],
+                'filesize' => $fileinfo['size'],
+                'ext' => $fileinfo['ext'],
+                'createtime' => TIMESTAMP,
+            );
+
+            //开始事务
+            M('testing')->startTrans();
+            $userworkid = M('user_work')->add(array(
+                'userid' => $this->userinfo['userid'],
+                'workid' => $workid,
+                'status' => 1,
+                'createtime' => TIMESTAMP,
+            ));
+            $fileid = M('user_work_file')->add($data);
+            if ($userworkid && $fileid) {
+                M('user_work')->commit();
+            } else {
+                M('user_work')->rollback();
+                $error = 1;
+                $msg = '报告提交失败！请重新提交！';
+            }
+        }
+
+        $this->ajaxReturn($error, $msg, $data);
     }
 }
