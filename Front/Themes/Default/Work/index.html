@@ -37,6 +37,9 @@
             });
         </script>
 
+        <!-- upload -->
+        <div id="workfilepanel" style="display: none;"></div>
+
         <!-- worklist -->
         <ul class="worklist list-unstyled">
             {if isset($worklist)&&is_array($worklist)&&!empty($worklist)}
@@ -72,8 +75,8 @@
                         {if $workinfo.type==1}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-red">马上去完成</a>
                         {else}
-                        <a href="javascript:;" class="btn btn-red">马上去完成</a>
-                        <p class="text-center m-t-5"><a href="javascript:;" id="SubReport" class="subreport">提交报告</a></p>
+                        <a href="{$ANY.__APP__}?s=Work/workfilepanel&workid={$workinfo.workid}" class="btn btn-red workfilebtn">马上去完成</a>
+                        <p class="text-center m-t-5"><a href="javascript:;" id="SubReport" class="subreport workfilebtn">提交报告</a></p>
                         {/if}
                     {/if}
                 </div>
@@ -94,10 +97,10 @@
 
 <script type="text/javascript">
 $(function (){
-    //提交报告Form
-    $("#SubReport").on('click', function (){
-        
-    });
+//提交报告Panel
+$("a.workfilebtn").on('click', function (){
+    
+});
 });
 </script>
 

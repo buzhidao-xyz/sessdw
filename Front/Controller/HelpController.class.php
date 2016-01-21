@@ -29,6 +29,15 @@ class HelpController extends BaseController
     {
         $this->assign("resumenavflag", "qa");
 
+        list($start, $length) = $this->_mkPage();
+        $data = D('Help')->getQA(null, $start, $length);
+        $total = $data['total'];
+        $qalist = $data['data'];
+
+        $this->assign('qalist', $qalist);
+
+        $this->_mkPagination($total, array());
+
         $this->display();
     }
 }

@@ -11,48 +11,25 @@
     <!-- begin datalistbox -->
     <div class="datalistbox testingbox maincontbox">
         <!-- arclist -->
+        {if isset($qalist)&&is_array($qalist)&&!empty($qalist)}
         <ul id="Qalist" class="arclist list-unstyled qalist">
+            {foreach $qalist as $qainfo}
             <li>
                 <div class="cont">
                     <p class="title">
-                        <span class="no">1</span>
-                        <a href="javascript:;" title="全面深化三星党建模式 从最基层努力实现中国梦">全面深化三星党建模式 从最基层努力实现中国梦</a>
+                        <span class="no">{$qainfo.qaid}</span>
+                        <a href="javascript:;" title="{$qainfo.title}">{$qainfo.title}</a>
                     </p>
                 </div>
                 <div class="arccontent">
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
+                    {$qainfo.answer|html_entity_decode}
                 </div>
             </li>
-            <li>
-                <div class="cont">
-                    <p class="title">
-                        <span class="no">3</span>
-                        <a href="javascript:;" title="全面深化三星党建模式 从最基层努力实现中国梦">全面深化三星党建模式 从最基层努力实现中国梦</a>
-                    </p>
-                </div>
-                <div class="arccontent">
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                    全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 全面深化三星党建模式 
-                </div>
-            </li>
-            <li>
-                <div class="cont">
-                    <p class="title">
-                        <span class="no">4</span>
-                        <a href="javascript:;" title="全面深化三星党建模式 从最基层努力实现中国梦">全面深化三星党建模式 从最基层努力实现中国梦</a>
-                    </p>
-                </div>
-                <div class="arccontent">
-                </div>
-            </li>
+            {/foreach}
         </ul>
+        {else}
+        <h3 class="text-center">暂无常见问题</h3>
+        {/if}
 
         {include file="Public/pagination.html"}
     </div>
