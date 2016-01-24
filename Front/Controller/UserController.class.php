@@ -97,6 +97,33 @@ class UserController extends BaseController
         $this->display();
     }
 
+    //保存用户信息
+    public function userinfosave()
+    {
+        $this->_CKUserLogon();
+
+        $userid = $this->userinfo['userid'];
+
+        $username = mRequest('username');
+        if (!$username) $this->ajaxReturn(1, '请填写真实姓名！');
+        $department = mRequest('department');
+        if (!$department) $this->ajaxReturn(1, '请填写所在部门！');
+        $position = mRequest('position');
+        if (!$position) $this->ajaxReturn(1, '请填写个人职务！');
+
+        $result = M('user')->where(array('userid'=>$userid))->save(array(
+            'username'   => $username,
+            'department' => $department,
+            'position'   => $position,
+            'updatetime' => TIMESTAMP,
+        ));
+        if ($result) {
+            $this->ajaxReturn(0, '个人信息修改成功！');
+        } else {
+            $this->ajaxReturn(1, '个人信息修改失败！');
+        }
+    }
+
     //修改密码
     public function chpasswd()
     {
@@ -104,6 +131,36 @@ class UserController extends BaseController
         $this->assign("homemenuflag", "chpasswd");
 
         $this->display();
+    }
+
+    //保存修改密码
+    public function chpasswdsave()
+    {
+        $this->_CKUserLogon();
+
+        $userid = $this->userinfo['userid'];
+
+        $oldpasswd = mRequest('oldpasswd');
+        if (!Filter::F_Password($oldpasswd)) $this->ajaxReturn(1, '原密码错误！');
+        $newpasswd = mRequest('newpasswd');
+        if (!Filter::F_Password($newpasswd)) $this->ajaxReturn(1, '新密码错误！');
+        $newpasswd1 = mRequest('newpasswd1');
+        if ($newpasswd != $newpasswd1) $this->ajaxReturn(1, '两次密码不一致！');
+
+        $userinfo = M('user')->where(array('userid'=>$userid))->find();
+        if ($userinfo['password'] != D('User')->passwordEncrypt($oldpasswd, $userinfo['ukey'])) {
+            $this->ajaxReturn(1, '原密码错误！');
+        }
+
+        $result = M('user')->where(array('userid'=>$userid))->save(array(
+            'password' => D('User')->passwordEncrypt($newpasswd, $userinfo['ukey']),
+            'updatetime' => TIMESTAMP,
+        ));
+        if ($result) {
+            $this->ajaxReturn(0, '密码修改成功！');
+        } else {
+            $this->ajaxReturn(1, '密码修改失败！');
+        }
     }
 
     //反馈留言

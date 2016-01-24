@@ -20,6 +20,10 @@ class CourseController extends CommonController
 
         $this->_user_course_status = C('USER.user_course_status');
         $this->assign('usercoursestatus', $this->_user_course_status);
+
+        //获取用户课程学习情况
+        $this->usercourseinfo = D('User')->gcUserCourseLearn($this->userinfo['userid'], $this->_course_class);
+        $this->assign('usercourseinfo', $this->usercourseinfo);
     }
 
     //获取课程分类Id

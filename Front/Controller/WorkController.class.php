@@ -22,6 +22,10 @@ class WorkController extends CommonController
 
         $this->_work_type = C('USER.work_type');
         $this->assign('worktype', $this->_work_type);
+
+        //获取用户作业完成情况
+        $this->userworkinfo = D('User')->getUserWorkDone($this->userinfo['userid'], $this->_work_class);
+        $this->assign('userworkinfo', $this->userworkinfo);
     }
 
     //获取分类Id

@@ -18,27 +18,27 @@
             <div class="hometitle">
                 <span class="cont">个人资料</span>
             </div>
-            <form name="homeform" method="post" action="javascript:;" class="form-horizontal homeform">
+            <form name="homeform" method="post" action="{$ANY.__APP__}?s=User/userinfosave" class="form-horizontal homeform">
                 <div class="form-group">
                     <label class="col-xs-2 control-label">登录账号：</label>
-                    <div class="col-xs-8"><span class="sinfo">buzhidao</span></div>
+                    <div class="col-xs-8"><span class="sinfo">{$userinfo.account}</span></div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-2 control-label">真实姓名：</label>
                     <div class="col-xs-8">
-                        <input type="text" class="form-control" placeholder="真实姓名 例：张三、李四等">
+                        <input type="text" name="username" value="{$userinfo.username}" class="form-control" placeholder="真实姓名 例：张三、李四等">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-2 control-label">所在部门：</label>
                     <div class="col-xs-8">
-                        <input type="text" class="form-control" placeholder="所在部门 例：行政部、研发部等">
+                        <input type="text" name="department" value="{$userinfo.department}" class="form-control" placeholder="所在部门 例：行政部、研发部等">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-xs-2 control-label">个人职务：</label>
                     <div class="col-xs-8">
-                        <input type="text" class="form-control" placeholder="个人职务 例：助理、开发人员等">
+                        <input type="text" name="position" value="{$userinfo.position}" class="form-control" placeholder="个人职务 例：助理、开发人员等">
                     </div>
                 </div>
                 <div class="form-group">
@@ -51,4 +51,23 @@
     </div>
 </div>
 <!-- end #content -->
+
+<script type="text/javascript">
+$(function (){
+    //保存用户信息
+    $("form[name=homeform]").submit(function (){
+        var url = $(this).attr('action');
+        var postdata = $(this).serialize();
+        $.post(url, postdata, function (data){
+            alert(data.msg);
+            if (!data.error) {
+                location.href = location.href;
+            }
+        }, 'json');
+
+        return false;
+    });
+})
+</script>
+
 {include file="Common/foot.html"}

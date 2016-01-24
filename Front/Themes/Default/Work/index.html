@@ -10,14 +10,14 @@
         <div class="maincontbox">
             <div class="resume resume-work">
                 <span class="title">我的作业：</span>
-                <span class="content">已完成 <font color="#ec971f" size="5">9</font> 篇</span>
-                <span class="content">未完成 <font color="#ec971f" size="5">2</font> 篇</span>
+                <span class="content">已完成 <font color="#ec971f" size="5">{$userworkinfo.total.workdonenum}</font> 篇</span>
+                <span class="content">未完成 <font color="#ec971f" size="5">{$userworkinfo.total.worknonenum}</font> 篇</span>
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 87%;">已完成87%</div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{$userworkinfo.total.workpercent}" aria-valuemin="0" aria-valuemax="100" style="width: {$userworkinfo.total.workpercent}%;">{$userworkinfo.total.workpercent}%</div>
                 </div>
             </div>
             <div class="links">
-                <a href="javascript:;">如何完成作业？</a>
+                <a href="{$ANY.__APP__}?s=Help/qa">如何完成作业？</a>
             </div>
         </div>
     </div>
@@ -118,6 +118,9 @@ $(function (){
     $("form[name=workfileform]").find("input[name=workfile]").on('change', function (){
         $("form[name=workfileform]").ajaxSubmit(function (data){
             alert(data.msg);
+            if (!data.error) {
+                location.href = location.href;
+            }
         });
     });
 })

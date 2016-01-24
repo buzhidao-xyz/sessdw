@@ -19,6 +19,10 @@ class TestingController extends CommonController
 
         $this->_course_class = C('USER.course_class');
         $this->assign('courseclass', $this->_course_class);
+
+        //获取用户课程学习情况
+        $this->usercourseinfo = D('User')->gcUserCourseLearn($this->userinfo['userid'], $this->_course_class);
+        $this->assign('usercourseinfo', $this->usercourseinfo);
     }
 
     //获取课程分类Id

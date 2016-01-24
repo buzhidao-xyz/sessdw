@@ -113,20 +113,32 @@ class UserModel extends CommonModel
                 'coursetotalnum' => 0,
                 'courselearnnum' => 0,
                 'coursenonenum'  => 0,
+                'testingtotalnum' => 0,
+                'testinglearnnum' => 0,
+                'testingnonenum'  => 0,
                 'percent'        => 0,
                 'totalscore' => 0,
                 'avgscore' => 0,
                 'weightscore' => 0,
             ),
         );
-        
+
         //课程试卷完成情况 按分类统计
         foreach ($courseclass as $classinfo) {
             $subquery = M('testing')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 and b.classid='.$classinfo['id'])->field('a.*, b.title, b.classid')->where(array('a.status'=>1))->buildSql();
             //该分类总课程数
-            $coursetotalnum = M('testing')->table($subquery.' sub')->count();
+            $coursetotalnum = M('course')->where(array('isshow'=>1, 'classid'=>$classinfo['id']))->count();
             //已学习课程数
-            $courselearnnum = M('user_course')->alias('uc')->join(' inner join '.$subquery.' sub on uc.courseid=sub.courseid ')->where(array('uc.userid'=>$userid, 'uc.status'=>array('in', array(1,2))))->count();
+            $courselearnnum = M('course')->alias('a')->join(' __USER_COURSE__ b on a.courseid=b.courseid and b.userid='.$userid.' and b.status in (1,2) ')->where(array('isshow'=>1, 'classid'=>$classinfo['id']))->count();
+            
+            //该分类总测评数
+            $testingtotalnum = M('testing')->table($subquery.' sub')->count();
+            //已完成测评数
+            $testingdonenum = M('testing')->table($subquery.' sub')->join(' __USER_TESTING__ ut on ut.testingid=sub.testingid and ut.userid='.$userid.' and ut.status=2 ')->count();
+            //未完成测评数
+            $testingnonenum = $testingtotalnum-$testingdonenum;
+            $testingpercent = $testingtotalnum>0 ? floor($testingdonenum/$testingtotalnum*100) : 0;
+
             //课程测评总得分数
             $totalscore = M('user_testing')->alias('ut')->join(' inner join '.$subquery.' sub on ut.testingid=sub.testingid ')->where(array('ut.userid'=>$userid))->sum('ut.gotscore');
             $totalscore = $totalscore>0 ? $totalscore : 0;
@@ -142,7 +154,11 @@ class UserModel extends CommonModel
                 'coursetotalnum' => $coursetotalnum,
                 'courselearnnum' => $courselearnnum,
                 'coursenonenum'  => $coursenonenum,
+                'testingtotalnum'  => $testingtotalnum,
+                'testingdonenum'   => $testingdonenum,
+                'testingnonenum'   => $testingnonenum,
                 'percent'        => $percent,
+                'testingpercent' => $testingpercent,
                 'totalscore'     => $totalscore,
                 'avgscore'       => $avgscore,
                 'weightscore'    => $weightscore,
@@ -152,6 +168,9 @@ class UserModel extends CommonModel
             $usercourselearninfo['total']['coursetotalnum'] += $coursetotalnum;
             $usercourselearninfo['total']['courselearnnum'] += $courselearnnum;
             $usercourselearninfo['total']['coursenonenum'] += $coursenonenum;
+            $usercourselearninfo['total']['testingtotalnum'] += $testingtotalnum;
+            $usercourselearninfo['total']['testingdonenum']  += $testingdonenum;
+            $usercourselearninfo['total']['testingnonenum']  += $testingnonenum;
             $usercourselearninfo['total']['totalscore'] += $totalscore;
             $usercourselearninfo['total']['weightscore'] += $weightscore;
         }
@@ -159,6 +178,7 @@ class UserModel extends CommonModel
         //合计 计算平均分
         $usercourselearninfo['total']['avgscore'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['totalscore']/$usercourselearninfo['total']['coursetotalnum']) : 0;
         $usercourselearninfo['total']['percent'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['courselearnnum']/$usercourselearninfo['total']['coursetotalnum']*100) : 0;
+        $usercourselearninfo['total']['testingpercent'] = $usercourselearninfo['total']['testingtotalnum']>0 ? floor($usercourselearninfo['total']['testingdonenum']/$usercourselearninfo['total']['testingtotalnum']*100) : 0;
 
         return $usercourselearninfo;
     }

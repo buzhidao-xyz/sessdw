@@ -18,7 +18,7 @@
             <div class="hometitle">
                 <span class="cont">修改密码</span>
             </div>
-            <form name="homeform" method="post" action="javascript:;" class="form-horizontal homeform">
+            <form name="homeform" method="post" action="{$ANY.__APP__}?s=User/chpasswdsave" class="form-horizontal homeform">
                 <div class="form-group">
                     <label class="col-xs-2 control-label">原密码：</label>
                     <div class="col-xs-8">
@@ -47,4 +47,23 @@
     </div>
 </div>
 <!-- end #content -->
+
+<script type="text/javascript">
+$(function (){
+    //保存用户密码
+    $("form[name=homeform]").submit(function (){
+        var url = $(this).attr('action');
+        var postdata = $(this).serialize();
+        $.post(url, postdata, function (data){
+            alert(data.msg);
+            if (!data.error) {
+                location.href = location.href;
+            }
+        }, 'json');
+
+        return false;
+    });
+})
+</script>
+
 {include file="Common/foot.html"}
