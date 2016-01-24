@@ -171,4 +171,57 @@ class UserController extends BaseController
 
         $this->display();
     }
+
+    //保存反馈留言
+    public function lvwordsave()
+    {
+        $this->_CKUserLogon();
+
+        $userid = $this->userinfo['userid'];
+
+        $title = mRequest('title');
+        if (!$title) $this->ajaxReturn(1, '请填写标题！');
+        $content = mRequest('content');
+        if (!$content) $this->ajaxReturn(1, '请填写内容！');
+
+        $result = M('lvword')->add(array(
+            'userid' => $userid,
+            'title' => $title,
+            'content' => $content,
+            'createtime' => TIMESTAMP,
+            'updatetime' => TIMESTAMP,
+        ));
+        if ($result) {
+            $this->ajaxReturn(0, '反馈留言提交成功！');
+        } else {
+            $this->ajaxReturn(1, '反馈留言提交失败！');
+        }
+    }
+
+    //课程学习经历
+    public function courselist()
+    {
+        $this->_CKUserLogon();
+        $this->assign("homemenuflag", "courselist");
+
+        $userid = $this->userinfo['userid'];
+
+        list($start, $length) = $this->_mkPage();
+        $data = D('User')->getUserCourse($userid, null, $start, $length);
+        $total = $data['total'];
+        $usercourselist = $data['data'];
+
+        $this->assign('usercourselist', $usercourselist);
+
+        //统计课程学习情况
+        $usercourselearninfo = D('User')->gcUserCourseLearn($userid, $this->_course_class);
+        //统计作业完成情况
+        $userworkfiledinfo = D('User')->getUserWorkFiled($userid, C('USER.work_weight'));
+        $this->assign('usergotscore', $usercourselearninfo['total']['weightscore']+$userworkfiledinfo['weightscore']);
+
+        //解析分页数据
+        $this->_mkPagination($total);
+
+        $this->display();
+    }
 }
