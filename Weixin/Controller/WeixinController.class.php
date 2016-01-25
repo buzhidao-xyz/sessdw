@@ -167,8 +167,6 @@ class WeixinController extends BaseController
     //创建菜单
     public function createmenu()
     {
-        return false;
-
         $menu = C('WX.Menu');
 
         $WXObj = new Weixin($this->_weixininfo);
