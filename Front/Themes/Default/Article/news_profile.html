@@ -22,10 +22,20 @@
 
         <div class="dataprofilelinks">
             <p class="linkitem">
-                <span><b>上一篇：&nbsp;</b></span><a href="javascript:;">全面深化三星党建模式 从最基层努力实现中国梦</a>
+                <span><b>上一篇：&nbsp;</b></span>
+                {if isset($prevnextarc['prev']['arcid'])}
+                <a href="{$ANY.__APP__}?s=Article/news&arcid={$prevnextarc['prev']['arcid']}&classid={$prevnextarc['prev']['classid']}">{$prevnextarc['prev']['title']}</a>
+                {else}
+                <span>无</span>
+                {/if}
             </p>
             <p class="linkitem">
-                <span><b>下一篇：&nbsp;</b></span><a href="javascript:;">全面深化三星党建模式 从最基层努力实现中国梦</a>
+                <span><b>下一篇：&nbsp;</b></span>
+                {if isset($prevnextarc['next']['arcid'])}
+                <a href="{$ANY.__APP__}?s=Article/news&arcid={$prevnextarc['next']['arcid']}&classid={$prevnextarc['next']['classid']}">{$prevnextarc['next']['title']}</a>
+                {else}
+                <span>无</span>
+                {/if}
             </p>
         </div>
     </div>

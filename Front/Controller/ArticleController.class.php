@@ -67,11 +67,15 @@ class ArticleController extends BaseController
     private function _newsprofile($arcid=null)
     {
         $arcprofile = D('Article')->getArcByID($arcid);
+        $this->assign('arcprofile', $arcprofile);
         
         //浏览量+1
         M('article')->where(array('arcid'=>$arcprofile['arcid']))->save(array('viewnum'=>$arcprofile['viewnum']+1));
+
+        //上一文章、下一文章
+        $prevnextarc = D('Article')->getPrevNextArticle($arcid, $this->arcclass['news']['id']);
+        $this->assign('prevnextarc', $prevnextarc);
         
-        $this->assign('arcprofile', $arcprofile);
         $this->display('Article/news_profile');
     }
 
@@ -107,11 +111,15 @@ class ArticleController extends BaseController
     private function _noticeprofile($arcid=null)
     {
         $arcprofile = D('Article')->getArcByID($arcid);
+        $this->assign('arcprofile', $arcprofile);
         
         //浏览量+1
         M('article')->where(array('arcid'=>$arcprofile['arcid']))->save(array('viewnum'=>$arcprofile['viewnum']+1));
         
-        $this->assign('arcprofile', $arcprofile);
+        //上一文章、下一文章
+        $prevnextarc = D('Article')->getPrevNextArticle($arcid, $this->arcclass['notice']['id']);
+        $this->assign('prevnextarc', $prevnextarc);
+        
         $this->display('Article/notice_profile');
     }
 }

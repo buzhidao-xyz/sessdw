@@ -76,4 +76,29 @@ class ArticleModel extends CommonModel
 
         return $arcid ? $arcid : false;
     }
+
+    //获取上一文章、下一文章
+    public function getPrevNextArticle($arcid=null, $classid=null)
+    {
+        if ($arcid === null || !$classid) return false;
+
+        $where = array(
+            'a.status'  => 1,
+            'a.arcid'   => array('LT', $arcid),
+            'a.classid' => $classid,
+        );
+        $prevarcinfo = M('article')->alias('a')->field('a.*')->where($where)->order('a.arcid desc')->limit(0, 1)->find();
+
+        $where = array(
+            'a.status'  => 1,
+            'a.arcid'   => array('GT', $arcid),
+            'a.classid' => $classid,
+        );
+        $nextarcinfo = M('article')->alias('a')->field('a.*')->where($where)->order('a.arcid asc')->limit(0, 1)->find();
+
+        return array(
+            'prev' => is_array($prevarcinfo) ? $prevarcinfo : array(),
+            'next' => is_array($nextarcinfo) ? $nextarcinfo : array(),
+        );
+    }
 }
