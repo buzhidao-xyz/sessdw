@@ -27,7 +27,7 @@ class WorkModel extends CommonModel
         );
 
         $total = M('work')->alias('a')->where($where)->count();
-        $result = M('work')->alias('a')->field('a.*, b.title as coursetitle')->join(' left join __COURSE__ b on a.courseid=b.courseid ')->where($where)->order('createtime desc')->select();
+        $result = M('work')->alias('a')->field('a.*, b.title as coursetitle')->join(' left join __COURSE__ b on a.courseid=b.courseid ')->where($where)->order('createtime desc')->limit($start, $length)->select();
 
         return array('total'=>$total, 'data'=>is_array($result)?$result:array());
     }

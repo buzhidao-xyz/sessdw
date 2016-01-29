@@ -32,7 +32,7 @@ class UserModel extends CommonModel
         );
 
         $total = M('user')->where($where)->count();
-        $result = M('user')->where($where)->order('createtime desc')->select();
+        $result = M('user')->where($where)->order('createtime desc')->limit($start, $length)->select();
 
         return array('total'=>$total, 'data'=>is_array($result)?$result:array());
     }
