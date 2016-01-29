@@ -81,7 +81,7 @@ return array(
                 )
             ),
             array(
-                'name' => '三学一做',
+                'name' => '两学一做',
                 'key'  => 'M3001',
                 'sub_button' => array(
                     array(

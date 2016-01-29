@@ -50,7 +50,7 @@
             <div class="examinfo row">
                 <div class="col-xs-6 text-left">
                     <p>
-                        <a href="javascript:;" id="ExamBtn" class="btn btn-info"> 课程复习 </a>
+                        <a href="{if isset($testinginfo.reviewinfo.savename)}{$SERVER.HOST.HTTP_HOST}{$testinginfo.reviewinfo.savepath}{$testinginfo.reviewinfo.savename}{else}javascript:;{/if}" id="ExamBtn" class="btn btn-info" target="_blank"> 课程复习 </a>
                         {if !$testinginfo.utstatus}
                         <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="btn btn-red"> 重新测评 </a>
                         {/if}

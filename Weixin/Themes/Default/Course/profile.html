@@ -29,10 +29,10 @@
             
             <!-- coursefunc -->
             <div class="coursefunc row">
-                <div class="col-xs-6">
+                <!-- <div class="col-xs-6">
                     <p><a href="javascript:;" id="ExamBtn" class="btn btn-block btn-info"> 复习资料 </a></p>
-                </div>
-                <div class="col-xs-6">
+                </div> -->
+                <div class="col-xs-12">
                     {if $courseinfo.status==1}
                     <p><a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" id="ExamBtn" class="btn btn-block btn-red"> 随堂测评 </a></p>
                     {else if $courseinfo.status==2}

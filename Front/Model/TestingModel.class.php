@@ -52,6 +52,11 @@ class TestingModel extends CommonModel
         $testinginfo = $testinginfo['total'] ? $testinginfo['data'][0] : array();
         if (!empty($testinginfo)) {
             $testingid = $testinginfo['testingid'];
+            $courseid = $testinginfo['courseid'];
+
+            //获取复习资料
+            $reviewinfo = M('course_review')->where(array('courseid'=>$courseid))->find();
+            $testinginfo['reviewinfo'] = is_array($reviewinfo)&&!empty($reviewinfo) ? $reviewinfo : array();
 
             //获取试卷的试题
             $testingexam = M('testing_exam')->where(array('testingid'=>$testingid))->order('sortno asc')->select();
