@@ -8,8 +8,8 @@ return array(
     //课程分类
     'course_class' => array(
         // 0 => array('id'=>'', 'name'=>'全部'),
-        1 => array('id'=>1, 'name'=>'学党章党规上', 'weight'=>0.25),
-        2 => array('id'=>2, 'name'=>'学党章党规下', 'weight'=>0.25),
+        1 => array('id'=>1, 'name'=>'学党章党规(上)', 'weight'=>0.25),
+        2 => array('id'=>2, 'name'=>'学党章党规(下)', 'weight'=>0.25),
         3 => array('id'=>3, 'name'=>'学系列讲话', 'weight'=>0.25),
     ),
     //课程学习状态
