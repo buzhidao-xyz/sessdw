@@ -12,9 +12,9 @@ class CourseController extends CommonController
 {
     // 课程分类
     public $_course_class = array(
-        1 => array('id'=>1, 'name'=>'学党章'),
-        2 => array('id'=>2, 'name'=>'学讲话'),
-        3 => array('id'=>3, 'name'=>'学条例'),
+        1 => array('id'=>1, 'name'=>'学党章党规(上)'),
+        2 => array('id'=>2, 'name'=>'学党章党规(下)'),
+        3 => array('id'=>3, 'name'=>'学系列讲话'),
     );
 
     public function __construct()
