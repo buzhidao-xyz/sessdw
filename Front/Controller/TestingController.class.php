@@ -115,10 +115,10 @@ class TestingController extends CommonController
 
         $testingid = $this->_getTestingid();
         $testingid = session('testingid_'.$testingid);
-        $testinginfo = D('Testing')->getTestingByID(null, $testingid);
+        $testinginfo = D('Testing')->getTestingByID(null, $testingid, $userid);
 
         if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) {
-            header('location:'.__APP__.'?s=Course/index&courseid='.$testinginfo['courseid'].'&classid='.$classid);
+            header('location:'.__APP__.'?s=Course/profile&courseid='.$testinginfo['courseid'].'&classid='.$classid);
             exit;
         }
         

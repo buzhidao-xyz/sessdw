@@ -267,10 +267,10 @@
 
 /*listnav样式*/
 .datalistbox ul.listnav {
-    width: 110px;
+    width: 120px;
     height: auto;
     position: absolute;
-    margin-left: -141px;
+    margin-left: -151px;
     display: block;
     overflow: hidden;
 }
