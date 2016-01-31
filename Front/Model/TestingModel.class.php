@@ -40,6 +40,27 @@ class TestingModel extends CommonModel
                                   ->order('sub.createtime desc')->limit($start, $length)->select();
         }
 
+        //获取复习资料
+        if (is_array($result)&&!empty($result)) {
+            $courseids = array();
+            foreach ($result as $d) {
+                $courseids[] = $d['courseid'];
+            }
+            $coursereview = M('course_review')->where(array('courseid'=>array('in',$courseids)))->select();
+            foreach ($result as $k=>$d) {
+                $n = 0;
+                $reviewinfo = array();
+                foreach ($coursereview as $dd) {
+                    if ($d['courseid'] == $dd['courseid']) {
+                        $n = 1;
+                        $reviewinfo = $dd;
+                        break;
+                    }
+                }
+                $result[$k]['reviewinfo'] = $reviewinfo;
+            }
+        }
+
         return array('total'=>$total, 'data'=>is_array($result)?$result:array());
     }
 
@@ -55,8 +76,8 @@ class TestingModel extends CommonModel
             $courseid = $testinginfo['courseid'];
 
             //获取复习资料
-            $reviewinfo = M('course_review')->where(array('courseid'=>$courseid))->find();
-            $testinginfo['reviewinfo'] = is_array($reviewinfo)&&!empty($reviewinfo) ? $reviewinfo : array();
+            // $reviewinfo = M('course_review')->where(array('courseid'=>$courseid))->find();
+            // $testinginfo['reviewinfo'] = is_array($reviewinfo)&&!empty($reviewinfo) ? $reviewinfo : array();
 
             //获取试卷的试题
             $testingexam = M('testing_exam')->where(array('testingid'=>$testingid))->order('sortno asc')->select();

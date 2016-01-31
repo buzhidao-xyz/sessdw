@@ -44,7 +44,8 @@
                 <a href="javascript:;" class="btn btn-red oplink disabled" disabled>开始测评</a>
                 {/if}
                 {/if}
-                <a href="javascript:;" class="btn btn-info oplink">复习资料</a>
+                <!-- <a href="javascript:;" class="btn btn-info oplink">复习资料</a> -->
+                <a href="{if isset($testinginfo.reviewinfo.savename)}{$SERVER.HOST.HTTP_HOST}{$testinginfo.reviewinfo.savepath}{$testinginfo.reviewinfo.savename}{else}javascript:;{/if}" id="ExamBtn" class="btn btn-info oplink" target="_blank"> 复习资料 </a>
             </li>
             {/foreach}
             {else}
