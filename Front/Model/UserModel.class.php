@@ -89,7 +89,7 @@ class UserModel extends CommonModel
             $totalscore = $totalscore>0 ? $totalscore : 0;
 
             //计算该类平均分
-            $avgscore = $coursetotalnum>0 ? floor($totalscore/$coursetotalnum) : 0;
+            $avgscore = $testingtotalnum>0 ? floor($totalscore/$testingtotalnum) : 0;
             //计算权重分
             $weightscore = floor($avgscore*$classinfo['weight']);
             
@@ -121,7 +121,7 @@ class UserModel extends CommonModel
         }
 
         //合计 计算平均分
-        $usercourselearninfo['total']['avgscore'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['totalscore']/$usercourselearninfo['total']['coursetotalnum']) : 0;
+        $usercourselearninfo['total']['avgscore'] = $usercourselearninfo['total']['testingtotalnum']>0 ? floor($usercourselearninfo['total']['totalscore']/$usercourselearninfo['total']['testingtotalnum']) : 0;
         $usercourselearninfo['total']['percent'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['courselearnnum']/$usercourselearninfo['total']['coursetotalnum']*100) : 0;
         $usercourselearninfo['total']['testingpercent'] = $usercourselearninfo['total']['testingtotalnum']>0 ? floor($usercourselearninfo['total']['testingdonenum']/$usercourselearninfo['total']['testingtotalnum']*100) : 0;
 
@@ -265,5 +265,89 @@ class UserModel extends CommonModel
         }
 
         return true;
+    }
+
+    //获取党员学习得分排名 前十名
+    public function getUserLearninglist()
+    {
+        //测评得分
+        $userscores = M('user')->alias('u')->field('u.userid, u.username, SUM(ut.gotscore) as gotscore')
+                               ->join(' left join __USER_TESTING__ ut on ut.userid=u.userid and ut.status=1 ')
+                               ->join(' left join __TESTING__ t on t.testingid=ut.testingid and t.status=1 ')
+                               ->group('u.userid')
+                               ->order('gotscore desc')
+                               ->select();
+        
+        //作业得分
+        $userworks = M('user')->alias('u')->field('u.userid, uw.status')
+                              ->join(' __USER_WORK__ uw on uw.userid=u.userid and uw.status=1 ')
+                              ->join(' __WORK__ w on w.workid=uw.workid and w.type=2 ')
+                              ->group('u.userid')
+                              ->select();
+
+        //测评总数
+        $testingtotalnum = M('testing')->where(array('status'=>1))->count();
+
+        //计算平均分
+        $userlearning = array();
+        if (is_array($userscores)&&!empty($userscores)) {
+            foreach ($userscores as $d) {
+                $cache = array(
+                    'userid'    => $d['userid'],
+                    'username'  => $d['username'],
+                    'gotscore'  => $d['gotscore']>0 ? (float)$d['gotscore'] : 0,
+                    'workscore' => 0,
+                );
+                foreach ($userworks as $dd) {
+                    if ($d['userid'] == $dd['userid']) {
+                        $cache['workscore'] = 100;
+                    }
+                }
+                $cache['avgscore'] = floor(($cache['gotscore']/$testingtotalnum)*0.75 + $cache['workscore']*0.25);
+
+                $userlearning[] = $cache;
+            }
+        }
+
+        //冒泡排序 大->小
+        $n = count($userlearning);
+        for ($i=0; $i<$n-1; $i++) {
+            for ($j=$i+1; $j<$n; $j++) {
+                $a = $userlearning[$i];
+                $b = $userlearning[$j];
+
+                if ($userlearning[$i]['avgscore']<$userlearning[$j]['avgscore']) {
+                    $userlearning[$i] = $b;
+                    $userlearning[$j] = $a;
+                }
+            }
+        }
+
+        //获取前十名
+        $userlearning = array_slice($userlearning, 0, 10);
+        $userids = array();
+        $i = 1;
+        foreach ($userlearning as $k=>$d) {
+            $userids[] = $d['userid'];
+            $userlearning[$k]['no'] = $i;
+            $i++;
+        }
+
+        //获取课程和测评数
+        $usercourses = M('user_course')->alias('a')->field('a.userid,COUNT(a.courseid) as coursenum')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 ')->where(array('a.userid'=>array('in', $userids), 'a.status'=>array('in', array(1,2))))->group('a.userid')->select();
+        $usertestings = M('user_testing')->alias('a')->field('a.userid,COUNT(a.testingid) as testingnum')->join(' __TESTING__ b on a.testingid=b.testingid and b.status=1 ')->where(array('a.userid'=>array('in', $userids), 'a.status'=>1))->group('a.userid')->select();
+        foreach ($userlearning as $k=>$d) {
+            $userlearning[$k]['coursenum'] = 0;
+            $userlearning[$k]['testingnum'] = 0;
+            foreach ($usercourses as $dd) {
+                if ($d['userid'] == $dd['userid']) $userlearning[$k]['coursenum'] = $dd['coursenum'];
+            }
+            foreach ($usertestings as $dd) {
+                if ($d['userid'] == $dd['userid']) $userlearning[$k]['testingnum'] = $dd['testingnum'];
+            }
+        }
+
+        // dump($userlearning);exit;
+        return $userlearning;
     }
 }

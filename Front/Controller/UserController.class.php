@@ -14,6 +14,9 @@ class UserController extends BaseController
     public function __construct()
     {
         parent::__construct();
+
+        $this->_course_class = C('USER.course_class');
+        $this->assign('courseclass', $this->_course_class);
     }
 
     public function index(){}
@@ -222,6 +225,16 @@ class UserController extends BaseController
         //解析分页数据
         $this->_mkPagination($total);
 
+        $this->display();
+    }
+
+    //学习达人
+    public function learning()
+    {
+        //获取党员学习得分排名 前十名
+        $userlearninglist = D('User')->getUserLearninglist();
+        $this->assign('userlearninglist', $userlearninglist);
+        
         $this->display();
     }
 }
