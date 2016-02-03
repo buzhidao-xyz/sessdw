@@ -38,10 +38,10 @@
                     <div class="examresult">
                         {if $examinfo.result}
                         <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/icon_right.png" class="img-responsive center-block">
-                        <p class="answer">你的答案：{$examinfo.answer}</p>
+                        <p class="answer">你的答案：{$examinfo.useranswer}</p>
                         {else}
                         <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/icon_wrong.png" class="img-responsive center-block">
-                        <p class="answer" style="color: #CB1C1D;">你的答案：{$examinfo.answer}</p>
+                        <p class="answer" style="color: #CB1C1D;">你的答案：{$examinfo.useranswer}</p>
                         {/if}
                     </div>
                 </li>

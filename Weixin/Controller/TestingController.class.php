@@ -80,8 +80,7 @@ class TestingController extends CommonController
         $testingid = $this->_getTestingid();
 
         $testinginfo = D('Testing')->getTestingByID($courseid, $testingid, $userid);
-        $this->assign('testinginfo', $testinginfo);
-
+        $testingid = $testinginfo['testingid'];
         if (!is_array($testinginfo) || empty($testinginfo)) {
             $this->assign('errormsg', '试卷信息错误！');
         } else if (!$testinginfo['ucstatus']) {
@@ -91,10 +90,23 @@ class TestingController extends CommonController
             exit;
         }
 
+        //随机取10道题
+        $exams = array();
+        $examsrand = array_rand($testinginfo['exams'], 10);
+        $i = 0;
+        foreach ($examsrand as $key) {
+            $exams[$i] = $testinginfo['exams'][$key];
+            $exams[$i]['sortno'] = $i+1;
+            $i++;
+        }
+        session('userexams_'.$testingid, $exams);
+        $testinginfo['exams'] = $exams;
+        $this->assign('testinginfo', $testinginfo);
+
         $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $classid);
         $this->assign('testingprevnextinfo', $testingprevnextinfo);
 
-        session('testingid_'.$testinginfo['testingid'], $testinginfo['testingid']);
+        session('testingid_'.$testingid, $testingid);
         $this->display();
     }
 
@@ -106,9 +118,11 @@ class TestingController extends CommonController
         $testingid = $this->_getTestingid();
         $testingid = session('testingid_'.$testingid);
         $testinginfo = D('Testing')->getTestingByID(null, $testingid, $userid);
+        $userexams = session('userexams_'.$testingid);
+        $testinginfo['exams'] = $userexams;
 
         if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) {
-            header('location:'.__APP__.'?s=Course/index&courseid='.$testinginfo['courseid'].'&classid='.$classid);
+            header('location:'.__APP__.'?s=Course/profile&courseid='.$testinginfo['courseid'].'&classid='.$classid);
             exit;
         }
 
@@ -215,12 +229,16 @@ class TestingController extends CommonController
         //获取用户做的试卷答案
         $usertestingresult = M('user_testing_result')->where(array('userid'=>$userid,'testingid'=>$testingid))->select();
         foreach ($testinginfo['exams'] as $k=>$exam) {
+            $flag = 0;
             foreach ($usertestingresult as $exami) {
                 if ($exam['examid'] == $exami['examid']) {
                     $testinginfo['exams'][$k]['useranswer'] = $exami['useranswer'];
                     $testinginfo['exams'][$k]['result'] = $exami['result'];
+                    
+                    $flag = 1;
                 }
             }
+            if (!$flag) unset($testinginfo['exams'][$k]);
         }
         $this->assign('testinginfo', $testinginfo);
 

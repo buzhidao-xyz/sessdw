@@ -108,6 +108,19 @@ $("#newexambtn").on('click', function () {
     });
     return false;
 });
+//删除试题
+$("a.exambtndel").on('click', function () {
+    $(this).parents(".examitem").remove();
+    //遍历 计算序号和排序位置
+    setTimeout(function (){
+        var no = 1;
+        $(".examitem").each(function (){
+            $(this).find("input.sortno").val(no);
+            $(this).find("span.no").html(no + '.');
+            no++;
+        });
+    }, 100);
+});
 
 //Form提交 保存试卷信息
 $("form[name=testingform]").submit(function (){

@@ -96,6 +96,14 @@
                     </div>
                     <div class="form-group">
                         <a href="{$ANY.__APP__}?s=Testing/getexambox" class="btn btn-red" id="newexambtn">添加试题</a>
+                        <a href="javascript:;" class="btn btn-sky" id="excelexambtn">导入试题</a>
+                    </div>
+                    <div class="form-group" id="excelexamupbox" style="display: none;">
+                        <label>请上传试题文档（excel文档）：</label>
+                        <span class="input-icon icon-right">
+                            <input type="hidden" name="excelexam" value="">
+                            <input id="excelexamfile" type="file" name="excelexamfile" placeholder="试题文档（excel文档）" class="file-loading">
+                        </span>
                     </div>
                     <div class="form-group text-center">
                         <button class="btn btn-success" type="submit"> 发布 </button>
@@ -152,6 +160,23 @@ $("form[name=testingform]").submit(function (){
     }, 'json');
     return false;
 });
+});
+</script>
+
+<link href="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/js/fileinput_locale_zh.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}js/bootstrap-fileinput.excelexam.js"></script>
+<script>
+$(function (){
+    //excelexambtn上传Form
+    $("a#excelexambtn").on('click', function (){
+        $("#excelexamupbox").slideToggle();
+    });
+
+    var BootstrapFileInputClassObj = new BootstrapFileInputClass();
+    //课程示例图
+    BootstrapFileInputClassObj.Init("excelexam", JS_APP+"?s=Testing/excelexam");
 });
 </script>
 {include file="Common/foot.html"}
