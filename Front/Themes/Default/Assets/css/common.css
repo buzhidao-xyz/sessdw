@@ -108,7 +108,7 @@
     border-bottom: 1px solid #CB1C1D;
     height: 49px;
 }
-.articlepanel .articlelistbox .title a {
+.articlepanel .articlelistbox .title span {
     position: absolute;
     color: #cb1c1d;
     float: left;
@@ -118,8 +118,13 @@
     padding: 7px 0;
     border-bottom: 2px solid #cb1c1d;
 }
+.articlepanel .articlelistbox .title a {
+    float: right;
+    font-size: 13px;
+    margin-top: 20px;
+}
 .articlepanel .articlelistbox .title a:hover {
-    text-decoration: none;
+    
 }
 .articlepanel .articlelistbox ul.cont {
     padding: 10px 0;

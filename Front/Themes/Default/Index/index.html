@@ -49,7 +49,10 @@ $(function(){
     <div class="articlepanel maincontbox">
         <!-- news box -->
         <div class="articlelistbox newsbox">
-            <div class="title"><a href="{$ANY.__APP__}?s=Article/news" class="link">党建新闻</a></div>
+            <div class="title">
+                <span>党建新闻</span>
+                <a href="{$ANY.__APP__}?s=Article/news" class="link">更多>></a>
+            </div>
             <ul class="cont list-unstyled">
                 {if isset($djarclist)&&is_array($djarclist)&&!empty($djarclist)}
                 {foreach $djarclist as $d}
@@ -61,7 +64,10 @@ $(function(){
 
         <!-- notice box -->
         <div class="articlelistbox noticebox">
-            <div class="title"><a href="{$ANY.__APP__}?s=Article/notice" class="link">平台公告</a></div>
+            <div class="title">
+                <span>平台公告</span>
+                <a href="{$ANY.__APP__}?s=Article/notice" class="link">更多>></a>
+            </div>
             <ul class="cont list-unstyled">
                 {if isset($ntarclist)&&is_array($ntarclist)&&!empty($ntarclist)}
                 {foreach $ntarclist as $d}
