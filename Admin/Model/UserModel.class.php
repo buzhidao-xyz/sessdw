@@ -62,6 +62,36 @@ class UserModel extends CommonModel
         return $userid ? $userid : false;
     }
 
+    //获取党支部信息
+    public function getDangzhibu($zhibuid=null)
+    {
+        $where = array();
+        if ($zhibuid) $where['zhibuid'] = $zhibuid;
+
+        $total = M('dangzhibu')->where($where)->count();
+        $result = M('dangzhibu')->where($where)->order('zhibuid asc')->select();
+        $data = array();
+        if (is_array($result)&&!empty($result)) {
+            foreach ($result as $d) {
+                $data[$d['zhibuid']] = array(
+                    'zhibuid' => $d['zhibuid'],
+                    'zhibuname' => $d['zhibuname']
+                );
+            }
+        }
+
+        return array('total'=>$total, 'data'=>$data);
+    }
+
+    public function getDangzhibuByID($zhibuid=null)
+    {
+        if (!$zhibuid) return false;
+
+        $zhibuinfo = $this->getDangzhibu($zhibuid);
+
+        return $zhibuinfo['total'] ? array_shift($zhibuinfo['data']) : array();
+    }
+
     //获取反馈留言
     public function getLvword($keyword=null, $start=0, $length=9999)
     {

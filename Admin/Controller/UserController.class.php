@@ -79,6 +79,15 @@ class UserController extends CommonController
         return $position;
     }
 
+    //获取党支部
+    private function _getDangzhibu()
+    {
+        $dangzhibu = mRequest('dangzhibu');
+        if (!$dangzhibu) $this->ajaxReturn(1, '请填写党支部！');
+
+        return $dangzhibu;
+    }
+
     //获取搜索关键字
     private function _getKeywords()
     {
@@ -90,6 +99,9 @@ class UserController extends CommonController
 
     public function index()
     {
+        $this->zhibulist = D('User')->getDangzhibu();
+        $this->assign('zhibulist', $this->zhibulist['data']);
+
         $keywords = $this->_getKeywords();
 
         list($start, $length) = $this->_mkPage();
@@ -112,6 +124,9 @@ class UserController extends CommonController
     //新建账号
     public function newuser()
     {
+        $this->zhibulist = D('User')->getDangzhibu();
+        $this->assign('zhibulist', $this->zhibulist['data']);
+
         $this->assign("sidebar_active", array("User","index"));
 
         $this->display();
@@ -120,6 +135,9 @@ class UserController extends CommonController
     //查看账号 - 编辑
     public function profile()
     {
+        $this->zhibulist = D('User')->getDangzhibu();
+        $this->assign('zhibulist', $this->zhibulist['data']);
+        
         $this->assign("sidebar_active", array("User","index"));
 
         $userid = $this->_getUserid();
@@ -147,6 +165,7 @@ class UserController extends CommonController
         $username = $this->_getUsername();
         $department = $this->_getDepartment();
         $position = $this->_getPosition();
+        $dangzhibu = $this->_getDangzhibu();
 
         if ($password) {
             $ukey = String::randString(6, 3, '');
@@ -158,6 +177,7 @@ class UserController extends CommonController
                 'username'   => $username,
                 'department' => $department,
                 'position'   => $position,
+                'dangzhibu'  => $dangzhibu,
                 'updatetime' => TIMESTAMP,
             );
             if ($password) {
@@ -177,6 +197,7 @@ class UserController extends CommonController
                 'username'   => $username,
                 'department' => $department,
                 'position'   => $position,
+                'dangzhibu'  => $dangzhibu,
                 'ukey'       => $ukey,
                 'status'     => $status,
                 'loginnum'   => 0,

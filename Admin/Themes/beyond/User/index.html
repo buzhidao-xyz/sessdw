@@ -82,6 +82,7 @@
                             <th>姓名</th>
                             <th>部门</th>
                             <th>职位</th>
+                            <th>党支部</th>
                             <th>状态</th>
                             <th>登录次数</th>
                             <th>创建日期</th>
@@ -99,6 +100,7 @@
                             <td>{$d.username}</td>
                             <td>{$d.department}</td>
                             <td>{$d.position}</td>
+                            <td>{$zhibulist[$d.dangzhibu]['zhibuname']}</td>
                             <td>{if $d.status}<font color="green">已启用</font>{else}<font color="red">已禁用</font>{/if}</td>
                             <td>{$d.loginnum}</td>
                             <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>
