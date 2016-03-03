@@ -83,7 +83,7 @@ class UserController extends CommonController
     private function _getDangzhibu()
     {
         $dangzhibu = mRequest('dangzhibu');
-        if (!$dangzhibu) $this->ajaxReturn(1, '请填写党支部！');
+        // if (!$dangzhibu) $this->ajaxReturn(1, '请填写党支部！');
 
         return $dangzhibu;
     }

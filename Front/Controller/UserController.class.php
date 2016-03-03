@@ -237,4 +237,10 @@ class UserController extends BaseController
         
         $this->display();
     }
+
+    //支部学习管理
+    public function zbxx()
+    {
+        $this->display();
+    }
 }
