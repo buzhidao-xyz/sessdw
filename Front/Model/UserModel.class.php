@@ -274,6 +274,7 @@ class UserModel extends CommonModel
         $userscores = M('user')->alias('u')->field('u.userid, u.username, SUM(ut.gotscore) as gotscore')
                                ->join(' left join __USER_TESTING__ ut on ut.userid=u.userid and ut.status=1 ')
                                ->join(' left join __TESTING__ t on t.testingid=ut.testingid and t.status=1 ')
+                               ->where(array('u.status'=>1))
                                ->group('u.userid')
                                ->order('gotscore desc, u.userid asc')
                                ->select();
@@ -282,6 +283,7 @@ class UserModel extends CommonModel
         $userworks = M('user')->alias('u')->field('u.userid, uw.status')
                               ->join(' __USER_WORK__ uw on uw.userid=u.userid and uw.status=1 ')
                               ->join(' __WORK__ w on w.workid=uw.workid and w.type=2 ')
+                              ->where(array('u.status'=>1))
                               ->group('u.userid')
                               ->select();
 
