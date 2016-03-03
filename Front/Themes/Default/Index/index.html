@@ -28,7 +28,7 @@ $(function(){
                     <ul class="items">
                         {if isset($simglist)&&is_array($simglist)&&!empty($simglist)}
                         {foreach $simglist as $d}
-                        <li><a href="{$d.link}" title="{$d.title}" target="_blank"><img src="{$SERVER.HOST.HTTP_HOST}{$d.simgpath}"></a></li>
+                        <li><a href="{$d.link}" title="{$d.title}" target="_blank"><img src="{$SERVER.HOST.HTTP_HOST}{$d.simgpath}" style="width: 700px; height: 328px;"></a></li>
                         {/foreach}
                         {/if}
                     </ul>

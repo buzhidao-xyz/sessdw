@@ -39,9 +39,9 @@ class UserModel extends CommonModel
     public function getUsernum()
     {
         $where = array(
-            'status' => 1,
+            'status' => array('in',array(1,2)),
         );
-        $result = M('user')->where($where)->count();
+        $result = M('user_course')->where($where)->group('userid')->count();
 
         return $result>0 ? $result : 0;
     }
@@ -275,7 +275,7 @@ class UserModel extends CommonModel
                                ->join(' left join __USER_TESTING__ ut on ut.userid=u.userid and ut.status=1 ')
                                ->join(' left join __TESTING__ t on t.testingid=ut.testingid and t.status=1 ')
                                ->group('u.userid')
-                               ->order('gotscore desc')
+                               ->order('gotscore desc, u.userid asc')
                                ->select();
         
         //作业得分
