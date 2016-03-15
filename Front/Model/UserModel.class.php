@@ -41,7 +41,8 @@ class UserModel extends CommonModel
         $where = array(
             'status' => array('in',array(1,2)),
         );
-        $result = M('user_course')->where($where)->group('userid')->count();
+        $subQuery = M('user_course')->field('userid')->where($where)->group('userid')->buildSql();
+        $result = M('user_course')->table($subQuery.' a')->count();
 
         return $result>0 ? $result : 0;
     }
