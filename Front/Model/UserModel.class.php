@@ -39,7 +39,7 @@ class UserModel extends CommonModel
     public function getUsernum()
     {
         $where = array(
-            'status' => array('in',array(1,2)),
+            'status' => array('in',array(0,1,2)),
         );
         $subQuery = M('user_course')->field('userid')->where($where)->group('userid')->buildSql();
         $result = M('user_course')->table($subQuery.' a')->count();
