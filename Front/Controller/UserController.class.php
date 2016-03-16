@@ -241,6 +241,10 @@ class UserController extends BaseController
     //支部学习管理
     public function zbxx()
     {
+        //各支部学习进度统计
+        $zhibuLearnStats = D('User')->zhibuLearnStats();
+        $this->assign('zhibuLearnStats', $zhibuLearnStats);
+
         $this->display();
     }
 }

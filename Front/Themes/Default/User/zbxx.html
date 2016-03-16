@@ -33,7 +33,7 @@
                             <th>备注</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <!-- <tbody>
                         <tr>
                             <td>一支部</td>
                             <td>71</td>
@@ -82,7 +82,18 @@
                             <td>57.7%</td>
                             <td>-</td>
                         </tr>
-                        <!-- <tr><td colspan="5"></td></tr> -->
+                    </tbody> -->
+                    <tbody>
+                        {foreach $zhibuLearnStats as $k=>$zb}
+                        <tr style="{if $k=='total'}font-weight: 700;{/if}">
+                            <td>{$zb.zhibuname}</td>
+                            <td>{$zb.usernum}</td>
+                            <td>{$zb.usernumlearned}</td>
+                            <td>{$zb.learnpercent}</td>
+                            <td>{$zb.passpercent}</td>
+                            <td>-</td>
+                        </tr>
+                        {/foreach}
                     </tbody>
                 </table>
             </div>
