@@ -46,7 +46,7 @@
     <div class="page-body dashboard">
         <div class="widget formbox">
             <div class="widget-header bordered-bottom bordered-blue">
-                <span class="widget-caption">创建党员账号</span>
+                <span class="widget-caption">党员信息</span>
             </div>
             <div class="widget-body">
                 <form role="form" name="userform" method="post" action="{$ANY.__APP__}?s=User/usersave" class="dataform">
@@ -106,6 +106,30 @@
                         <button class="btn btn-success" type="submit"> 保存 </button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <div class="widget formbox">
+            <div class="widget-header bordered-bottom bordered-blue">
+                <span class="widget-caption">学习经历</span>
+            </div>
+            <div class="widget-body">
+                <div class="dataprofilecont" style="padding: 10px 0;">
+                    <div class="scorebox">-----课程测评平均得分：<font color="#CB1C1D">{$usergotscore}分</font></div>
+                    <ul class="coursedlist list-unstyled">
+                        {foreach $userinfo.usercourselist as $usercourseinfo}
+                        <li style="margin: 5px 0;">
+                            <span>
+                            - {'Y年m月d日 h:i'|date:{$usercourseinfo.completetime}} 
+                            {if $usercourseinfo.status==1}<font style="color: #CB1C1D;">[已学习]</font>{/if}
+                            {if $usercourseinfo.status==2}<font style="color: #348fe2;">[已测评]</font>{/if}
+                            </span>
+                            ---
+                            <font style="color: #348fe2;">{$usercourseinfo.title}</font>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

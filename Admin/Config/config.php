@@ -42,4 +42,7 @@ return array(
 		//支付配置
 		// 'PAY'   => 'pay.config',
 	),
+	
+    //作业权重
+    'work_weight' => 0.25,
 );

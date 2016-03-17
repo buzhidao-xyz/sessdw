@@ -95,7 +95,7 @@
                     <tbody>
                         {foreach $datalist as $d}
                         <tr>
-                            <td>{$d.userid}</td>
+                            <td rowspan="2">{$d.userid}</td>
                             <td>{$d.account}</td>
                             <td>{$d.username}</td>
                             <td>{$d.department}</td>
@@ -111,6 +111,18 @@
                                 <a href="{$ANY.__APP__}?s=User/enable&userid={$d.userid}&status=0" class="btn btn-danger btnenable">禁用</a>
                                 {else}
                                 <a href="{$ANY.__APP__}?s=User/enable&userid={$d.userid}&status=1" class="btn btn-success btnenable">启用</a>
+                                {/if}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="10">
+                                --- <b>最新学习进度</b> - 
+                                {if $d.courseid}
+                                [ {'Y-m-d H:i:s'|date:{$d.completetime}} ]
+                                <font color="#337ab7">{$d.coursetitle}</font>
+                                {if $d.coursestatus==1}<font color="#CB1C1D">[已学习]</font>{else}<font color="#337ab7">[已测评]</font>{/if}
+                                {else}
+                                <font color="#999">无</font>
                                 {/if}
                             </td>
                         </tr>

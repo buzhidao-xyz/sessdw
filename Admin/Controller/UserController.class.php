@@ -16,6 +16,9 @@ class UserController extends CommonController
         parent::__construct();
 
         $this->_page_location = __APP__.'?s=User/index';
+
+        $this->_course_class = CR('Course')->_course_class;
+        $this->assign('courseclass', $this->_course_class);
     }
 
     //获取用户id
@@ -145,6 +148,12 @@ class UserController extends CommonController
 
         $userinfo = D('User')->getUserByID($userid);
         $this->assign('userinfo', $userinfo);
+
+        //统计课程学习情况
+        $usercourselearninfo = D('User')->gcUserCourseLearn($userid, $this->_course_class);
+        //统计作业完成情况
+        $userworkfiledinfo = D('User')->getUserWorkFiled($userid, C('work_weight'));
+        $this->assign('usergotscore', $usercourselearninfo['total']['weightscore']+$userworkfiledinfo['weightscore']);
 
         $this->display();
     }
