@@ -10,7 +10,7 @@ class CommonController extends BaseController
 {
     //分页默认参数
     protected $_page     = 1;
-    protected $_pagesize = 30;
+    protected $_pagesize = 50;
 
     //管理员登录信息 session存储
     protected $managerinfo;

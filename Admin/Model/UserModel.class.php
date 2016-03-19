@@ -35,16 +35,28 @@ class UserModel extends CommonModel
         $result = M('user')->where($where)->order('createtime desc')->limit($start, $length)->select();
 
         $data = array();
-        $userids = array();
+        $userids = array(0);
         if (is_array($result)&&!empty($result)) {
             foreach ($result as $d) {
                 $data[$d['userid']] = array_merge($d, array(
+                    'coursednum' => 0,
                     'courseid' => 0,
                     'coursetitle' => '',
                     'coursestatus' => 0,
                     'completetime' => 0,
                 ));
                 $userids[] = $d['userid'];
+            }
+        }
+
+        //获取党员已完成课时（已测评）
+        $coursednum = M('user_course')->alias('a')->field('a.userid, count(a.courseid) as coursednum')
+                    ->where(array('a.userid'=>array('in', $userids), 'a.status'=>array('in', array(2))))
+                    ->group('a.userid')
+                    ->select();
+        if (is_array($coursednum)&&!empty($coursednum)) {
+            foreach ($coursednum as $d) {
+                $data[$d['userid']]['coursednum'] = $d['coursednum'];
             }
         }
 

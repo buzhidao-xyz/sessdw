@@ -84,7 +84,7 @@
                             <th>职位</th>
                             <th>党支部</th>
                             <th>状态</th>
-                            <th>登录次数</th>
+                            <th>已完成课程</th>
                             <th>创建日期</th>
                             <th>上次登录日期</th>
                             <th>操作项</th>
@@ -95,14 +95,14 @@
                     <tbody>
                         {foreach $datalist as $d}
                         <tr>
-                            <td rowspan="2">{$d.userid}</td>
+                            <td>{$d.userid}</td>
                             <td>{$d.account}</td>
                             <td>{$d.username}</td>
                             <td>{$d.department}</td>
                             <td>{$d.position}</td>
                             <td>{$zhibulist[$d.dangzhibu]['zhibuname']}</td>
                             <td>{if $d.status}<font color="green">已启用</font>{else}<font color="red">已禁用</font>{/if}</td>
-                            <td>{$d.loginnum}</td>
+                            <td>{$d.coursednum}</td>
                             <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>
                             <td>{if $d.lastlogintime}{'Y-m-d H:i:s'|date:{$d.lastlogintime}}{else}{/if}</td>
                             <td>
@@ -114,7 +114,7 @@
                                 {/if}
                             </td>
                         </tr>
-                        <tr>
+                        <!-- <tr>
                             <td colspan="10">
                                 --- <b>最新学习进度</b> - 
                                 {if $d.courseid}
@@ -125,7 +125,7 @@
                                 <font color="#999">无</font>
                                 {/if}
                             </td>
-                        </tr>
+                        </tr> -->
                         {/foreach}
                     </tbody>
                     {/if}
