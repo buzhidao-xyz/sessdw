@@ -42,7 +42,7 @@ class UserModel extends CommonModel
             'status' => array('in',array(0,1,2)),
         );
         $subQuery = M('user_course')->field('userid')->where($where)->group('userid')->buildSql();
-        $result = M('user_course')->table($subQuery.' a')->count();
+        $result = M('user_course')->table($subQuery.' a')->join(' __USER__ b on a.userid=b.userid and b.status=1 ')->count();
 
         return $result>0 ? $result : 0;
     }
@@ -370,7 +370,7 @@ class UserModel extends CommonModel
         }
 
         //查询支部人数
-        $zhibuUser = M('user')->field('dangzhibu, count(userid) as usernum')->where(array('dangzhibu'=>array('in', $zhibuIds)))->group('dangzhibu')->select();
+        $zhibuUser = M('user')->field('dangzhibu, count(userid) as usernum')->where(array('dangzhibu'=>array('in', $zhibuIds), 'status'=>1))->group('dangzhibu')->select();
 
         //查询支部学习人数
         $zhibuUserSubSqlt = M('user')->alias('a')
