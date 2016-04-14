@@ -187,7 +187,7 @@ class UserModel extends CommonModel
         //上传报告的作业总数
         $worktotalnum = M('work')->where(array('type'=>2))->count();
         //已完成的上传报告的作业总数
-        $workdonenum = M('user_work')->alias('a')->join(' __WORK__ b on b.workid=a.workid and b.type=2 ')->where(array('a.userid'=$userid, 'a.status'=>1))->count();
+        $workdonenum = M('user_work')->alias('a')->join(' __WORK__ b on b.workid=a.workid and b.type=2 ')->where(array('a.userid'=>$userid, 'a.status'=>1))->count();
         //总得分
         $totalscore = $workdonenum*100;
         //平均得分
