@@ -120,7 +120,7 @@
                         {foreach $userinfo.usercourselist as $usercourseinfo}
                         <li style="margin: 5px 0;">
                             <span>
-                            - {'Y年m月d日 h:i'|date:{$usercourseinfo.completetime}} 
+                            - {'Y年m月d日 H:i'|date:{$usercourseinfo.completetime}} 
                             {if $usercourseinfo.status==1}<font style="color: #CB1C1D;">[已学习]</font>{/if}
                             {if $usercourseinfo.status==2}<font style="color: #348fe2;">[已测评]</font>{/if}
                             </span>
