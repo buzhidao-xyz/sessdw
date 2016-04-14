@@ -28,7 +28,7 @@
                         {foreach $usercourselist as $usercourseinfo}
                         <li>
                             <p class="time">
-                                <span>- {'Y年m月d日 h:i'|date:{$usercourseinfo.completetime}}</span>
+                                <span>- {'Y年m月d日 H:i'|date:{$usercourseinfo.completetime}}</span>
                                 {if $usercourseinfo.status==1}
                                 <span style="float: right; color: #CB1C1D;">[已学习]</span>
                                 {else if $usercourseinfo.status==2}
