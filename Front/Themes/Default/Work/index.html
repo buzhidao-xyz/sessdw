@@ -56,7 +56,7 @@
             {if isset($worklist)&&is_array($worklist)&&!empty($worklist)}
             {foreach $worklist as $workinfo}
             <li>
-                <div class="no">{$workinfo.workid}</div>
+                <div class="no">{$workinfo.index}</div>
                 <div class="workinfo">
                     <div class="titlebox clearfix">
                         <span class="title">{$workinfo.title}</span>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="desc">{$workinfo.desc}</div>
                     <div class="sinfo">
-                        <span class="catalog">作业类别：<a href="javascript:;">{$workclass[$workinfo.type]['name']}</a></span>
+                        <span class="catalog">作业类别：<a href="javascript:;">{$workclass[$workinfo.classid]['name']}</a></span>
                         {if $workinfo.status}<span class="time">{'Y-m-d'|date:{$workinfo.createtime}}</span>{/if}
                     </div>
                     <div class="clink">

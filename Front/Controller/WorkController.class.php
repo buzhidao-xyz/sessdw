@@ -61,6 +61,12 @@ class WorkController extends CommonController
         $total = $data['total'];
         $worklist = $data['data'];
 
+        $count = count($worklist);
+        $i = 0;
+        foreach ($worklist as $key=>$d) {
+            $worklist[$key]['index'] = $count-$i;
+            $i++;
+        }
         $this->assign('worklist', $worklist);
 
         $param = array(
