@@ -76,6 +76,7 @@ class WorkController extends CommonController
         //解析分页数据
         $this->_mkPagination($total, $param);
 
+        $this->assign('APP_PATH', APP_PATH);
         $this->display();
     }
 
@@ -213,5 +214,36 @@ class WorkController extends CommonController
         $this->assign('classid', $workinfo['classid']);
         $this->assign('workinfo', $workinfo);
         $this->display();
+    }
+
+    //作业下载
+    public function workfile()
+    {
+        $userid = $this->userinfo['userid'];
+
+        $workid = mRequest('workid');
+        $workinfo = D('Work')->getWorkByID($workid, $userid);
+        if (!is_array($workinfo) || empty($workinfo)) {
+            header('location:'.__APP__.'?s=Work/index&classid=1');
+            exit;
+        }
+
+        $workfile = APP_PATH.$workinfo['savepath'].$workinfo['savename'];
+        $fileinfo = pathinfo($workfile);
+        $filename = $fileinfo['basename'];
+
+        $fp = fopen($workfile, "r");
+        $size = filesize($workfile);
+
+        //输入文件标签
+        Header("Content-type: application/octet-stream");
+        Header("Accept-Ranges: bytes");
+        Header("Accept-Length: " . $size);
+        Header("Content-Disposition: attachment; filename=" . $workinfo['filename']);
+        //输出文件内容
+        //读取文件内容并直接输出到浏览器
+        echo fread($fp, $size);
+        fclose($fp);
+        exit();
     }
 }
