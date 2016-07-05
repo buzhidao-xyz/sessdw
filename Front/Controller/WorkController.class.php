@@ -140,6 +140,9 @@ class WorkController extends CommonController
     //完成作业
     public function complete()
     {
+        $index = mRequest('index');
+        $this->assign('index', $index);
+
         $userid = $this->userinfo['userid'];
 
         $workid = mRequest('workid');
@@ -195,6 +198,9 @@ class WorkController extends CommonController
     //查看作业
     public function profile()
     {
+        $index = mRequest('index');
+        $this->assign('index', $index);
+
         $userid = $this->userinfo['userid'];
 
         $workid = mRequest('workid');

@@ -48,7 +48,7 @@
         <!-- worklist -->
         <ul class="worklist list-unstyled">
             <li>
-                <div class="no">{$workinfo.workid}</div>
+                <div class="no">{$index}</div>
                 <div class="workinfo">
                     <div class="titlebox clearfix">
                         <span class="title">{$workinfo.title}</span>
@@ -113,7 +113,7 @@ $("form[name=workform]").submit(function () {
     $("form[name=workform]").ajaxSubmit(function (data){
         alert(data.msg);
         if (!data.error) {
-            location.href = '{$ANY.__APP__}?s=Work/profile&workid={$workinfo.workid}&classid={$workinfo.classid}';
+            location.href = '{$ANY.__APP__}?s=Work/profile&workid={$workinfo.workid}&classid={$workinfo.classid}&index={$index}';
         }
     });
 

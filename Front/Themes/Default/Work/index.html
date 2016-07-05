@@ -80,13 +80,13 @@
                         {if $workinfo.type==1}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-primary">查看作业</a>
                         {else}
-                        <a href="{$ANY.__APP__}?s=Work/profile&workid={$workinfo.workid}&classid={$workinfo.classid}" class="btn btn-primary">查看作业</a>
+                        <a href="{$ANY.__APP__}?s=Work/profile&workid={$workinfo.workid}&classid={$workinfo.classid}&index={$workinfo.index}" class="btn btn-primary">查看作业</a>
                         {/if}
                     {else}
                         {if $workinfo.type==1}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-red">马上去完成</a>
                         {else}
-                        <a href="{$ANY.__APP__}?s=Work/complete&workid={$workinfo.workid}&classid={$workinfo.classid}" class="btn btn-red" workid="{$workinfo.workid}">马上去完成</a>
+                        <a href="{$ANY.__APP__}?s=Work/complete&workid={$workinfo.workid}&classid={$workinfo.classid}&index={$workinfo.index}" class="btn btn-red" workid="{$workinfo.workid}">马上去完成</a>
                         <!-- <p class="text-center m-t-5"><a href="javascript:;" class="subreport workfilebtn" workid="{$workinfo.workid}">提交报告</a></p> -->
                         {/if}
                     {/if}
