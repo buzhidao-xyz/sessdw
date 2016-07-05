@@ -80,7 +80,11 @@
                         {if $workinfo.type==1}
                         <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-primary">查看作业</a>
                         {else}
+                        {if $workinfo.savename&&$workinfo.savename!="work.txt"&&$workinfo.filesize>1}
+                        <a href="{$SERVER.HOST.HTTP_HOST}{$workinfo.savepath}{$workinfo.savename}" class="btn btn-primary">查看作业</a>
+                        {else}
                         <a href="{$ANY.__APP__}?s=Work/profile&workid={$workinfo.workid}&classid={$workinfo.classid}&index={$workinfo.index}" class="btn btn-primary">查看作业</a>
+                        {/if}
                         {/if}
                     {else}
                         {if $workinfo.type==1}
