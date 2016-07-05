@@ -23,7 +23,7 @@ class WorkModel extends CommonModel
         if ($classid) $where['a.classid'] = $classid;
 
         $total = M('work')->alias('a')->where($where)->count();
-        $result = M('work')->alias('a')->field('a.*, b.title as coursetitle, b.classid as courseclass, c.status, c.completetime, d.savepath, d.savename')
+        $result = M('work')->alias('a')->field('a.*, b.title as coursetitle, b.classid as courseclass, c.status, c.completetime, d.savepath, d.savename, d.ucontent')
                            ->join(' left join __COURSE__ b on a.courseid=b.courseid ')
                            ->join(' left join __USER_WORK__ c on a.workid=c.workid and c.userid='.$userid)
                            ->join(' left join __USER_WORK_FILE__ d on a.workid=c.workid and c.userid='.$userid)
@@ -37,7 +37,7 @@ class WorkModel extends CommonModel
     {
         if (!$workid || !$userid) return false;
 
-        $workinfo = $this->getWork($workid);
+        $workinfo = $this->getWork($workid, null, $userid);
 
         return $workinfo['total'] ? $workinfo['data'][0] : array();
     }

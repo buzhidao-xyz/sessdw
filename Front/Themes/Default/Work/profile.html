@@ -37,24 +37,8 @@
             });
         </script>
 
-        <!-- upload -->
-        <div id="workfilepanel" style="display: none;">
-            <form role="form" name="workfileform" method="post" action="{$ANY.__APP__}?s=Work/workfileupload">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <input type="text" name="workid" value="0">
-                            <input type="file" name="workfile" placeholder="作业报告（word文档）">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
         <!-- worklist -->
         <ul class="worklist list-unstyled">
-            {if isset($worklist)&&is_array($worklist)&&!empty($worklist)}
-            {foreach $worklist as $workinfo}
             <li>
                 <div class="no">{$workinfo.workid}</div>
                 <div class="workinfo">
@@ -77,18 +61,9 @@
                 </div>
                 <div class="ops">
                     {if $workinfo.status}
-                        {if $workinfo.type==1}
-                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-primary">查看作业</a>
-                        {else}
-                        <a href="{$ANY.__APP__}?s=Work/profile&workid={$workinfo.workid}&classid={$workinfo.classid}" class="btn btn-primary">查看作业</a>
-                        {/if}
+                    <a href="{$ANY.__APP__}?s=Work/profile&workid={$workinfo.workid}&classid={$workinfo.classid}" class="btn btn-primary">查看作业</a>
                     {else}
-                        {if $workinfo.type==1}
-                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$workinfo.courseid}&classid={$workinfo.courseclass}" class="btn btn-red">马上去完成</a>
-                        {else}
-                        <a href="{$ANY.__APP__}?s=Work/complete&workid={$workinfo.workid}&classid={$workinfo.classid}" class="btn btn-red" workid="{$workinfo.workid}">马上去完成</a>
-                        <!-- <p class="text-center m-t-5"><a href="javascript:;" class="subreport workfilebtn" workid="{$workinfo.workid}">提交报告</a></p> -->
-                        {/if}
+                    <a href="{$ANY.__APP__}?s=Work/complete&workid={$workinfo.workid}&classid={$workinfo.classid}" class="btn btn-red">马上去完成</a>
                     {/if}
                 </div>
                 {if $workinfo.status}
@@ -97,32 +72,29 @@
                 <div class="markimg_uncomplete"></div>
                 {/if}
             </li>
-            {/foreach}
-            {/if}
         </ul>
+        <div class="ucontent">
+            <p style="font-size: 18px; margin-bottom: 18px; color: #CB1C1D;"><b>作业报告内容：</b></p>
+            {$workinfo.ucontent|html_entity_decode}
+        </div>
 
         {include file="Public/pagination.html"}
     </div>
 </div>
 <!-- end #content -->
 
+<style type="text/css" media="screen">
+.ucontent {
+    padding: 10px 15px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333333;
+}
+</style>
 <script src="{$SERVER.HOST.PUBLIC_SERVER}js/jquery.form.js"></script>
 <script>
 $(function (){
-    //选择文件
-    $("a.workfilebtn").on('click', function (){
-        $("form[name=workfileform]").find("input[name=workid]").val($(this).attr('workid'));
-        $("form[name=workfileform]").find("input[name=workfile]").click();
-    });
-    //上传文件
-    $("form[name=workfileform]").find("input[name=workfile]").on('change', function (){
-        $("form[name=workfileform]").ajaxSubmit(function (data){
-            alert(data.msg);
-            if (!data.error) {
-                location.href = location.href;
-            }
-        });
-    });
+
 })
 </script>
 

@@ -111,7 +111,7 @@ class WorkController extends CommonController
             );
 
             //开始事务
-            M('testing')->startTrans();
+            M('user_work')->startTrans();
             $userworkid = M('user_work')->add(array(
                 'userid' => $this->userinfo['userid'],
                 'workid' => $workid,
@@ -129,5 +129,77 @@ class WorkController extends CommonController
         }
 
         $this->ajaxReturn($error, $msg, $data);
+    }
+
+    //完成作业
+    public function complete()
+    {
+        $userid = $this->userinfo['userid'];
+
+        $workid = mRequest('workid');
+        $workinfo = D('Work')->getWorkByID($workid, $userid);
+        if (!is_array($workinfo) || empty($workinfo)) {
+            header('location:'.__APP__.'?s=Work/index&classid=1');
+            exit;
+        }
+
+        $workc = mRequest('workc');
+        if ($workc && IS_AJAX) {
+            $ucontent = mRequest('ucontent');
+            if (!$ucontent) $this->ajaxReturn(1,'请填写作业报告！');
+
+            $error = 0;
+            $msg = '作业报告提交成功！';
+            $data = array(
+                'userid' => $userid,
+                'workid' => $workid,
+                'savepath' => '/'.UPLOAD_PT.'file/workfile/',
+                'savename' => 'work.txt',
+                'filename' => 'work.txt',
+                'filesize' => 1,
+                'ext' => 'txt',
+                'ucontent' => $ucontent,
+                'createtime' => TIMESTAMP,
+            );
+
+            //开始事务
+            M('user_work')->startTrans();
+            $userworkid = M('user_work')->add(array(
+                'userid' => $userid,
+                'workid' => $workid,
+                'status' => 1,
+                'completetime' => TIMESTAMP,
+            ));
+            $fileid = M('user_work_file')->add($data);
+            if ($userworkid && $fileid) {
+                M('user_work')->commit();
+            } else {
+                M('user_work')->rollback();
+                $error = 1;
+                $msg = '作业报告提交失败！请重新提交！';
+            }
+            $this->ajaxReturn($error, $msg, $data);
+        }
+
+        $this->assign('classid', $workinfo['classid']);
+        $this->assign('workinfo', $workinfo);
+        $this->display();
+    }
+
+    //查看作业
+    public function profile()
+    {
+        $userid = $this->userinfo['userid'];
+
+        $workid = mRequest('workid');
+        $workinfo = D('Work')->getWorkByID($workid, $userid);
+        if (!is_array($workinfo) || empty($workinfo)) {
+            header('location:'.__APP__.'?s=Work/index&classid=1');
+            exit;
+        }
+
+        $this->assign('classid', $workinfo['classid']);
+        $this->assign('workinfo', $workinfo);
+        $this->display();
     }
 }
