@@ -16,7 +16,7 @@ $database = array(
 		// 数据库端口
 		'DB_PORT'            => 3306,
 		// 数据库名
-		'DB_NAME'            => 'samsung',
+		'DB_NAME'            => 'sessdw',
 		// 用户名
 		'DB_USER'            => 'root',
 		// 密码

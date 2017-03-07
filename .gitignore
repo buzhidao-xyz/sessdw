@@ -1,2 +1,6 @@
 /.idea
 /Runtime
+
+/Admin/Config/db.config.php
+/Front/Config/db.config.php
+/Weixin/Config/db.config.php
