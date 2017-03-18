@@ -1,0 +1,64 @@
+{include file="Common/head.html"}
+
+{include file="Public/toper.html"}
+
+{include file="Public/header.html"}
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin resumebox -->
+    <div id="ResumeBox" class="resumebox">
+        <div class="maincontbox">
+            <div class="resume"></div>
+        </div>
+    </div>
+
+    <!-- begin datalistbox -->
+    <div class="datalistbox maincontbox">
+        <div class="row datalinkbox">
+            {if isset($booksclass)&&!empty($booksclass)}
+            {foreach $booksclass as $class}
+            <div class="col-xs-4 datalink">
+                <a href="{$ANY.__APP__}?s=Books/booklist&classid={$class.classid}">
+                    <span>{$class.classname}</span>
+                    <img src="{$SERVER.HOST.HTTP_HOST}{$class.cover}" class="img-responsive">
+                </a>
+            </div>
+            {/foreach}
+            {/if}
+        </div>
+
+        <!-- SESS党刊电子版 -->
+        <div class="sessbookbox clearfix">
+            <div class="title">
+                <span>SESS党刊电子版</span>
+                <a href="{$ANY.__APP__}?s=Books/booklist&booktype=1" class="link">更多&gt;&gt;</a>
+            </div>
+            <div class="sessbooks" datacount="{$sessbooks|count}">
+                {if isset($sessbooks)&&!empty($sessbooks)}
+                {foreach $sessbooks as $book}
+                <a href="{if $book.booklink}{$book.booklink}{else}{$SERVER.HOST.HTTP_HOST}{$book.bookfile}{/if}" title="{$book.bookname}" target="_blank">
+                    <img src="{$SERVER.HOST.HTTP_HOST}{$book.bookcover}">
+                </a>
+                {/foreach}
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end #content -->
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/jquery-marquee/jquery.marquee.min.js"></script>
+<script>
+    $(function (){
+        if ($('.sessbooks').attr('datacount')>7) {
+            $('.sessbooks').bind('beforeStarting', function () {
+                $('.sessbooks').find(".js-marquee-wrapper").css("margin-left", "0");
+                $('.sessbooks').find(".js-marquee-wrapper .js-marquee").css("margin-right", "0");
+            }).marquee({
+                duration: 30000,
+                duplicated: true,
+                pauseOnHover: true
+            });
+        }
+    })
+</script>
+{include file="Common/foot.html"}

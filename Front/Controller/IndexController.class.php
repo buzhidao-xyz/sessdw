@@ -6,16 +6,20 @@
  */
 namespace Front\Controller;
 
-use Any\Controller;
-
 class IndexController extends BaseController
 {
     //导航栏目navflag标识
     public $navflag = 'Index';
 
+    //支部信息
+    public $zhibu = array();
+
     public function __construct()
     {
         parent::__construct();
+
+        $this->zhibu = D('Common')->getDangzhibu(null, 1);
+        $this->assign('zhibu', $this->zhibu);
     }
 
     //系统首页
@@ -26,12 +30,12 @@ class IndexController extends BaseController
         $this->assign('simglist', $simglist);
 
         //党建新闻
-        $djarclist = D('Article')->getArc(null, CR('Article')->arcclass['news']['id'], null, 0, 7);
+        $djarclist = D('Article')->getArc(null, CR('Article')->arcclass['news']['id'], null, 0, 6);
         $this->assign('djarclist', $djarclist['data']);
 
-        //平台公告
-        $ntarclist = D('Article')->getArc(null, CR('Article')->arcclass['notice']['id'], null, 0, 7);
-        $this->assign('ntarclist', $ntarclist['data']);
+        //推荐文章
+        $recomarclist = D('Article')->getArcRecom(null, 0, 6);
+        $this->assign('recomarclist', $recomarclist['data']);
 
         //获取课程总数
         $coursenum = D('Course')->getCoursenum();

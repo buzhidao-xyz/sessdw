@@ -15,15 +15,26 @@ class CourseController extends CommonController
     {
         parent::__construct();
 
-        $this->_course_class = C('USER.course_class');
+        $this->_course_type = D('Course')->getCourseType();
+        $this->assign('coursetype', $this->_course_type);
+
+        $this->_course_class = D('Course')->getCourseClass();
         $this->assign('courseclass', $this->_course_class);
 
         $this->_user_course_status = C('USER.user_course_status');
         $this->assign('usercoursestatus', $this->_user_course_status);
 
         //获取用户课程学习情况
-        $this->usercourseinfo = D('User')->gcUserCourseLearn($this->userinfo['userid'], $this->_course_class);
+        $this->usercourseinfo = D('User')->gcUserCourseLearn($this->userinfo['userid']);
         $this->assign('usercourseinfo', $this->usercourseinfo);
+    }
+
+    //获取课程类型Id
+    private function _getTypeid()
+    {
+        $typeid = mRequest('typeid');
+
+        return $typeid;
     }
 
     //获取课程分类Id
@@ -47,12 +58,16 @@ class CourseController extends CommonController
     {
         $userid = $this->userinfo['userid'];
 
+        $typeid = $this->_getTypeid();
+        $typeid = !$typeid ? 1 : $typeid;
+        $this->assign('typeid', $typeid);
+
         $classid = $this->_getClassid();
-        $classid = !$classid ? 1 : $classid;
+//        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         list($start, $length) = $this->_mkPage();
-        $data = D('Course')->getCourse(null, $classid, $this->userinfo['userid'], $start, $length);
+        $data = D('Course')->getCourse(null, $typeid, $classid, $this->userinfo['userid'], $start, $length);
         $total = $data['total'];
         $courselist = $data['data'];
 
@@ -60,13 +75,14 @@ class CourseController extends CommonController
 
         $param = array(
             'classid' => $classid,
+            'typeid' => $typeid,
         );
         $this->assign('param', $param);
         //解析分页数据
         $this->_mkPagination($total, $param);
 
         //获取党员当前应该学习的课程id
-        $clearncourseid = D('Course')->getCLearnCourseid($userid, $classid);
+        $clearncourseid = D('Course')->getCLearnCourseid($userid, $typeid, $classid);
         $this->assign('clearncourseid', $clearncourseid);
 
         $this->display();
@@ -87,8 +103,12 @@ class CourseController extends CommonController
     {
         $userid = $this->userinfo['userid'];
 
+        $typeid = $this->_getTypeid();
+        $typeid = !$typeid ? 1 : $typeid;
+        $this->assign('typeid', $typeid);
+
         $classid = $this->_getClassid();
-        $classid = !$classid ? 1 : $classid;
+//        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         $courseid = $this->_getCourseid();
@@ -99,11 +119,11 @@ class CourseController extends CommonController
         if (!is_array($courseinfo) || empty($courseinfo)) $this->_gotoIndex();
 
         //获取上一课程、下一课程
-        $courseprevnextinfo = D('Course')->getPrevNextCourse($courseid, $classid);
+        $courseprevnextinfo = D('Course')->getPrevNextCourse($courseid, $typeid, $classid);
         $this->assign('courseprevnextinfo', $courseprevnextinfo);
 
         //获取党员当前应该学习的课程id
-        $clearncourseid = D('Course')->getCLearnCourseid($userid, $classid);
+        $clearncourseid = D('Course')->getCLearnCourseid($userid, $typeid, $classid);
         $this->assign('clearncourseid', $clearncourseid);
 
         //判断上一课是否已学习 如果未学习 显示去学习的信息

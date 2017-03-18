@@ -17,12 +17,23 @@ class TestingController extends CommonController
     {
         parent::__construct();
 
-        $this->_course_class = C('USER.course_class');
+        $this->_course_type = D('Course')->getCourseType();
+        $this->assign('coursetype', $this->_course_type);
+
+        $this->_course_class = D('Course')->getCourseClass();
         $this->assign('courseclass', $this->_course_class);
 
         //获取用户课程学习情况
-        $this->usercourseinfo = D('User')->gcUserCourseLearn($this->userinfo['userid'], $this->_course_class);
+        $this->usercourseinfo = D('User')->gcUserCourseLearn($this->userinfo['userid']);
         $this->assign('usercourseinfo', $this->usercourseinfo);
+    }
+
+    //获取课程类型Id
+    private function _getTypeid()
+    {
+        $typeid = mRequest('typeid');
+
+        return $typeid;
     }
 
     //获取课程分类Id
@@ -52,18 +63,23 @@ class TestingController extends CommonController
     //随堂测评首页
     public function index()
     {
+        $typeid = $this->_getTypeid();
+        $typeid = !$typeid ? 1 : $typeid;
+        $this->assign('typeid', $typeid);
+
         $classid = $this->_getClassid();
-        $classid = !$classid ? 1 : $classid;
+//        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         list($start, $length) = $this->_mkPage();
-        $data = D('Testing')->getTesting(null, null, $classid, $this->userinfo['userid'], $start, $length);
+        $data = D('Testing')->getTesting(null, null, $typeid, $classid, $this->userinfo['userid'], $start, $length);
         $total = $data['total'];
         $testinglist = $data['data'];
 
         $this->assign('testinglist', $testinglist);
 
         $param = array(
+            'typeid' => $typeid,
             'classid' => $classid,
         );
         $this->assign('param', $param);
@@ -78,8 +94,12 @@ class TestingController extends CommonController
     {
         $userid = $this->userinfo['userid'];
 
+        $typeid = $this->_getTypeid();
+        $typeid = !$typeid ? 1 : $typeid;
+        $this->assign('typeid', $typeid);
+
         $classid = $this->_getClassid();
-        $classid = !$classid ? 1 : $classid;
+//        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         $courseid = $this->_getCourseid();
@@ -92,7 +112,7 @@ class TestingController extends CommonController
         } else if (!$testinginfo['ucstatus']) {
             $this->assign('errormsg', '请先学习该课程！');
         } else if ($testinginfo['utstatus']) {
-            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid.'&classid='.$classid);
+            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid.'&typeid='.$typeid.'&classid='.$classid);
             exit;
         }
 
@@ -109,7 +129,7 @@ class TestingController extends CommonController
         $testinginfo['exams'] = $exams;
         $this->assign('testinginfo', $testinginfo);
 
-        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $classid);
+        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $typeid, $classid);
         $this->assign('testingprevnextinfo', $testingprevnextinfo);
         
         session('testingid_'.$testingid, $testingid);
@@ -120,9 +140,13 @@ class TestingController extends CommonController
     public function check()
     {
         $userid = $this->userinfo['userid'];
-        
+
+        $typeid = $this->_getTypeid();
+        $typeid = !$typeid ? 1 : $typeid;
+        $this->assign('typeid', $typeid);
+
         $classid = $this->_getClassid();
-        $classid = !$classid ? 1 : $classid;
+//        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         $testingid = $this->_getTestingid();
@@ -132,7 +156,7 @@ class TestingController extends CommonController
         $testinginfo['exams'] = $userexams;
 
         if (!is_array($testinginfo) || empty($testinginfo) || $testinginfo['utstatus']) {
-            header('location:'.__APP__.'?s=Course/profile&courseid='.$testinginfo['courseid'].'&classid='.$classid);
+            header('location:'.__APP__.'?s=Course/profile&courseid='.$testinginfo['courseid'].'&typeid='.$typeid.'&classid='.$classid);
             exit;
         }
         
@@ -147,7 +171,7 @@ class TestingController extends CommonController
         $gotscore = 0;
         foreach ($testinginfo['exams'] as $k=>$exam) {
             if (!isset($exams[$exam['examid']])) {
-                header('location:'.__APP__.'?s=Testing/exam&testingid='.$testingid.'&classid='.$classid);
+                header('location:'.__APP__.'?s=Testing/exam&testingid='.$testingid.'&typeid='.$typeid.'&classid='.$classid);
                 exit;
             }
 
@@ -180,7 +204,6 @@ class TestingController extends CommonController
             'gotscore' => $gotscore,
             'completetime' => TIMESTAMP,
         );
-        $usertestingresult = $usertestingresult;
 
         if ((int)$gotscore >= (int)$testinginfo['passscore']) {
             //及格
@@ -205,7 +228,7 @@ class TestingController extends CommonController
             //更新课程作业完成情况
             D('User')->ckUserCourseWork($userid, $testinginfo['courseid']);
 
-            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid.'&classid='.$classid);
+            header('location:'.__APP__.'?s=Testing/profile&testingid='.$testingid.'&typeid='.$typeid.'&classid='.$classid);
             exit;
         } else {
             //不及格
@@ -223,8 +246,12 @@ class TestingController extends CommonController
     //随堂测评结果页
     public function profile()
     {
+        $typeid = $this->_getTypeid();
+        $typeid = !$typeid ? 1 : $typeid;
+        $this->assign('typeid', $typeid);
+
         $classid = $this->_getClassid();
-        $classid = !$classid ? 1 : $classid;
+//        $classid = !$classid ? 1 : $classid;
         $this->assign('classid', $classid);
 
         $userid = $this->userinfo['userid'];
@@ -252,7 +279,7 @@ class TestingController extends CommonController
         }
         $this->assign('testinginfo', $testinginfo);
 
-        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $classid);
+        $testingprevnextinfo = D('Testing')->getPrevNextTesting($testingid, $typeid, $classid);
         $this->assign('testingprevnextinfo', $testingprevnextinfo);
         
         $this->display();

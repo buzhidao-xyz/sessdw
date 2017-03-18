@@ -1,0 +1,80 @@
+{include file="Common/head.html"}
+
+{include file="Public/toper.html"}
+
+{include file="Public/header.html"}
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin resumebox -->
+    <div id="ResumeBox" class="resumebox">
+        <div class="resumenav maincontbox">
+            <ul class="list-unstyled">
+                <li class="active"><a href="{$ANY.__APP__}?s=Tszb/index">特色支部建设</a></li>
+            </ul>
+            <div class="links">
+                <a href="{$ANY.__APP__}">返回平台首页</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- begin datalistbox -->
+    <div class="datalistbox maincontbox">
+        <!-- begin articlepanel -->
+        <div class="articlepanel" style="margin-top: 0;">
+            {if isset($tszb)&&is_array($tszb)&&!empty($tszb)}
+            {foreach $tszb as $quarter}
+            <div class="articlelistbox tszbbox">
+                <div class="title"><span>{$quarter.title}</span></div>
+                <div class="cont">
+                    <div class="table-responsive">
+                        <table class="table table-bordered jjhbox">
+                            <thead>
+                            <tr>
+                                <th rowspan="2">区分</th>
+                                {foreach $tszbclass as $tc}
+                                {if $tc.classid==1}
+                                <th colspan="4">{$tc.classname}</th>
+                                {elseif $tc.classid==2}
+                                <th rowspan="2">{$tc.classname}</th>
+                                {/if}
+                                {/foreach}
+                            </tr>
+                            <tr>
+                                {foreach $tszbclass as $tc}
+                                {if isset($tc.subclass)&&!empty($tc.subclass)}
+                                {foreach $tc.subclass as $stc}
+                                <th><span>{$stc.classname}</span></th>
+                                {/foreach}
+                                {/if}
+                                {/foreach}
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {foreach $quarter.zhibu as $zhibu}
+                                <tr>
+                                    <td>{$zhibu.zhibuname}</td>
+                                    {foreach $zhibu.tszb as $tszb}
+                                    <td>
+                                        {foreach $tszb.built as $built}
+                                        {if $tszb.classid==2}
+                                        <a href="{$ANY.__APP__}?s=Tszb/profile&builtid={$built.builtid}">{'m.d'|date:$built.dt} {$built.shorttitle}</a>
+                                        {else}
+                                        <a href="{$ANY.__APP__}?s=Tszb/profile&builtid={$built.builtid}">{'m.d'|date:$built.dt} {$built.usernum}人</a>
+                                        {/if}
+                                        {/foreach}
+                                    </td>
+                                    {/foreach}
+                                </tr>
+                                {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+            {/if}
+        </div>
+    </div>
+</div>
+<!-- end #content -->
+{include file="Common/foot.html"}

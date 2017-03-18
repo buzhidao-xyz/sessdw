@@ -12,8 +12,8 @@
     <div class="datalistbox testingbox maincontbox">
         <!-- listnav -->
         <ul id="listnav" class="listnav list-unstyled">
-            {foreach $courseclass as $class}
-            <li class="item {if isset($classid)&&$classid==$class.id}active{/if}"><a href="{$ANY.__APP__}?s=Testing/index&classid={$class.id}">{$class.name}</a></li>
+            {foreach $coursetype as $type}
+            <li class="item {if isset($typeid)&&$typeid==$type.typeid}active{/if}"><a href="{$ANY.__APP__}?s=Course/index&typeid={$type.typeid}">{$type.typename}</a></li>
             {/foreach}
         </ul>
         <script src="{$SERVER.HOST.PUBLIC_SERVER}js/jquery-scrolltofixed-min.js"></script>
@@ -30,14 +30,14 @@
             <li>
                 <span class="t"><b>测评：</b></span>
                 {if $testinginfo.utstatus}
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="name completed">[已学习]{$testinginfo.title}</a>
+                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}&typeid={$testinginfo.typeid}&classid={$testinginfo.classid}" class="name completed">[已学习]{$testinginfo.title}</a>
                 <span class="completed">已完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="btn btn-primary oplink">查看成绩</a>
+                <a href="{$ANY.__APP__}?s=Testing/profile&testingid={$testinginfo.testingid}&typeid={$testinginfo.typeid}&classid={$testinginfo.classid}" class="btn btn-primary oplink">查看成绩</a>
                 {else}
                 {if $testinginfo.ucstatus}
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="name">[已学习]{$testinginfo.title}</a>
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}&typeid={$testinginfo.typeid}&classid={$testinginfo.classid}" class="name">[已学习]{$testinginfo.title}</a>
                 <span class="uncompleted">未完成</span>
-                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}&classid={$testinginfo.classid}" class="btn btn-red oplink">开始测评</a>
+                <a href="{$ANY.__APP__}?s=Testing/exam&testingid={$testinginfo.testingid}&typeid={$testinginfo.typeid}&classid={$testinginfo.classid}" class="btn btn-red oplink">开始测评</a>
                 {else}
                 <a href="javascript:;" class="name disabled" disabled><font color="#CB1C1D">[未学习]</font>{$testinginfo.title}</a>
                 <span class="uncompleted">未完成</span>

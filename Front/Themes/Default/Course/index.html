@@ -12,8 +12,8 @@
     <div class="datalistbox coursebox maincontbox">
         <!-- listnav -->
         <ul id="listnav" class="listnav list-unstyled">
-            {foreach $courseclass as $class}
-            <li class="item {if isset($classid)&&$classid==$class.id}active{/if}"><a href="{$ANY.__APP__}?s=Course/index&classid={$class.id}">{$class.name}</a></li>
+            {foreach $coursetype as $type}
+            <li class="item {if isset($typeid)&&$typeid==$type.typeid}active{/if}"><a href="{$ANY.__APP__}?s=Course/index&typeid={$type.typeid}">{$type.typename}</a></li>
             {/foreach}
         </ul>
         <script src="{$SERVER.HOST.PUBLIC_SERVER}js/jquery-scrolltofixed-min.js"></script>
@@ -32,7 +32,7 @@
                     <img src="{$SERVER.HOST.HTTP_HOST}{$courseinfo.showimg}" class="img-responsive img-rounded center-block" style="width: 180px; height: 90px;">
                 </div>
                 <div class="cont">
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" title="{$courseinfo.title}" class="title">{$courseinfo.title}</a>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&typeid={$courseinfo.typeid}&classid={$courseinfo.classid}" title="{$courseinfo.title}" class="title">{$courseinfo.title}</a>
                     {if $courseinfo.status}
                     <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/course_s_done_icon.png" class="course_s_icon">
                     {else}
@@ -45,18 +45,18 @@
                     <a href="javascript:;" class="btn btn-default btn-study disabled">已学习</a>
                     {else}
                     {if $courseinfo.courseid==$clearncourseid}
-                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" class="btn btn-default btn-study btn-red">马上去学习</a>
+                    <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&typeid={$courseinfo.typeid}&classid={$courseinfo.classid}" class="btn btn-default btn-study btn-red">马上去学习</a>
                     {else}
                     <a href="javascript:;" class="btn btn-default btn-study btn-red disabled" disabled>马上去学习</a>
                     {/if}
                     {/if}
                     <p>
                         {if $courseinfo.status==1}
-                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}">再次学习</a>
-                        <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}">完成随堂测评</a>
+                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&typeid={$courseinfo.typeid}&classid={$courseinfo.classid}">再次学习</a>
+                        <a href="{$ANY.__APP__}?s=Testing/exam&courseid={$courseinfo.courseid}&typeid={$courseinfo.typeid}&classid={$courseinfo.classid}">完成随堂测评</a>
                         {else if $courseinfo.status==2}
-                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}">再次学习</a>
-                        <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}&classid={$courseinfo.classid}" class="" style="color: #337ab7;">随堂测评成绩</a>
+                        <a href="{$ANY.__APP__}?s=Course/profile&courseid={$courseinfo.courseid}&typeid={$courseinfo.typeid}&classid={$courseinfo.classid}">再次学习</a>
+                        <a href="{$ANY.__APP__}?s=Testing/profile&courseid={$courseinfo.courseid}&typeid={$courseinfo.typeid}&classid={$courseinfo.classid}" class="" style="color: #337ab7;">随堂测评成绩</a>
                         {else}
                         <a href="javascript:;" class="disabled" disabled>完成随堂测评</a>
                         {/if}

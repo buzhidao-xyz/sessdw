@@ -1,17 +1,49 @@
 <!-- begin Top -->
 <div id="Toper" class="toper">
     <div class="maincontbox">
-        <div class="title">两学一做 - 党建学习教育平台</div>
+        <div class="title">两学一做 - 党建管理平台</div>
         <div class="links">
             {if isset($userinfo)&&!empty($userinfo)&&$userinfo.userid}
             <span>欢迎你，{$userinfo.username}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
             <a href="{$ANY.__APP__}?s=User/home">个人中心</a>&nbsp;&nbsp;|&nbsp;&nbsp;
             <a href="{$ANY.__APP__}?s=User/logout" class="logout">退出</a>
             {else}
-            <a href="{$ANY.__APP__}?s=Help/qa">帮助</a>&nbsp;&nbsp;
+            <form name="LoginForm" action="{$ANY.__APP__}?s=User/logincheck" method="post" class="form-inline loginform">
+                <div class="form-group">
+                    <!-- <label for="">账号</label> -->
+                    <input type="text" name="account" class="form-control input-account" placeholder="账号">
+                </div>
+                <div class="form-group">
+                    <!-- <label for="">密码</label> -->
+                    <input type="password" name="password" class="form-control input-password" placeholder="密码(注意大小写)">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default btn-red btn-login" type="submit">登录</button>
+                </div>
+            </form>
+            <a href="{$ANY.__APP__}?s=Help/qa">帮助</a>
             {/if}
         </div>
     </div>
 </div>
 <div class="topervisiblebox"></div>
+<script>
+    $(function (){
+        //登录Form
+        $("form[name=LoginForm]").submit(function (){
+            var url = $(this).attr('action');
+            var pdata = $(this).serialize();
+            $.post(url, pdata, function (data){
+                if (data.error) alert(data.msg);
+                else {
+                    if ("location" in data.data) {
+                        location_href = data.data.location;
+                    }
+                    location.href = location_href ? location_href : location.href;
+                }
+            }, 'json');
+            return false;
+        });
+    })
+</script>
 <!-- end #Toper -->

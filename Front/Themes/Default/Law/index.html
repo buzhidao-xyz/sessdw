@@ -1,0 +1,88 @@
+{include file="Common/head.html"}
+
+{include file="Public/toper.html"}
+
+{include file="Public/header.html"}
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin resumebox -->
+    <div id="ResumeBox" class="resumebox">
+        <div class="maincontbox">
+            <div class="resume"></div>
+        </div>
+    </div>
+
+    <!-- begin datalistbox -->
+    <div class="datalistbox maincontbox">
+        <div class="recombox">
+            <a href="{$lawcourselatest.link}" target="_blank">
+                <img src="{$SERVER.HOST.HTTP_HOST}{$lawcourselatest.cover}">
+                <span>{$lawcourselatest.title}</span>
+            </a>
+        </div>
+        <div id="lawlistbox" class="lawlistbox" datacount="{$lawcourse|count}">
+            <ul class="lawlist list-unstyled">
+                {if isset($lawcourse)&&!empty($lawcourse)}
+                {foreach $lawcourse as $course}
+                <li>
+                    <a href="{$course.link}" title="{$course.title}" target="_blank">{$course.title}</a>
+                </li>
+                {/foreach}
+                {/if}
+            </ul>
+        </div>
+
+        <div class="arcsbox">
+            <!-- begin articlepanel -->
+            <div class="articlepanel">
+                <!-- lawnews box -->
+                <div class="articlelistbox newsbox lawnewsbox">
+                    <div class="title">
+                        <span>法治新闻</span>
+                        <a href="{$ANY.__APP__}?s=Law/news&newstype={$newstypes[1].id}" class="link">更多>></a>
+                    </div>
+                    <ul class="cont list-unstyled">
+                        {if isset($lawnews1)&&!empty($lawnews1)}
+                        {foreach $lawnews1 as $news}
+                        <li>
+                            <a href="{$ANY.__APP__}?s=Law/profile&newsid={$news.newsid}" title="{$news.title}">
+                                <img src="{$SERVER.HOST.HTTP_HOST}{$news.thumbimg}">
+                                <span>{$news.title}</span>
+                            </a>
+                        </li>
+                        {/foreach}
+                        {/if}
+                    </ul>
+                </div>
+
+                <!-- lawarcbox -->
+                <div class="articlelistbox lawarcbox">
+                    <div class="title">
+                        <span>法律法规</span>
+                        <a href="{$ANY.__APP__}?s=Law/news&newstype={$newstypes[2].id}" class="link">更多>></a>
+                    </div>
+                    <ul class="cont list-unstyled">
+                        {if isset($lawnews2)&&!empty($lawnews2)}
+                        {foreach $lawnews2 as $news}
+                        <li><a href="{$ANY.__APP__}?s=Law/profile&newsid={$news.newsid}" title="{$news.title}">{$news.title}</a></li>
+                        {/foreach}
+                        {/if}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end #content -->
+<script src="{$SERVER.HOST.PUBLIC_SERVER}js/jquery.scroll-line-top.js"></script>
+<script>
+    $(function (){
+        if ($('#lawlistbox').attr('datacount')>9) {
+            $('#lawlistbox').ScrollLineTop({
+                time: 2000,
+                num: 1
+            });
+        }
+    })
+</script>
+{include file="Common/foot.html"}

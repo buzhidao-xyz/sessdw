@@ -15,7 +15,13 @@ class UserController extends BaseController
     {
         parent::__construct();
 
-        $this->_course_class = C('USER.course_class');
+        $this->zhibu = D('Common')->getDangzhibu();
+        $this->assign('zhibu', $this->zhibu);
+
+        $this->_course_type = D('Course')->getCourseType();
+        $this->assign('coursetype', $this->_course_type);
+
+        $this->_course_class = D('Course')->getCourseClass();
         $this->assign('courseclass', $this->_course_class);
     }
 
@@ -217,10 +223,10 @@ class UserController extends BaseController
         $this->assign('usercourselist', $usercourselist);
 
         //统计课程学习情况
-        $usercourselearninfo = D('User')->gcUserCourseLearn($userid, $this->_course_class);
+        $usercourselearninfo = D('User')->gcUserCourseLearn($userid);
         //统计作业完成情况
         $userworkfiledinfo = D('User')->getUserWorkFiled($userid, C('USER.work_weight'));
-        $this->assign('usergotscore', $usercourselearninfo['total']['weightscore']+$userworkfiledinfo['weightscore']);
+        $this->assign('usergotscore', $usercourselearninfo['total']['weightscore']);
 
         //解析分页数据
         $this->_mkPagination($total);
@@ -245,6 +251,85 @@ class UserController extends BaseController
         $zhibuLearnStats = D('User')->zhibuLearnStats();
         $this->assign('zhibuLearnStats', $zhibuLearnStats);
 
+        $this->display();
+    }
+
+    //金鸡湖班
+    public function jjh()
+    {
+        $zhibuid = mRequest('zhibuid');
+        $this->assign('zhibuid', $zhibuid);
+
+        //支部信息
+        $zhibu = array();
+        if ($zhibuid) {
+            $zhibu = array($zhibuid=>$this->zhibu[$zhibuid]);
+        } else {
+            $zhibu = $this->zhibu;
+            foreach ($this->zhibu as $d) {
+                $zhibuid[] = $d['zhibuid'];
+            }
+        }
+
+        //金鸡湖班用户
+        $where = array(
+            'a.status' => 1,
+            'a.jjh' => 1
+        );
+        if ($zhibuid) $where['a.dangzhibu'] = is_array($zhibuid) ? array('in', $zhibuid) : $zhibuid;
+        $userlist = M('user')->alias('a')->where($where)->select();
+
+        //金鸡湖班课程
+        $data = D('Course')->getCourse(null, 3);
+        $data = $data['data'];
+        $jjhcourse = array();
+        if (is_array($data) && !empty($data)) {
+            foreach ($data as $d) {
+                $d['learned'] = 0;
+                $d['titles'] = explode('：', $d['title']);
+                $jjhcourse[$d['courseid']] = $d;
+            }
+        }
+        ksort($jjhcourse);
+
+        //金鸡湖班信息
+        $jjhlist = $zhibu;
+        $index = 1;
+        foreach ($userlist as $d) {
+            if (!isset($jjhlist[$d['dangzhibu']]['user'])) {
+                $jjhlist[$d['dangzhibu']]['usernum'] = 0;
+                $jjhlist[$d['dangzhibu']]['user'] = array();
+            }
+
+            $jjhlist[$d['dangzhibu']]['usernum']++;
+
+            $jjhlist[$d['dangzhibu']]['user'][$d['userid']] = array(
+                'index' => $index,
+                'userid' => $d['userid'],
+                'username' => $d['username'],
+                'zhibuid' => $d['dangzhibu'],
+                'learned' => 0,
+                'course' => $jjhcourse
+            );
+
+            $index++;
+        }
+
+        //金鸡湖班用户课程签到信息
+        $jjh = D('User')->getJJH($zhibuid);
+        if (is_array($jjh) && !empty($jjh)) {
+            foreach ($jjh as $d) {
+                if (isset($jjhlist[$d['dangzhibu']]['user'][$d['userid']]['course'][$d['courseid']])) {
+                    $jjhlist[$d['dangzhibu']]['user'][$d['userid']]['learned']++;
+
+                    $jjhlist[$d['dangzhibu']]['user'][$d['userid']]['course'][$d['courseid']]['learned'] = 1;
+                }
+            }
+        }
+
+        $this->assign('zhibuid', $zhibuid);
+        $this->assign('jjhcourse', $jjhcourse);
+        $this->assign('jjhlist', $jjhlist);
         $this->display();
     }
 }

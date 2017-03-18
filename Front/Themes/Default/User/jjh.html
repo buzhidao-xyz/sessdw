@@ -1,0 +1,64 @@
+{include file="Common/head.html"}
+
+{include file="Public/toper.html"}
+
+{include file="Public/header.html"}
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin resumebox -->
+    <div id="ResumeBox" class="resumebox">
+        <div class="resumenav maincontbox">
+            <ul class="list-unstyled">
+                <li class="active"><a href="{$ANY.__APP__}?s=User/jjh">首届金鸡湖班学习履历</a></li>
+            </ul>
+            <div class="links">
+                <a href="{$ANY.__APP__}">返回平台首页</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- begin homebox -->
+    <div class="maincontbox homebox" style="padding: 10px;">
+        <div class="table-responsive">
+            <table class="table table-bordered jjhbox">
+                <thead>
+                    <tr>
+                        <th rowspan="2">序号</th>
+                        <th rowspan="2">支部</th>
+                        <th rowspan="2">姓名</th>
+                        <th colspan="{$jjhcourse|count}">考勤</th>
+                        <th rowspan="2">合计</th>
+                    </tr>
+                    <tr>
+                        {foreach $jjhcourse as $course}
+                        <th class="course">
+                            {foreach $course.titles as $title}
+                            <span>{$title}</span>
+                            {/foreach}
+                        </th>
+                        {/foreach}
+                    </tr>
+                </thead>
+                <tbody>
+                    {foreach $jjhlist as $jjh}
+                    {foreach $jjh.user as $user name=foo}
+                    <tr>
+                        <td>{$user.index}</td>
+                        {if $smarty.foreach.foo.index==0}
+                        <td rowspan="{$jjh.usernum}">{$jjh.zhibuname}</td>
+                        {/if}
+                        <td>{$user.username}</td>
+                        {foreach $user.course as $course}
+                        <td>{if $course.learned}1{/if}</td>
+                        {/foreach}
+                        <td>{$user.learned}</td>
+                    </tr>
+                    {/foreach}
+                    {/foreach}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- end #content -->
+{include file="Common/foot.html"}

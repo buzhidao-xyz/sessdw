@@ -1,0 +1,13 @@
+<!-- begin resumebox -->
+<div id="ResumeBox" class="resumebox">
+    <div class="resumenav maincontbox">
+        <ul class="list-unstyled">
+            {foreach $newstypes as $d}
+            <li {if $d.id==$newstype}class="active"{/if}><a href="{$ANY.__APP__}?s=Law/news&newstype={$d.id}">{$d.title}</a></li>
+            {/foreach}
+        </ul>
+        <div class="links">
+            <a href="{$ANY.__APP__}">返回平台首页</a>
+        </div>
+    </div>
+</div>

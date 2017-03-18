@@ -52,6 +52,25 @@ class ArticleModel extends CommonModel
         return array('total'=>$count, 'data'=>is_array($result)?$result:array());
     }
 
+    //获取推荐文章
+    public function getArcRecom($keyword=null, $start=0, $length=9999)
+    {
+        $where = array(
+            'status' => 1,
+            'recom'  => 1,
+        );
+        if ($keyword) $where['_complex'] = array(
+            '_logic'  => 'or',
+            'title'   => array('like', '%'.$keyword.'%'),
+            'keyword' => array('like', '%'.$keyword.'%'),
+        );
+
+        $count = M('article')->where($where)->count();
+        $result = M('article')->where($where)->order('createtime desc')->limit($start, $length)->select();
+
+        return array('total'=>$count, 'data'=>is_array($result)?$result:array());
+    }
+
     //获取文章详情
     public function getArcByID($arcid=null)
     {

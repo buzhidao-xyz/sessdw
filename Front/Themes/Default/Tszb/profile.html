@@ -1,0 +1,53 @@
+{include file="Common/head.html"}
+
+{include file="Public/toper.html"}
+
+{include file="Public/header.html"}
+<!-- begin #content -->
+<div id="content" class="content">
+    <!-- begin resumebox -->
+    <div id="ResumeBox" class="resumebox">
+        <div class="resumenav maincontbox">
+            <ul class="list-unstyled">
+                <li class="active"><a href="{$ANY.__APP__}?s=Tszb/index">特色支部建设</a></li>
+            </ul>
+            <div class="links">
+                <a href="{$ANY.__APP__}">返回平台首页</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- begin datalistbox -->
+    <div class="datalistbox maincontbox">
+        <!-- begin articlepanel -->
+        <div class="articlepanel" style="margin-top: 0;">
+            <div class="articlelistbox tszbbox">
+                <div class="title"><span>{$tszbbuilt.zhibuname}</span></div>
+                <div class="tszbitem">
+                    <span class="name">会议时间：</span>
+                    <span class="value">{'Y年m月d日 H:i'|date:$tszbbuilt.dt}</span>
+                </div>
+                <div class="tszbitem">
+                    <span class="name">会议地点：</span>
+                    <span class="value">{$tszbbuilt.place}</span>
+                </div>
+                <div class="tszbitem">
+                    <span class="name">会议人员：</span>
+                    <span class="value">{$tszbbuilt.userdesc}</span>
+                </div>
+                <div class="tszbitem">
+                    <span class="name">会议主题：</span>
+                    <span class="value">{$tszbbuilt.title}</span>
+                </div>
+                <div class="tszbitem">
+                    <span class="name">会议内容：</span>
+                    <div class="content">
+                        {$tszbbuilt.content|html_entity_decode}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end #content -->
+{include file="Common/foot.html"}

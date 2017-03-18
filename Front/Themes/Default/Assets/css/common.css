@@ -28,7 +28,7 @@
     padding: 0 30px;
     display: block;
     overflow: hidden;
-    margin-left: 0px;
+    margin-left: 0;
     border: 1px solid #E1E1E1;
 }
 .bannerpanel .loginbox h2.title {
@@ -68,14 +68,57 @@
     font-size: 15px;
     letter-spacing: 2px;
 }
-.bannerpanel .caption {
-    width: 100%;
-    height: auto;
+.bannerpanel .iconsbox {
     display: block;
     overflow: hidden;
-    padding: 10px 40px;
+    padding: 10px;
+}
+.bannerpanel .iconsbox p {
+    display: block;
+    clear: both;
+    padding: 13px 10px;
+    margin: 0 5px;
+    overflow: hidden;
+    background: #FFFFFF;
+    margin-bottom: 1px;
+}
+.bannerpanel .iconsbox p img {
+    float: left;
+    width: 75px;
+}
+.bannerpanel .iconsbox p span {
+    display: block;
+    color: #cb1c1d;
+    font-size: 25px;
+    font-weight: 700;
+    margin-left: 15px;
+    padding: 0;
+    float: left;
+    height: 75px;
+    line-height: 75px;
+    text-shadow: 2px 2px 5px #d26c6c;
+}
+.bannerpanel .caption {
+    width: 1020px;
+    height: 74px;
+    line-height: 55px;
+    display: block;
+    overflow: hidden;
+    padding: 10px 0;
     font-size: 19px;
     letter-spacing: 1px;
+}
+.bannerpanel .caption .captionbox {
+    min-width: 1020px;
+}
+.bannerpanel .caption .cbox,
+.bannerpanel .caption .cboxp {
+    float: left;
+}
+.bannerpanel .caption a {
+    padding-left: 15px;
+    padding-right: 30px;
+    background: url("../images/icon_arrow_right.gif") no-repeat center left;
 }
 .bannerpanel .caption p {
     margin-bottom: 0;
@@ -187,6 +230,85 @@
     height: 336px;
     margin-top: 10px;
     /*background: #F5F6F7;*/
+}
+
+.articlepanel .newsbox {
+    float: left;
+    width: 690px;
+    margin-right: 0;
+}
+.articlepanel .newsbox ul.cont li {
+    float: left;
+    width: 30%;
+    height: auto;
+    padding: 0;
+    margin: 15px 1.66%;
+    background: none;
+    border-bottom: 0;
+    text-align: center;
+}
+.articlepanel .articlelistbox ul.cont li a {
+    width: auto;
+    height: auto;
+    line-height: normal;
+}
+.articlepanel .newsbox ul.cont li img {
+    width: auto;
+    min-width: 100px;
+    max-width: 100%;
+    height: auto;
+    min-height: 75px;
+    max-height: 90px;
+}
+.articlepanel .newsbox ul.cont li span {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    margin-top: 10px;
+    max-height: 40px;
+}
+
+.articlepanel .zhibubox {
+    float: right;
+    width: 300px;
+    height: auto;
+    display: block;
+    overflow: hidden;
+    margin-right: 0;
+}
+.articlepanel .zhibubox .zhibu {
+    margin-top: 10px;
+}
+.articlepanel .zhibubox .zhibu p {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    height: 60px;
+    margin: 5px;
+    background: #F1F1F1;
+}
+.articlepanel .zhibubox .zhibu p a {
+    color: #333333;
+    display: block;
+    overflow: hidden;
+}
+.articlepanel .zhibubox .zhibu p a:hover {
+    color: #CB1C1D;
+    text-decoration: none;
+}
+.articlepanel .zhibubox .zhibu p img {
+    float: left;
+    width: 60px;
+    height: auto;
+}
+.articlepanel .zhibubox .zhibu p span {
+    float: left;
+    display: block;
+    font-size: 18px;
+    height: 60px;
+    line-height: 60px;
+    margin-left: 15px;
+    text-shadow: 2px 2px 5px #666666;
 }
 
 /*course样式表*/
@@ -306,6 +428,310 @@
 .datalistbox ul.listnav li.active a {
     color: #FFFFFF;
     background: #CB1C1D;
+}
+
+.datalinkbox {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+}
+.datalinkbox .datalink {
+    padding: 15px 30px;
+}
+.datalinkbox .datalink:hover {
+
+}
+.datalinkbox .datalink a {
+    color: #333333;
+    width: 265px;
+    display: block;
+    overflow: hidden;
+    box-shadow: 3px 3px 5px #666666;
+}
+.datalinkbox .datalink a:hover {
+    color: #CB1C1D;
+    text-decoration: none;
+    box-shadow: 3px 3px 5px #CB1C1D;
+}
+.datalinkbox .datalink span {
+    display: block;
+    overflow: hidden;
+    padding: 10px;
+    font-size: 19px;
+    background: #F5F6F7;
+    border-top: 2px solid #E1E1E1;
+}
+
+.sessbookbox {
+    display: block;
+    overflow: hidden;
+    margin: 15px 20px;
+    margin-top: 30px;
+    border-bottom: 1px solid #CB1C1D;
+}
+.sessbookbox .title {
+    display: block;
+    overflow: hidden;
+    border-bottom: 1px solid #CB1C1D;
+    height: 49px;
+}
+.sessbookbox .title span {
+    position: absolute;
+    color: #cb1c1d;
+    float: left;
+    font-family: "Microsoft YaHei";
+    font-size: 23px;
+    font-weight: normal;
+    padding: 7px 0;
+    border-bottom: 2px solid #cb1c1d;
+}
+.sessbookbox .title a {
+    float: right;
+    font-size: 13px;
+    margin-top: 20px;
+}
+.sessbookbox .sessbooks {
+    display: block;
+    overflow: hidden;
+    margin: 25px 0;
+    min-height: 100px;
+    max-height: 130px;
+}
+.sessbookbox .sessbooks a {
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 30px;
+    border: 1px solid #A1A1A1;
+    box-shadow: 3px 3px 5px #666666;
+}
+.sessbookbox .sessbooks a:hover {
+    border: 1px solid #CB1C1D;
+    box-shadow: 3px 3px 5px #d26c6c;
+}
+.sessbookbox .sessbooks a img {
+    width: 90px;
+    height: 120px;
+}
+
+.booklistbox {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: 780px;
+    padding-bottom: 30px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #E1E1E1;
+    background: url("../images/books/books_shujia_5.png") repeat-x left top;
+}
+.booklistbox p {
+    display: inline-block;
+    float: left;
+    width: 20%;
+    margin-top: 65px;
+    margin-bottom: 0;
+    text-align: center;
+}
+.booklistbox p:nth-of-type(odd) {
+    margin-left: 5%;
+}
+.booklistbox p:nth-of-type(even) {
+    margin-right: 5%;
+}
+.booklistbox p a {
+    display: inline-block;
+    overflow: hidden;
+    border: 1px solid #A1A1A1;
+    box-shadow: 3px 3px 5px #111111;
+}
+.booklistbox p a:hover {
+    border: 1px solid #622815;
+    box-shadow: 3px 3px 5px #622815;
+}
+.booklistbox p a img {
+    width: 90px;
+    height: 120px;
+}
+
+.recombox {
+    float: left;
+    display: block;
+    overflow: hidden;
+    width: 660px;
+    height: 390px;
+}
+.recombox a {
+    color: #333333;
+}
+.recombox a:hover {
+    color: #CB1C1D;
+}
+.recombox img {
+    width: 100%;
+    height: 350px;
+}
+.recombox span {
+    display: block;
+    font-size: 15px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #E1E1E1;
+}
+
+.lawlistbox {
+    float: right;
+    display: block;
+    overflow: hidden;
+    width: 270px;
+    height: 390px;
+    padding: 0 10px;
+    border: 3px solid #E1E1E1;
+}
+.lawlistbox ul {
+    margin-bottom: 0;
+}
+.lawlistbox ul li {
+    display: block;
+    height: 42px;
+    overflow: hidden;
+}
+.lawlistbox ul li a {
+    display: inline-block;
+    overflow: hidden;
+    color: #333333;
+    font-size: 15px;
+    height: 42px;
+    line-height: 42px;
+    padding-left: 12px;
+    border-bottom: 1px dashed #E1E1E1;
+    background: url("../images/icon_arrow_right.gif") left center no-repeat;
+}
+.lawlistbox ul li a:hover {
+    color: #CB1C1D;
+}
+
+.arcsbox {
+    clear: both;
+    display: block;
+    overflow: hidden;
+    margin-top: 15px;
+}
+.arcsbox .lawnewsbox {
+    display: block;
+    overflow: hidden;
+    float: left;
+    width: 660px;
+    margin-right: 0;
+}
+.arcsbox .lawarcbox {
+    display: block;
+    overflow: hidden;
+    float: right;
+    width: 270px;
+    height: auto;
+    margin-right: 0;
+}
+.arcsbox .lawnewsbox ul.cont,
+.arcsbox .lawarcbox ul.cont {
+    display: block;
+    overflow: hidden;
+    width: auto;
+    height: 350px;
+}
+.arcsbox .lawarcbox ul.cont {
+    margin-top: 7px;
+}
+.arcsbox .lawarcbox ul.cont li a {
+    width: auto;
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+table.jjhbox {
+    border-color: #A1A1A1;
+}
+table.jjhbox tr th,
+table.jjhbox tr td {
+    color: #000000;
+    text-align: center;
+    vertical-align: middle;
+}
+table.jjhbox tr th span,
+table.jjhbox tr td span {
+    color: #000000;
+    clear: both;
+    display: block;
+}
+table.jjhbox thead tr th {
+    color: #FFFFFF;
+    background: #CB1C1D;
+}
+table.jjhbox thead tr th.course {
+    min-width: 75px;
+    max-width: 105px;
+    min-height: 29px;
+    max-height: 46px;
+}
+table.jjhbox thead tr th span {
+    color: #FFFFFF;
+    background: #CB1C1D;
+}
+table.jjhbox > thead > tr > th,
+table.jjhbox > tbody > tr > th,
+table.jjhbox > tfoot > tr > th,
+table.jjhbox > thead > tr > td,
+table.jjhbox > tbody > tr > td,
+table.jjhbox > tfoot > tr > td {
+    padding: 5px;
+    border-color: #A1A1A1;
+}
+table.jjhbox > thead > tr > th {
+    border-bottom: 2px solid #A1A1A1 !important;
+}
+
+.articlepanel .tszbbox {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    margin-right: 0;
+    margin-bottom: 15px;
+}
+.articlepanel .tszbbox .cont {
+    display: block;
+    overflow: hidden;
+    margin-top: 15px;
+}
+.articlepanel .tszbbox .cont table.jjhbox > thead > tr > th,
+.articlepanel .tszbbox .cont table.jjhbox > tbody > tr > th,
+.articlepanel .tszbbox .cont table.jjhbox > tfoot > tr > th,
+.articlepanel .tszbbox .cont table.jjhbox > thead > tr > td,
+.articlepanel .tszbbox .cont table.jjhbox > tbody > tr > td,
+.articlepanel .tszbbox .cont table.jjhbox > tfoot > tr > td {
+    font-size: 15px;
+    padding: 10px 15px;
+}
+.articlepanel .tszbbox .cont table.jjhbox > tbody > tr > td > a {
+    display: block;
+    clear: both;
+}
+.articlepanel .tszbbox .tszbitem {
+    margin: 15px 0;
+    margin-top: 25px;
+}
+.articlepanel .tszbbox .tszbitem span {
+    color: #000000;
+    font-size: 17px;
+}
+.articlepanel .tszbbox .tszbitem span.name {
+    font-weight: 700;
+}
+.articlepanel .tszbbox .tszbitem .content {
+    color: #000000;
+    font-size: 17px;
+    margin-top: 15px;
 }
 
 ul.testinglist {

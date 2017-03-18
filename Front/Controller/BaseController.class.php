@@ -63,6 +63,10 @@ class BaseController extends Controller
         //获取作业数量（未完成）
         $undoneworknum = D('Work')->getUndoneWorkNum($this->userinfo['userid']);
         $this->assign('undoneworknum', $undoneworknum);
+
+        //友情链接
+        $flinks = D('Common')->getFlink();
+        $this->assign('flinks', $flinks);
     }
 
     /**
@@ -94,6 +98,10 @@ class BaseController extends Controller
         $HOST = C('HOST');
         $SERVER['HOST'] = $HOST;
         $this->assign('SERVER', $SERVER);
+
+        //系统配置Config
+        $config = D('Common')->getConfig();
+        $this->assign('config', $config);
     }
 
     //输出系统参数

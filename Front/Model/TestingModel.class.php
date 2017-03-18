@@ -14,7 +14,7 @@ class TestingModel extends CommonModel
     }
 
     //获取课程信息
-    public function getTesting($testingid=null, $courseid=null, $classid=null, $userid=null, $start=0, $length=9999)
+    public function getTesting($testingid=null, $courseid=null, $typeid=null, $classid=null, $userid=null, $start=0, $length=9999)
     {
         $where = array(
             'a.status' => 1,
@@ -22,11 +22,12 @@ class TestingModel extends CommonModel
         );
         if ($testingid) $where['a.testingid'] = $testingid;
         if ($courseid) $where['a.courseid'] = $courseid;
-        if ($classid) $where['b.classid'] = $classid;
-        // if ($userid) $where['c.userid'] = $userid;
+        if ($typeid) $where['b.typeid'] = is_array($typeid) ? array('in', $typeid) : $typeid;
+        if ($classid) $where['b.classid'] = is_array($classid) ? array('in', $classid) : $classid;
+
         $cwhere = $userid ? ' and c.userid='.$userid.' ' : '';
         $subQuery = M('testing')->alias('a')
-                                ->field('a.*, b.title, b.classid, b.viewnum, b.learnnum, c.status as ucstatus')
+                                ->field('a.*, b.title, b.typeid, b.classid, b.viewnum, b.learnnum, c.status as ucstatus')
                                 ->join('__COURSE__ b on a.courseid=b.courseid')
                                 ->join(' LEFT JOIN __USER_COURSE__ c on a.courseid=c.courseid '.$cwhere)
                                 ->where($where)->order('a.createtime desc')->buildSql();
@@ -150,16 +151,17 @@ class TestingModel extends CommonModel
     }
 
     //获取上一试卷、下一试卷
-    public function getPrevNextTesting($testingid=null, $classid=null)
+    public function getPrevNextTesting($testingid=null, $typeid=null, $classid=null)
     {
-        if ($testingid === null || !$classid) return false;
+        if ($testingid === null || (!$typeid && !$classid)) return false;
 
         $where = array(
             'a.status' => 1,
             'a.testingid' => array('LT', $testingid),
             'b.isshow' => 1,
-            'b.classid' => $classid,
         );
+        if ($typeid) $where['b.typeid'] = $typeid;
+        if ($classid) $where['b.classid'] = $classid;
         $prevtestinginfo = M('testing')->alias('a')->field('a.*, b.title')->join(' __COURSE__ b ON a.courseid=b.courseid ')
                                       ->where($where)->order('a.testingid desc')->limit(0, 1)->find();
 
@@ -167,8 +169,9 @@ class TestingModel extends CommonModel
             'a.status' => 1,
             'a.testingid' => array('GT', $testingid),
             'b.isshow' => 1,
-            'b.classid' => $classid,
         );
+        if ($typeid) $where['b.typeid'] = $typeid;
+        if ($classid) $where['b.classid'] = $classid;
         $nexttestinginfo = M('testing')->alias('a')->field('a.*, b.title')->join(' __COURSE__ b ON a.courseid=b.courseid ')
                                       ->where($where)->order('a.testingid asc')->limit(0, 1)->find();
 

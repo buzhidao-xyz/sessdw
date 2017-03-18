@@ -1,16 +1,31 @@
 <!-- begin resumebox -->
 <div id="ResumeBox" class="resumebox">
     <div class="maincontbox">
+        <!--<div class="resume resume-testing">-->
+            <!--<span class="title">我的测评：</span>-->
+            <!--<span class="content">已完成 <font color="#348fe2" size="5">{$usercourseinfo.total.testingdonenum}</font> 课</span>-->
+            <!--<span class="content">未完成 <font color="#348fe2" size="5">{$usercourseinfo.total.testingnonenum}</font> 课</span>-->
+            <!--<div class="progress">-->
+                <!--<div class="progress-bar" role="progressbar" aria-valuenow="{$usercourseinfo.total.testingpercent}" aria-valuemin="0" aria-valuemax="100" style="width: {$usercourseinfo.total.testingpercent}%;">{$usercourseinfo.total.testingpercent}%</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="links">-->
+            <!--<a href="{$ANY.__APP__}?s=Help/qa">如何完成测评？</a>-->
+        <!--</div>-->
         <div class="resume resume-testing">
             <span class="title">我的测评：</span>
-            <span class="content">已完成 <font color="#348fe2" size="5">{$usercourseinfo.total.testingdonenum}</font> 课</span>
-            <span class="content">未完成 <font color="#348fe2" size="5">{$usercourseinfo.total.testingnonenum}</font> 课</span>
+            <span class="content">必修课[<font color="#348fe2" size="5">{$usercourseinfo.type[1].testingdonenum}</font>/{$usercourseinfo.type[1].testingtotalnum}]</span>
+            <span class="content">选修课[<font color="#348fe2" size="5">{$usercourseinfo.type[2].testingdonenum}</font>/{$usercourseinfo.type[2].testingtotalnum}]</span>
+            <span class="content">研修积分[<font color="#333333" size="5">{$usercourseinfo.total.weightscore}</font>]</span>
             <div class="progress">
                 <div class="progress-bar" role="progressbar" aria-valuenow="{$usercourseinfo.total.testingpercent}" aria-valuemin="0" aria-valuemax="100" style="width: {$usercourseinfo.total.testingpercent}%;">{$usercourseinfo.total.testingpercent}%</div>
             </div>
         </div>
-        <div class="links">
-            <a href="{$ANY.__APP__}?s=Help/qa">如何完成测评？</a>
+        <div class="links" style="padding-top: 15px;">
+            <a href="{$ANY.__APP__}?s=User/learning" style="margin: 0 5px;">
+                <img src="{$SERVER.HOST.IMAGE_SERVER}Themes/Default/Assets/images/activity_banner.png" style="width: auto; height: 37px;">
+            </a>
+            <a href="{$ANY.__APP__}?s=User/jjh" class="btn btn-default btn-study btn-red">金鸡湖班</a>
         </div>
     </div>
 </div>
