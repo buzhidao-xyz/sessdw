@@ -147,4 +147,21 @@ class CourseModel extends CommonModel
 
         return !empty($nextcourseinfo) ? $nextcourseinfo['courseid'] : ($ccourseid ? $ccourseid : 0);
     }
+
+    //获取班级信息
+    public function getCourseBan($banid=null)
+    {
+        $where = array();
+        if ($banid) $where['banid'] = is_array($banid) ? array('in', $banid) : $banid;
+
+        $result = M('course_ban')->where($where)->order('banid asc')->select();
+        $data = array();
+        if (is_array($result) && !empty($result)) {
+            foreach ($result as $d) {
+                $data[$d['banid']] = $d;
+            }
+        }
+
+        return is_array($data) ? $data : array();
+    }
 }

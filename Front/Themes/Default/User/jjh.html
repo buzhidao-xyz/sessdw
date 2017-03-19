@@ -9,7 +9,11 @@
     <div id="ResumeBox" class="resumebox">
         <div class="resumenav maincontbox">
             <ul class="list-unstyled">
-                <li class="active"><a href="{$ANY.__APP__}?s=User/jjh">首届金鸡湖班学习履历</a></li>
+                {if isset($bans)&&!empty($bans)}
+                {foreach $bans as $ban}
+                <li {if isset($banid)&&$banid==$ban.banid}class="active"{/if}><a href="{$ANY.__APP__}?s=User/jjh&banid={$ban.banid}">{$ban.banname}</a></li>
+                {/foreach}
+                {/if}
             </ul>
             <div class="links">
                 <a href="{$ANY.__APP__}">返回平台首页</a>

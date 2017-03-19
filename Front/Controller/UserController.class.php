@@ -257,30 +257,29 @@ class UserController extends BaseController
     //金鸡湖班
     public function jjh()
     {
+        $banid = mRequest('banid');
+        $banid = $banid ? $banid : 1;
+        $this->assign('banid', $banid);
+
         $zhibuid = mRequest('zhibuid');
         $this->assign('zhibuid', $zhibuid);
 
+        $bans = D('Course')->getCourseBan();
+        $this->assign('bans', $bans);
+
+        //班级信息
+        $ban = M('course_ban')->where(array('banid'=>$banid))->find();
+
         //支部信息
         $zhibu = array();
-        if ($zhibuid) {
-            $zhibu = array($zhibuid=>$this->zhibu[$zhibuid]);
-        } else {
-            $zhibu = $this->zhibu;
-            foreach ($this->zhibu as $d) {
-                $zhibuid[] = $d['zhibuid'];
-            }
-        }
+        $zhibu = $zhibuid ? array($zhibuid=>$this->zhibu[$zhibuid]) : $this->zhibu;
+        foreach ($zhibu as $d) $zhibuid[] = $d['zhibuid'];
 
         //金鸡湖班用户
-        $where = array(
-            'a.status' => 1,
-            'a.jjh' => 1
-        );
-        if ($zhibuid) $where['a.dangzhibu'] = is_array($zhibuid) ? array('in', $zhibuid) : $zhibuid;
-        $userlist = M('user')->alias('a')->where($where)->select();
+        $userlist = D('User')->getCourseBanUser($banid, $zhibuid);
 
         //金鸡湖班课程
-        $data = D('Course')->getCourse(null, 3);
+        $data = D('Course')->getCourse(null, $ban['coursetype']);
         $data = $data['data'];
         $jjhcourse = array();
         if (is_array($data) && !empty($data)) {
@@ -316,7 +315,7 @@ class UserController extends BaseController
         }
 
         //金鸡湖班用户课程签到信息
-        $jjh = D('User')->getJJH($zhibuid);
+        $jjh = D('User')->getUserCourseBan($banid, $zhibuid);
         if (is_array($jjh) && !empty($jjh)) {
             foreach ($jjh as $d) {
                 if (isset($jjhlist[$d['dangzhibu']]['user'][$d['userid']]['course'][$d['courseid']])) {

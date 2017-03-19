@@ -692,18 +692,51 @@ class UserModel extends CommonModel
         return $zhibuLearnStats;
     }
 
-    //金鸡湖班
-    public function getJJH($zhibuid=null)
+    //金鸡湖班用户
+    public function getCourseBanUser($banid=null, $zhibuid=array())
     {
-        $where = array(
-            'a.status' => 1,
-            'a.jjh' => 1
-        );
-        if ($zhibuid) $where['a.dangzhibu'] = is_array($zhibuid) ? array('in', $zhibuid) : $zhibuid;
+        if (!$banid) return false;
 
-        $data = M('user')->alias('a')->field('a.userid, a.username, a.department, a.position, a.dangzhibu, uc.courseid, c.title as coursetitle')
-            ->join(' __USER_COURSE__ uc on a.userid=uc.userid and uc.status>0 ')
-            ->join(' __COURSE__ c on uc.courseid=c.courseid and c.typeid=3 ')
+        //获取班级信息
+        $ban = M('course_ban')->where(array('banid'=>$banid))->find();
+
+        $where = array(
+            'ucb.banid' => $banid
+        );
+        if ($zhibuid) $where['u.dangzhibu'] = is_array($zhibuid) ? array('in', $zhibuid) : $zhibuid;
+
+        $result = M('user_course_ban')->alias('ucb')->field('ucb.userid, u.username, u.dangzhibu')
+            ->join(' __USER__ u on ucb.userid=u.userid and u.status=1 ')
+            ->where($where)
+            ->order('userid asc')
+            ->select();
+        $data = array();
+        if (is_array($result) && !empty($result)) {
+            foreach ($result as $d) {
+                $data[$d['userid']] = $d;
+            }
+        }
+
+        return is_array($data) ? $data : array();
+    }
+
+    //金鸡湖班学习记录
+    public function getUserCourseBan($banid=null, $zhibuid=array())
+    {
+        if (!$banid) return false;
+
+        //获取班级信息
+        $ban = M('course_ban')->where(array('banid'=>$banid))->find();
+
+        $where = array(
+            'ucb.banid' => $banid
+        );
+        if ($zhibuid) $where['u.dangzhibu'] = is_array($zhibuid) ? array('in', $zhibuid) : $zhibuid;
+
+        $data = M('user_course_ban')->alias('ucb')->field('ucb.userid, u.username, u.dangzhibu, uc.courseid, c.title as coursetitle')
+            ->join(' __USER__ u on ucb.userid=u.userid and u.status=1 ')
+            ->join(' __USER_COURSE__ uc on ucb.userid=uc.userid and uc.status>0 ')
+            ->join(' __COURSE__ c on uc.courseid=c.courseid and c.typeid='.$ban['coursetype'].' ')
             ->where($where)
             ->order('courseid asc')
             ->select();
