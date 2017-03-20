@@ -21,11 +21,15 @@ class CourseController extends CommonController
     {
         parent::__construct();
 
-        $this->assign("sidebar_active", array("Course","index"));
+//        $this->assign("sidebar_active", array("Course","index"));
 
         $this->_page_location = __APP__.'?s=Course/index';
 
-        $this->assign("classlist", $this->_course_class);
+        $this->_course_type = D('Course')->getCourseType();
+        $this->assign('coursetype', $this->_course_type);
+
+        $this->_course_class = D('Course')->getCourseClass();
+        $this->assign('courseclass', $this->_course_class);
     }
 
     //获取课程id
@@ -43,6 +47,14 @@ class CourseController extends CommonController
         if (!$title) $this->ajaxReturn(1, '请填写课程标题！');
 
         return $title;
+    }
+
+    //获取课程类型
+    private function _getTypeid()
+    {
+        $typeid = mRequest('typeid');
+
+        return $typeid;
     }
 
     //获取课程分类
@@ -120,7 +132,7 @@ class CourseController extends CommonController
         $keywords = $this->_getKeywords();
 
         list($start, $length) = $this->_mkPage();
-        $data = D('Course')->getCourse(null, null, null, $keywords, $start, $length);
+        $data = D('Course')->getCourse(null, null, null, null, $keywords, $start, $length);
         $total = $data['total'];
         $datalist = $data['data'];
 
@@ -282,6 +294,7 @@ class CourseController extends CommonController
         $courseid = $this->_getCourseid();
 
         $title = $this->_getTitle();
+        $typeid = $this->_getTypeid();
         $classid = $this->_getClassid();
         $showimg = $this->_getShowimg();
         $videoimg = $this->_getVideoimg();
@@ -296,6 +309,7 @@ class CourseController extends CommonController
                 'videopath'  => $videopath,
                 'videotime'  => $videotime,
                 'showimg'    => $showimg,
+                'typeid'     => $typeid,
                 'classid'    => $classid,
                 'updatetime' => TIMESTAMP,
             );
@@ -352,6 +366,81 @@ class CourseController extends CommonController
             $this->ajaxReturn(0, '成功！');
         } else {
             $this->ajaxReturn(1, '失败！');
+        }
+    }
+
+    //学习班
+    public function ban()
+    {
+        //学习班
+        $bans = D('Course')->getCourseBan();
+
+        $this->assign('datalist', $bans);
+        $this->display();
+    }
+
+    //学习班-学员
+    public function banuser()
+    {
+        $banid = mRequest('banid');
+        $this->assign('banid', $banid);
+
+        //学习班
+        $ban = D('Course')->getCourseBan($banid);
+        $ban = current($ban);
+
+        //支部
+        $zhibu = D('User')->getDangzhibu();
+        //用户
+        $users = M('user')->where(array('status'=>1))->order('userid asc')->select();
+        $userlist = $zhibu['data'];
+        foreach ($users as $user) {
+            $userlist[$user['dangzhibu']]['user'][$user['userid']] = $user;
+        }
+
+        //学员
+        $banuser = D('Course')->getCourseBanUser($banid);
+        $banuserids = array();
+        foreach ($banuser as $user) {
+            $banuserids[] = $user['userid'];
+        }
+
+        $this->assign('ban', $ban);
+        $this->assign('userlist', $userlist);
+        $this->assign('banuserids', $banuserids);
+        $this->display();
+    }
+
+    //学习班-学员保存
+    public function banusersave()
+    {
+        $banid = mRequest('banid');
+        if (!$banid) $this->ajaxReturn(1, '未知信息！');
+
+        $banname = mRequest('banname');
+        if (!$banname) $this->ajaxReturn(1, '请填写名称！');
+
+        $userids = mRequest('userids', false);
+        if (empty($userids)) $this->ajaxReturn(1, '请选择学员！');
+        $data = array();
+        foreach ($userids as $userid) {
+            $data[] = array(
+                'banid' => $banid,
+                'userid' => $userid,
+            );
+        }
+
+        $result = M('course_ban')->where(array('banid'=>$banid))->save(array('banname'=>$banname,'updatetime'=>TIMESTAMP));
+        if ($result) {
+            M('user_course_ban')->where(array('banid'=>$banid))->delete();
+            $result = M('user_course_ban')->addAll($data);
+            if ($result) {
+                $this->ajaxReturn(0, '保存成功！');
+            } else {
+                $this->ajaxReturn(1, '保存失败！');
+            }
+        } else {
+            $this->ajaxReturn(1, '保存失败！');
         }
     }
 }

@@ -31,6 +31,18 @@ class UserModel extends CommonModel
         if ($account) $where['account'] = $account;
 
         $result = M('user')->where($where)->find();
+        $result['bans'] = array();
+        $result['banids'] = array();
+        $result['coursetypes'] = array();
+
+        $userban = M('user_course_ban')->alias('ucb')->field('cb.*')->join(' __COURSE_BAN__ cb on ucb.banid=cb.banid ')->where(array('userid'=>$result['userid']))->select();
+        if (is_array($userban)&&!empty($userban)) {
+            foreach ($userban as $d) {
+                $result['bans'][$d['banid']] = $d;
+                $result['banids'][] = $d['banid'];
+                $result['coursetypes'][] = $d['coursetype'];
+            }
+        }
 
         return is_array($result) ? $result : array();
     }
@@ -280,7 +292,7 @@ class UserModel extends CommonModel
         return $usercourselearninfo;
     }
 
-        //获取用户学习课程的学习经历
+    //获取用户学习课程的学习经历
     public function getUserCourse($userid=null, $courseid=null, $start=0, $length=9999)
     {
         if (!$userid) return false;

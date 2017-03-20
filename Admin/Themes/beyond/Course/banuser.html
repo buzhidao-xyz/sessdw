@@ -1,0 +1,112 @@
+{include file="Common/head.html"}
+
+<!-- Page Content -->
+<div class="page-content">
+
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="javascript:;">系统</a>
+            </li>
+            <li><a href="javascript:;">用户管理</a></li>
+            <li class="active">学习班</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>金鸡湖班</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="#">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Page Body -->
+    <div class="page-body dashboard">
+        <div class="widget searchbox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
+                <span class="widget-caption">班级信息</span>
+            </div>
+            <div class="widget-body">
+                <form role="form" name="arcform" method="post" action="{$ANY.__APP__}?s=Course/banusersave" class="dataform">
+                    <input type="hidden" name="banid" value="{$banid}">
+                    <div class="form-title"><b>基本信息</b></div>
+                    <div class="form-group">
+                        <label>学习班：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="banname" value="{$ban.banname}" placeholder="例：首届金鸡湖班" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-title"><b>学员信息</b></div>
+                    {foreach $userlist as $zhibu}
+                    <div class="form-group">
+                        <label style="font-size: 17px; font-weight: 700;">{$zhibu.zhibuname}：</label>
+                        <div class="input-icon icon-right" style="clear: both; display: block; overflow: hidden;">
+                            {foreach $zhibu.user as $user}
+                            <div class="checkbox" style="display: inline-block; width: 85px;">
+                                <label>
+                                    {if in_array($user.userid, $banuserids)}
+                                    <input type="checkbox" name="userids[]" value="{$user.userid}" checked="checked">
+                                    {else}
+                                    <input type="checkbox" name="userids[]" value="{$user.userid}">
+                                    {/if}
+                                    <span class="text">{$user.username}</span>
+                                </label>
+                            </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                    {/foreach}
+                    <div class="form-group text-center">
+                        <button class="btn btn-success" type="submit"> 发布 </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+<script>
+    $(function (){
+        //课程Form提交
+        $("form[name=arcform]").submit(function (){
+            var url = $(this).attr('action');
+            var postdata = $(this).serialize();
+            $.post(url, postdata, function (data){
+                var status = data.error ? 'error' : 'success';
+                alertPanelShow(status, data.msg);
+                if (!data.error) {
+                    var location_href = "";
+                    if ("location" in data.data) {
+                        location_href = data.data.location;
+                    }
+                    location.href = location_href ? location_href : location.href;
+                }
+            }, 'json');
+            return false;
+        });
+    });
+</script>
+{include file="Common/foot.html"}

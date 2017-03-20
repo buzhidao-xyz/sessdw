@@ -59,12 +59,12 @@
                         </span>
                     </div>
                     <div class="form-group">
-                        <label>课程分类：</label>
+                        <label>课程类型：</label>
                         <span class="input-icon icon-right">
-                            <select name="classid" class="select2el" style="width: 100%;">
-                                <option value="0"> ---请选择课程分类--- </option>
-                                {foreach $classlist as $d}
-                                <option value="{$d.id}">{$d.name}</option>
+                            <select name="typeid" class="select2el" style="width: 100%;">
+                                <option value="0"> ---请选择课程类型--- </option>
+                                {foreach $coursetype as $d}
+                                <option value="{$d.typeid}">{$d.typename}</option>
                                 {/foreach}
                             </select>
                         </span>

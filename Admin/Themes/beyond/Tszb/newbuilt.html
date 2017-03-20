@@ -1,0 +1,204 @@
+{include file="Common/head.html"}
+
+<!-- Page Content -->
+<div class="page-content">
+
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="javascript:;">系统</a>
+            </li>
+            <li><a href="javascript:;">用户管理</a></li>
+            <li class="active">支部建设</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>特色支部建设</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            {include file="Tszb/inops.html"}
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="#">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Page Body -->
+    <div class="page-body dashboard">
+        <div class="widget searchbox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
+                <span class="widget-caption">新增会议</span>
+            </div>
+            <div class="widget-body">
+                <form role="form" name="arcform" method="post" action="{$ANY.__APP__}?s=Tszb/newbuiltsave" class="dataform">
+                    <div class="form-title"><b>基本信息</b></div>
+                    <div class="form-group">
+                        <label>支部：</label>
+                        <span class="input-icon icon-right">
+                            <select name="zhibuid" class="select2el" style="width: 100%;">
+                                <option value="0"> ---请选择支部--- </option>
+                                {foreach $tszb as $d}
+                                <option value="{$d.zhibuid}">{$d.zhibuname}</option>
+                                {/foreach}
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>主题：</label>
+                        <span class="input-icon icon-right">
+                            <select name="classid" class="select2el" style="width: 100%;">
+                                <option value="0"> ---请选择主题--- </option>
+                                {foreach $tszbclass as $d}
+                                {if !empty($d.subclass)}
+                                <option value="{$d.classid}" disabled>{$d.classname}</option>
+                                {foreach $d.subclass as $dd}
+                                <option value="{$dd.classid}">&nbsp;&nbsp;&nbsp;&nbsp;{$dd.classname}</option>
+                                {/foreach}
+                                {else}
+                                <option value="{$d.classid}">{$d.classname}</option>
+                                {/if}
+                                {/foreach}
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议主题：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="title" placeholder="例：2017冬训总结" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>短标题：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="shorttitle" placeholder="例：冬训总结" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议时间：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="dt" placeholder="例：2017-03-20 15:00" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议地点：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="place" placeholder="例：A15楼一层会议室" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议人数：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="usernum" placeholder="例：7" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议人员：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="userdesc" placeholder="例：张三、李四、王五等7名支部委员" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-title"><b>会议内容</b></div>
+                    <div class="form-group">
+                        <label>会议内容：</label>
+                        <span class="input-icon icon-right">
+                            <textarea id="ueditor" name="content" style="width: 100%; height: 500px;"></textarea>
+                        </span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-success" type="submit"> 发布 </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+
+<!-- ueditor -->
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ueditor-1.4.3/ueditor.config.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ueditor-1.4.3/ueditor.all.min.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ueditor-1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    $(function (){
+        //初始化UEditor
+        UE.getEditor('ueditor');
+
+        //Form提交
+        $("form[name=arcform]").submit(function (){
+            var zhibuid = $(this).find("select[name=zhibuid]").val();
+            if (!zhibuid) {
+                alertPanelShow('error', '请选择支部！');
+                return false;
+            }
+
+            var classid = $(this).find("select[name=classid]").val();
+            if (!classid) {
+                alertPanelShow('error', '请选择主题！');
+                return false;
+            }
+
+            var title = $(this).find("input[name=title]").val();
+            if (!title) {
+                alertPanelShow('error', '请填写会议主题！');
+                return false;
+            }
+
+            var dt = $(this).find("input[name=dt]").val();
+            if (!dt) {
+                alertPanelShow('error', '请填写会议时间！');
+                return false;
+            }
+
+            var place = $(this).find("input[name=place]").val();
+            if (!place) {
+                alertPanelShow('error', '请填写会议地点！');
+                return false;
+            }
+
+            var usernum = $(this).find("input[name=usernum]").val();
+            if (!usernum) {
+                alertPanelShow('error', '请填写会议人数！');
+                return false;
+            }
+
+            var userdesc = $(this).find("input[name=userdesc]").val();
+            if (!userdesc) {
+                alertPanelShow('error', '请填写会议人员！');
+                return false;
+            }
+
+            var content = $(this).find("textarea[name=content]").val();
+            if (!content) {
+                alertPanelShow('error', '请填写会议内容！');
+                return false;
+            }
+        });
+    })
+</script>
+
+{include file="Common/foot.html"}

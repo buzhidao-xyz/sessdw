@@ -33,8 +33,8 @@ class IndexController extends BaseController
         $djarclist = D('Article')->getArc(null, CR('Article')->arcclass['news']['id'], null, 0, 6);
         $this->assign('djarclist', $djarclist['data']);
 
-        //推荐文章
-        $recomarclist = D('Article')->getArcRecom(null, 0, 6);
+        //推荐文章-平台公告
+        $recomarclist = D('Article')->getArc(null, CR('Article')->arcclass['notice']['id'], null, 0, 6);
         $this->assign('recomarclist', $recomarclist['data']);
 
         //获取课程总数

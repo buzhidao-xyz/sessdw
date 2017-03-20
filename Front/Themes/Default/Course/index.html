@@ -13,7 +13,9 @@
         <!-- listnav -->
         <ul id="listnav" class="listnav list-unstyled">
             {foreach $coursetype as $type}
+            {if $type.typeid==1 || $type.typeid==2 || in_array($type.typeid, $userinfo.coursetypes)}
             <li class="item {if isset($typeid)&&$typeid==$type.typeid}active{/if}"><a href="{$ANY.__APP__}?s=Course/index&typeid={$type.typeid}">{$type.typename}</a></li>
+            {/if}
             {/foreach}
         </ul>
         <script src="{$SERVER.HOST.PUBLIC_SERVER}js/jquery-scrolltofixed-min.js"></script>

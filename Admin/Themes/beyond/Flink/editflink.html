@@ -1,0 +1,99 @@
+{include file="Common/head.html"}
+
+<!-- Page Content -->
+<div class="page-content">
+
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="javascript:;">系统</a>
+            </li>
+            <li><a href="javascript:;">综合管理</a></li>
+            <li class="active">友情链接</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>友情链接</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            {include file="Flink/inops.html"}
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="#">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Page Body -->
+    <div class="page-body dashboard">
+        <div class="widget searchbox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
+                <span class="widget-caption">新增链接</span>
+            </div>
+            <div class="widget-body">
+                <form role="form" name="arcform" method="post" action="{$ANY.__APP__}?s=Flink/editflinksave" class="dataform">
+                    <input type="hidden" name="flinkid" value="{$flink.flinkid}">
+                    <div class="form-title"><b>基本信息</b></div>
+                    <div class="form-group">
+                        <label>名称：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="title" value="{$flink.title}" placeholder="例：三星两学一做党建平台" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>链接：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="link" value="{$flink.link}" placeholder="例：http://www.sessdw.com/" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-success" type="submit"> 发布 </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+
+<!-- ueditor -->
+<script type="text/javascript">
+    $(function (){
+        //Form提交
+        $("form[name=arcform]").submit(function (){
+            var title = $(this).find("input[name=title]").val();
+            if (!title) {
+                alertPanelShow('error', '请填写名称！');
+                return false;
+            }
+
+            var link = $(this).find("input[name=link]").val();
+            if (!link) {
+                alertPanelShow('error', '请填写链接！');
+                return false;
+            }
+        });
+    })
+</script>
+
+{include file="Common/foot.html"}

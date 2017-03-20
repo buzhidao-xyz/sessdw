@@ -140,7 +140,7 @@ $(function(){
     $(function (){
         $('.captionbox').bind('beforeStarting', function () {
             $('.captionbox').find(".js-marquee-wrapper").css("margin-left", "-0px");
-            $('.sessbooks').find(".js-marquee-wrapper .js-marquee").css("margin-right", "0");
+            $('.captionbox').find(".js-marquee-wrapper .js-marquee").css("margin-right", "0");
         }).marquee({
             direction: 'left',
             duration: 25000,

@@ -11,7 +11,9 @@
             <ul class="list-unstyled">
                 {if isset($bans)&&!empty($bans)}
                 {foreach $bans as $ban}
+                {if in_array($ban.banid, $userinfo.banids)}
                 <li {if isset($banid)&&$banid==$ban.banid}class="active"{/if}><a href="{$ANY.__APP__}?s=User/jjh&banid={$ban.banid}">{$ban.banname}</a></li>
+                {/if}
                 {/foreach}
                 {/if}
             </ul>

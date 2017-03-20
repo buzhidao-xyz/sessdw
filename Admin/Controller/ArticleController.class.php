@@ -6,6 +6,8 @@
  */
 namespace Admin\Controller;
 
+use Any\Upload;
+
 class ArticleController extends CommonController
 {
     // 文章分类
@@ -84,6 +86,44 @@ class ArticleController extends CommonController
         $this->_page_location = __APP__.'?s=Article/news';
     }
 
+    //上传缩略图
+    public function thumbimageupload()
+    {
+        //初始化上传类
+        $Upload = new Upload();
+        $Upload->maxSize  = $this->_upfilesize['image']['size'];
+        $Upload->exts     = $this->_upfilesize['image']['exts'];
+        $Upload->rootPath = UPLOAD_PATH;
+        $Upload->savePath = 'image/';
+        $Upload->saveName = array('uniqid', array('', true));
+        $Upload->autoSub  = true;
+        $Upload->subName  = array('date', 'Ym');
+
+        //上传
+        $error = null;
+        $msg = '上传成功！';
+        $data = array();
+        $info = $Upload->upload();
+        if (!$info) {
+            $error = 1;
+            $msg = $Upload->getError();
+        } else {
+            $fileinfo = array_shift($info);
+            $data = array(
+                'filepath' => '/'.UPLOAD_PT.$fileinfo['savepath'],
+                'filename' => $fileinfo['savename'],
+            );
+        }
+
+        $this->ajaxReturn($error, $msg, $data);
+    }
+
+    //主页
+    public function index()
+    {
+        $this->news();
+    }
+
     //党建新闻
     public function news()
     {
@@ -105,7 +145,7 @@ class ArticleController extends CommonController
         //解析分页数据
         $this->_mkPagination($total, $param);
 
-        $this->display();
+        $this->display('Article/news');
     }
 
     //发布党建新闻
@@ -141,12 +181,15 @@ class ArticleController extends CommonController
         $keyword = $this->_getKeyword();
         $content = $this->_getContent();
 
+        $thumbimage = mRequest('thumbimage');
+
         if ($arcid) {
             $msg = '编辑';
             $data = array(
                 'title'      => $title,
                 'content'    => $content,
                 'keyword'    => $keyword,
+                'thumbimage' => $thumbimage,
                 'updatetime' => TIMESTAMP
             );
             $arcid = D('Article')->saveArc($arcid, $data);
@@ -156,6 +199,7 @@ class ArticleController extends CommonController
                 'title'      => $title,
                 'content'    => $content,
                 'classid'    => $this->_classid,
+                'thumbimage' => $thumbimage,
                 'keyword'    => $keyword,
                 'status'     => 1,
                 'viewnum'    => 0,

@@ -23,8 +23,7 @@
         </div>
         <!-- inops buttons -->
         <div class="inops-buttons">
-            <a href="{$ANY.__APP__}?s=Article/news" class="btn btn-primary">党建新闻</a>
-            <a href="{$ANY.__APP__}?s=Article/newnews" class="btn btn-darkorange">发布新闻</a>
+            {include file="Article/inops.html"}
         </div>
         <!--Header Buttons-->
         <div class="header-buttons">
@@ -83,8 +82,9 @@
                             <th>关键字</th>
                             <th>浏览（次）</th>
                             <th>状态</th>
+                            <!--<th>滚动新闻</th>-->
                             <th>创建日期</th>
-                            <th>操作项</th>
+                            <th></th>
                         </tr>
                     </thead>
 
@@ -98,6 +98,7 @@
                             <td>{$d.keyword}</td>
                             <td>{$d.viewnum}</td>
                             <td><font color="green">正常</font></td>
+                            <!--<td>{if $d.recom}<b>首页滚动</b>{/if}</td>-->
                             <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>
                             <td>
                                 <a href="{$ANY.__APP__}?s=Article/upnews&arcid={$d.arcid}" class="btn btn-sky">编辑</a>

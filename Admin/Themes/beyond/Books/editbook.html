@@ -1,0 +1,163 @@
+{include file="Common/head.html"}
+
+<!-- Page Content -->
+<div class="page-content">
+
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="javascript:;">系统</a>
+            </li>
+            <li><a href="javascript:;">综合管理</a></li>
+            <li class="active">电子期刊</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>电子期刊</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            {include file="Books/inops.html"}
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="#">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Page Body -->
+    <div class="page-body dashboard">
+        <div class="widget formbox">
+            <div class="widget-header bordered-bottom bordered-blue">
+                <span class="widget-caption">发布电子书</span>
+            </div>
+            <div class="widget-body">
+                <form role="form" name="arcform" method="post" action="{$ANY.__APP__}?s=Books/booksave" class="dataform">
+                    <input type="hidden" name="bookid" value="{$bookid}">
+                    <div class="form-title"><b>基本信息</b></div>
+                    <div class="form-group">
+                        <label>名称：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="bookname" value="{$book.bookname}" placeholder="例：语文" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>描述：</label>
+                        <span class="input-icon icon-right">
+                            <textarea name="bookdesc" value="" style="width: 100%; height: 100px;">{$book.bookdesc}</textarea>
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>分类：</label>
+                        <span class="input-icon icon-right">
+                            <select name="classid" class="select2el" style="width: 100%;">
+                                <option value="">---请选择分类---</option>
+                                {foreach $booksclass as $d}
+                                <option value="{$d.classid}" {if $d.classid==$book.classid}selected{/if}>{$d.classname}</option>
+                                {/foreach}
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>类型：</label>
+                        <span class="input-icon icon-right">
+                            <select name="booktype" class="select2el" style="width: 100%;">
+                                <option value="">---请选择类型---</option>
+                                {foreach $booktypes as $d}
+                                <option value="{$d.id}" {if $d.id==$book.booktype}selected{/if}>{$d.title}</option>
+                                {/foreach}
+                            </select>
+                        </span>
+                    </div>
+                    <div class="form-title"><b>期刊信息</b></div>
+                    <div class="form-group">
+                        <label>封面图：</label>
+                        <span class="input-icon icon-right">
+                            <img src="{$SERVER.HOST.HTTP_HOST}{$book.bookcover}" class="m-b-5" style="max-height: 300px;">
+                            <input type="hidden" name="bookcover" value="{$book.bookcover}">
+                            <input id="bookcoverfile" type="file" name="bookcoverfile" placeholder="封面图" class="file-loading">
+                            <p><font color="red">*不修改请留空</font></p>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>电子书pdf：</label>
+                        <span class="input-icon icon-right">
+                            {if $book.bookfile}
+                            链接：<a href="{$SERVER.HOST.HTTP_HOST}{$book.bookfile}" target="_blank">{$SERVER.HOST.HTTP_HOST}{$book.bookfile}</a>
+                            {/if}
+                            <input type="hidden" name="bookfile" value="{$book.bookfile}">
+                            <input id="bookfilefile" type="file" name="bookfilefile" placeholder="电子书pdf" class="file-loading">
+                            <p><font color="red">*不修改请留空</font></p>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>电子期刊链接：</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" name="booklink" value="{$book.booklink}" placeholder="电子期刊链接 例：http://www.duokan.com/reader/www/app.html?id=4a5cca0761b94d1497239d617c165a62" class="form-control">
+                            <i class="fa fa-tags"></i>
+                        </span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-success" type="submit"> 发布 </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+
+<link href="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/bootstrap-fileinput/js/fileinput_locale_zh.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}js/bootstrap-fileinput.class.js"></script>
+
+<!-- ueditor -->
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ueditor-1.4.3/ueditor.config.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ueditor-1.4.3/ueditor.all.min.js"></script>
+<script src="{$SERVER.HOST.PUBLIC_SERVER}plugins/ueditor-1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    $(function (){
+        var BootstrapFileInputClassObj = new BootstrapFileInputClass();
+        BootstrapFileInputClassObj.Init("bookcover", JS_APP+"?s=Books/bookcoverupload");
+        BootstrapFileInputClassObj.Init("bookfile", JS_APP+"?s=Books/bookfileupload");
+
+        $("form[name=arcform]").submit(function (){
+            var url = $(this).attr('action');
+            var postdata = $(this).serialize();
+            $.post(url, postdata, function (data){
+                var status = data.error ? 'error' : 'success';
+                alertPanelShow(status, data.msg);
+                if (!data.error) {
+                    var location_href = "";
+                    if ("location" in data.data) {
+                        location_href = data.data.location;
+                    }
+                    location.href = location_href ? location_href : location.href;
+                }
+            }, 'json');
+            return false;
+        });
+    })
+</script>
+
+{include file="Common/foot.html"}

@@ -80,6 +80,9 @@ class UserController extends BaseController
             'username'   => $userinfo['username'],
             'department' => $userinfo['department'],
             'position'   => $userinfo['position'],
+            'bans'       => $userinfo['bans'],
+            'banids'     => $userinfo['banids'],
+            'coursetypes' => $userinfo['coursetypes'],
         );
         $this->_GSUserinfo($userinfo);
 

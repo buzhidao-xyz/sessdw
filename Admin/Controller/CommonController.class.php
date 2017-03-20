@@ -26,7 +26,7 @@ class CommonController extends BaseController
             'exts' => array('mp4', 'swf', 'flv', 'mp3'),
         ),
         'attach' => array(
-            'size' => 20971520,
+            'size' => 52428800,
             'exts' => array('pdf', 'doc', 'docx', 'xls', 'xlsx'),
         ),
     );

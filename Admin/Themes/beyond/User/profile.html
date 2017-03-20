@@ -23,8 +23,7 @@
         </div>
         <!-- inops buttons -->
         <div class="inops-buttons">
-            <a href="{$ANY.__APP__}?s=User/index" class="btn btn-primary">党员管理</a>
-            <a href="{$ANY.__APP__}?s=User/newuser" class="btn btn-darkorange">新建账号</a>
+            {include file="User/inops.html"}
         </div>
         <!--Header Buttons-->
         <div class="header-buttons">
@@ -89,6 +88,17 @@
                         <span class="input-icon icon-right">
                             <input type="text" name="position" value="{$userinfo.position}" placeholder="党员工作职位" class="form-control">
                             <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>等级：</label>
+                        <span class="input-icon icon-right">
+                            <select name="typeid" class="select2el" style="width: 100%;">
+                                <option value="0"> ---请选择等级--- </option>
+                                {foreach $usertype as $d}
+                                <option value="{$d.typeid}" {if $d.typeid==$userinfo.typeid}selected{/if}>{$d.name}</option>
+                                {/foreach}
+                            </select>
                         </span>
                     </div>
                     <div class="form-group">

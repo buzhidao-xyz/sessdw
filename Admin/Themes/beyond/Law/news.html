@@ -1,0 +1,130 @@
+{include file="Common/head.html"}
+
+<!-- Page Content -->
+<div class="page-content">
+
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="javascript:;">系统</a>
+            </li>
+            <li><a href="javascript:;">综合管理</a></li>
+            <li class="active">法制新闻</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>法制新闻</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            {include file="Law/inops.html"}
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="#">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Page Body -->
+    <div class="page-body dashboard">
+        <div class="widget searchbox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
+                <span class="widget-caption">检索</span>
+            </div>
+            <div class="widget-body">
+                <form role="form" class="form-inline searchform" method="post" action="{$ANY.__APP__}?s=Law/news">
+                    <div class="form-group">
+                        <label>关键字：</label>
+                        <input type="text" name="keywords" value="{$keywords}" placeholder="标题、描述等" class="form-control" style="width: 200px;">
+                    </div>
+                    <div class="form-group">
+                        <select name="newstype" class="select2el" style="width: 100px;">
+                            <option value="">-----</option>
+                            {foreach $newstypes as $d}
+                            <option value="{$d.id}" {if $d.id==$newstype}selected{/if}>{$d.title}</option>
+                            {/foreach}
+                        </select>
+                        <select name="inout" class="select2el" style="width: 75px;">
+                            <option value="">-----</option>
+                            {foreach $inouts as $d}
+                            <option value="{$d.id}" {if $d.id==$inout}selected{/if}>{$d.title}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success" type="submit"> 搜索 </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="widget tablebox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
+                <span class="widget-caption">管理</span>
+                <div class="widget-buttons">
+                    <a href="#" data-toggle="maximize">
+                        <i class="fa fa-expand"></i>
+                    </a>
+                    <a href="#" data-toggle="collapse">
+                        <i class="fa fa-minus"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body no-padding">
+                <table id="searchable" class="table table-bordered table-hover table-striped">
+                    <thead class="bordered-darkorange">
+                    <tr role="row">
+                        <th>ID</th>
+                        <th>标题</th>
+                        <th>类型</th>
+                        <th>浏览（次）</th>
+                        <th>状态</th>
+                        <th>创建日期</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+
+                    {if isset($datalist)&&is_array($datalist)&&!empty($datalist)}
+                    <tbody>
+                    {foreach $datalist as $d}
+                    <tr>
+                        <td>{$d.newsid}</td>
+                        <td>{$d.title}</td>
+                        <td>{$newstypes[$d.newstype].title}</td>
+                        <td>{$d.clicknum}</td>
+                        <td><font color="green">正常</font></td>
+                        <td>{'Y-m-d H:i:s'|date:{$d.createtime}}</td>
+                        <td>
+                            <a href="{$ANY.__APP__}?s=Law/editnews&newsid={$d.newsid}" class="btn btn-sky">编辑</a>
+                            <a href="{$ANY.__APP__}?s=Law/deletenews&newsid={$d.newsid}" class="btn btn-danger btndelete">删除</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                    {/if}
+                </table>
+                {include file="Public/pagination.html"}
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+
+{include file="Common/foot.html"}

@@ -13,6 +13,40 @@ class CourseModel extends CommonModel
         parent::__construct();
     }
 
+    //获取课程类型
+    public function getCourseType()
+    {
+        $where = array(
+            'status' => 1,
+        );
+        $result = M('course_type')->where($where)->order('typeid asc')->select();
+        $data = array();
+        if (is_array($result) && !empty($result)) {
+            foreach ($result as $d) {
+                $data[$d['typeid']] = $d;
+            }
+        }
+
+        return $data;
+    }
+
+    //获取课程分类
+    public function getCourseClass()
+    {
+        $where = array(
+            'status' => 1,
+        );
+        $result = M('course_class')->where($where)->order('classid asc')->select();
+        $data = array();
+        if (is_array($result) && !empty($result)) {
+            foreach ($result as $d) {
+                $data[$d['classid']] = $d;
+            }
+        }
+
+        return $data;
+    }
+
     //保存复习资料信息
     public function saveReview($data=array(), $reviewid=null)
     {
@@ -29,10 +63,11 @@ class CourseModel extends CommonModel
     }
 
     //获取课程
-    public function getCourse($courseid=null, $classid=null, $istesting=null, $keyword=null, $start=0, $length=9999)
+    public function getCourse($courseid=null, $typeid=null, $classid=null, $istesting=null, $keyword=null, $start=0, $length=9999)
     {
         $where = array();
         if ($courseid) $where['courseid'] = $courseid;
+        if ($typeid) $where['typeid'] = $typeid;
         if ($classid) $where['classid'] = $classid;
         if ($istesting !== null) $where['istesting'] = $istesting;
         if ($keyword) $where['title'] = array('like', '%'.$keyword.'%');
@@ -73,5 +108,53 @@ class CourseModel extends CommonModel
         }
 
         return $courseid ? $courseid : false;
+    }
+
+    //获取班级信息
+    public function getCourseBan($banid=null)
+    {
+        $where = array();
+        if ($banid) $where['banid'] = is_array($banid) ? array('in', $banid) : $banid;
+
+        $result = M('course_ban')->where($where)->order('banid asc')->select();
+        $data = array();
+        if (is_array($result) && !empty($result)) {
+            foreach ($result as $d) {
+//                $user = $this->getCourseBanUser($d['banid']);
+//                $d['user'] = $user;
+
+                $data[$d['banid']] = $d;
+            }
+        }
+
+        return is_array($data) ? $data : array();
+    }
+
+    //金鸡湖班用户
+    public function getCourseBanUser($banid=null, $zhibuid=array())
+    {
+        if (!$banid) return false;
+
+        //获取班级信息
+        $ban = M('course_ban')->where(array('banid'=>$banid))->find();
+
+        $where = array(
+            'ucb.banid' => $banid
+        );
+        if ($zhibuid) $where['u.dangzhibu'] = is_array($zhibuid) ? array('in', $zhibuid) : $zhibuid;
+
+        $result = M('user_course_ban')->alias('ucb')->field('ucb.userid, u.username, u.dangzhibu')
+            ->join(' __USER__ u on ucb.userid=u.userid and u.status=1 ')
+            ->where($where)
+            ->order('userid asc')
+            ->select();
+        $data = array();
+        if (is_array($result) && !empty($result)) {
+            foreach ($result as $d) {
+                $data[$d['userid']] = $d;
+            }
+        }
+
+        return is_array($data) ? $data : array();
     }
 }

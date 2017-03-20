@@ -1,0 +1,99 @@
+{include file="Common/head.html"}
+
+<!-- Page Content -->
+<div class="page-content">
+
+    <!-- Page Breadcrumb -->
+    <div class="page-breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="javascript:;">系统</a>
+            </li>
+            <li><a href="javascript:;">用户管理</a></li>
+            <li class="active">支部建设</li>
+        </ul>
+    </div>
+    <!-- /Page Breadcrumb -->
+
+    <!-- Page Header -->
+    <div class="page-header position-relative">
+        <div class="header-title">
+            <h1>特色支部建设</h1>
+        </div>
+        <!-- inops buttons -->
+        <div class="inops-buttons">
+            {include file="Tszb/inops.html"}
+        </div>
+        <!--Header Buttons-->
+        <div class="header-buttons">
+            <a class="sidebar-toggler" href="#">
+                <i class="fa fa-arrows-h"></i>
+            </a>
+            <a class="refresh" id="refresh-toggler" href="#">
+                <i class="glyphicon glyphicon-refresh"></i>
+            </a>
+            <a class="fullscreen" id="fullscreen-toggler" href="#">
+                <i class="glyphicon glyphicon-fullscreen"></i>
+            </a>
+        </div>
+        <!--Header Buttons End-->
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Page Body -->
+    <div class="page-body dashboard">
+        <div class="widget searchbox">
+            <div class="widget-header bordered-bottom bordered-palegreen">
+                <span class="widget-caption">内容</span>
+            </div>
+
+            <div class="widget-body">
+                <div id="examboxpanel" style="display: none;"></div>
+                <form role="form" name="testingform" method="post" action="#" class="dataform">
+                    <div class="form-title"><b>基本信息</b></div>
+                    <div class="form-group">
+                        <label>支部：</label>
+                        <span class="input-icon icon-right">
+                            <b>{$tszb[$tszbbuilt.zhibuid].zhibuname}</b>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议时间：</label>
+                        <span class="input-icon icon-right">
+                            <b>{'Y年m月d日 H:i'|date:$tszbbuilt.dt}</b>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议地点：</label>
+                        <span class="input-icon icon-right">
+                            <b>{$tszbbuilt.place}</b>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议人员：</label>
+                        <span class="input-icon icon-right">
+                            <b>{$tszbbuilt.userdesc}</b>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label>会议主题：</label>
+                        <span class="input-icon icon-right">
+                            <b>{$tszbbuilt.title}</b>
+                        </span>
+                    </div>
+                    <div class="form-title"><b>会议内容</b></div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            {$tszbbuilt.content|html_entity_decode}
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Body -->
+</div>
+<!-- /Page Content -->
+
+{include file="Common/foot.html"}

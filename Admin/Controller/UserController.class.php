@@ -17,7 +17,13 @@ class UserController extends CommonController
 
         $this->_page_location = __APP__.'?s=User/index';
 
-        $this->_course_class = CR('Course')->_course_class;
+        $this->_user_type = D('User')->getUserType();
+        $this->assign('usertype', $this->_user_type);
+
+        $this->_course_type = D('Course')->getCourseType();
+        $this->assign('coursetype', $this->_course_type);
+
+        $this->_course_class = D('Course')->getCourseClass();
         $this->assign('courseclass', $this->_course_class);
     }
 
@@ -82,6 +88,15 @@ class UserController extends CommonController
         return $position;
     }
 
+    //获取等级
+    private function _getTypeid()
+    {
+        $typeid = mRequest('typeid');
+        if (!$typeid) $this->ajaxReturn(1, '请选择党员等级！');
+
+        return $typeid;
+    }
+
     //获取党支部
     private function _getDangzhibu()
     {
@@ -118,7 +133,6 @@ class UserController extends CommonController
             'keywords'   => $keywords,
         );
         $this->assign('param', $param);
-        //解析分页数据
         $this->_mkPagination($total, $param);
 
         $this->display();
@@ -174,6 +188,7 @@ class UserController extends CommonController
         $username = $this->_getUsername();
         $department = $this->_getDepartment();
         $position = $this->_getPosition();
+        $typeid = $this->_getTypeid();
         $dangzhibu = $this->_getDangzhibu();
 
         if ($password) {
@@ -186,6 +201,7 @@ class UserController extends CommonController
                 'username'   => $username,
                 'department' => $department,
                 'position'   => $position,
+                'typeid'     => $typeid,
                 'dangzhibu'  => $dangzhibu,
                 'updatetime' => TIMESTAMP,
             );
@@ -206,6 +222,7 @@ class UserController extends CommonController
                 'username'   => $username,
                 'department' => $department,
                 'position'   => $position,
+                'typeid'     => $typeid,
                 'dangzhibu'  => $dangzhibu,
                 'ukey'       => $ukey,
                 'status'     => $status,

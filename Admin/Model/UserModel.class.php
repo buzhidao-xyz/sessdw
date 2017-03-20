@@ -19,6 +19,21 @@ class UserModel extends CommonModel
         return md5(md5($password).$ukey);
     }
 
+    //获取会员类型
+    public function getUserType()
+    {
+        $where = array();
+        $result = M('user_type')->where($where)->order('typeid asc')->select();
+        $data = array();
+        if (is_array($result) && !empty($result)) {
+            foreach ($result as $d) {
+                $data[$d['typeid']] = $d;
+            }
+        }
+
+        return $data;
+    }
+
     //获取会员
     public function getUser($userid=null, $status=null, $keyword=null, $start=0, $length=9999)
     {
@@ -98,8 +113,9 @@ class UserModel extends CommonModel
 
         return $userinfo;
     }
+
     //统计课程学习情况
-    public function gcUserCourseLearn($userid=null, $courseclass=array())
+    public function gcUserCourseLearnOld($userid=null, $courseclass=array())
     {
         if (!$userid || !is_array($courseclass) || empty($courseclass)) return false;
 
@@ -179,6 +195,158 @@ class UserModel extends CommonModel
 
         return $usercourselearninfo;
     }
+
+    //统计课程学习情况
+    public function gcUserCourseLearn($userid=null)
+    {
+        if (!$userid) return false;
+
+        $courseclass = array();
+        $data = M('course_class')->where(array('status'=>1))->order('classid asc')->select();
+        if (is_array($data) && !empty($data)) {
+            foreach ($data as $d) {
+                $courseclass[$d['classid']] = $d;
+            }
+        }
+
+        $coursetype = array();
+        $data = M('course_type')->where(array('status'=>1))->order('typeid asc')->select();
+        if (is_array($data) && !empty($data)) {
+            foreach ($data as $d) {
+                $coursetype[$d['typeid']] = $d;
+            }
+        }
+
+        //课程学习情况
+        $usercourselearninfo = array(
+            'class' => $courseclass,
+            'type' => $coursetype,
+            'total' => array(
+                'coursetotalnum' => 0,
+                'courselearnnum' => 0,
+                'coursenonenum'  => 0,
+                'testingtotalnum' => 0,
+                'testingdonenum' => 0,
+                'testingnonenum'  => 0,
+                'percent'        => 0,
+                'totalscore' => 0,
+                'avgscore' => 0,
+                'weightscore' => 0,
+            ),
+        );
+
+        foreach ($courseclass as $classinfo) {
+            $subquery = M('testing')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 and b.classid='.$classinfo['classid'])->field('a.*, b.title, b.classid')->where(array('a.status'=>1))->buildSql();
+            //该分类总课程数
+            $coursetotalnum = M('course')->where(array('isshow'=>1, 'classid'=>$classinfo['classid']))->count();
+            //已学习课程数
+            $courselearnnum = M('course')->alias('a')->join(' __USER_COURSE__ b on a.courseid=b.courseid and b.userid='.$userid.' and b.status in (1,2) ')->where(array('isshow'=>1, 'classid'=>$classinfo['classid']))->count();
+
+            //该分类总测评数
+            $testingtotalnum = M('testing')->table($subquery.' sub')->count();
+            //已完成测评数
+            $testingdonenum = M('testing')->table($subquery.' sub')->join(' __USER_TESTING__ ut on ut.testingid=sub.testingid and ut.userid='.$userid.' and ut.status=1 ')->count();
+            //未完成测评数
+            $testingnonenum = $testingtotalnum-$testingdonenum;
+            $testingpercent = $testingtotalnum>0 ? floor($testingdonenum/$testingtotalnum*100) : 0;
+
+            //课程测评总得分数
+            $totalscore = M('user_testing')->alias('ut')->join(' inner join '.$subquery.' sub on ut.testingid=sub.testingid ')->where(array('ut.userid'=>$userid))->sum('ut.gotscore');
+            $totalscore = $totalscore>0 ? $totalscore : 0;
+
+            //计算该类平均分
+            $avgscore = $testingtotalnum>0 ? floor($totalscore/$testingtotalnum) : 0;
+            //计算权重分
+            $weightscore = floor($avgscore*$classinfo['weight']);
+
+            $coursenonenum = $coursetotalnum-$courselearnnum;
+            $percent = $coursetotalnum>0 ? floor($courselearnnum/$coursetotalnum*100) : 0;
+            $usercourselearninfo['class'][$classinfo['classid']] = array_merge($usercourselearninfo['class'][$classinfo['classid']], array(
+                'coursetotalnum' => $coursetotalnum,
+                'courselearnnum' => $courselearnnum,
+                'coursenonenum'  => $coursenonenum,
+                'testingtotalnum'  => $testingtotalnum,
+                'testingdonenum'   => $testingdonenum,
+                'testingnonenum'   => $testingnonenum,
+                'percent'        => $percent,
+                'testingpercent' => $testingpercent,
+                'totalscore'     => $totalscore,
+                'avgscore'       => $avgscore,
+                'weightscore'    => $weightscore,
+            ));
+
+            //合计 课程数量、总分、权重分
+//            $usercourselearninfo['total']['coursetotalnum'] += $coursetotalnum;
+//            $usercourselearninfo['total']['courselearnnum'] += $courselearnnum;
+//            $usercourselearninfo['total']['coursenonenum'] += $coursenonenum;
+//            $usercourselearninfo['total']['testingtotalnum'] += $testingtotalnum;
+//            $usercourselearninfo['total']['testingdonenum']  += $testingdonenum;
+//            $usercourselearninfo['total']['testingnonenum']  += $testingnonenum;
+//            $usercourselearninfo['total']['totalscore'] += $totalscore;
+//            $usercourselearninfo['total']['weightscore'] += $weightscore;
+        }
+
+        foreach ($coursetype as $typeinfo) {
+            $subquery = M('testing')->alias('a')->join(' __COURSE__ b on a.courseid=b.courseid and b.isshow=1 and b.typeid='.$typeinfo['typeid'])->field('a.*, b.title, b.typeid')->where(array('a.status'=>1))->buildSql();
+            //该分类总课程数
+            $coursetotalnum = M('course')->where(array('isshow'=>1, 'typeid'=>$typeinfo['typeid']))->count();
+            //已学习课程数
+            $courselearnnum = M('course')->alias('a')->join(' __USER_COURSE__ b on a.courseid=b.courseid and b.userid='.$userid.' and b.status in (1,2) ')->where(array('isshow'=>1, 'typeid'=>$typeinfo['typeid']))->count();
+
+            //该分类总测评数
+            $testingtotalnum = M('testing')->table($subquery.' sub')->count();
+            //已完成测评数
+            $testingdonenum = M('testing')->table($subquery.' sub')->join(' __USER_TESTING__ ut on ut.testingid=sub.testingid and ut.userid='.$userid.' and ut.status=1 ')->count();
+            //未完成测评数
+            $testingnonenum = $testingtotalnum-$testingdonenum;
+            $testingpercent = $testingtotalnum>0 ? floor($testingdonenum/$testingtotalnum*100) : 0;
+
+            //课程测评总得分数
+            $totalscore = M('user_testing')->alias('ut')->join(' inner join '.$subquery.' sub on ut.testingid=sub.testingid ')->where(array('ut.userid'=>$userid))->sum('ut.gotscore');
+            $totalscore = $totalscore>0 ? $totalscore : 0;
+
+            //计算该类平均分
+            $avgscore = $testingtotalnum>0 ? floor($totalscore/$testingtotalnum) : 0;
+            //计算权重分
+            $weightscore = floor($avgscore*$typeinfo['weight']);
+
+            $coursenonenum = $coursetotalnum-$courselearnnum;
+            $percent = $coursetotalnum>0 ? floor($courselearnnum/$coursetotalnum*100) : 0;
+            $usercourselearninfo['type'][$typeinfo['typeid']] = array_merge($usercourselearninfo['type'][$typeinfo['typeid']], array(
+                'coursetotalnum' => $coursetotalnum,
+                'courselearnnum' => $courselearnnum,
+                'coursenonenum'  => $coursenonenum,
+                'testingtotalnum'  => $testingtotalnum,
+                'testingdonenum'   => $testingdonenum,
+                'testingnonenum'   => $testingnonenum,
+                'percent'        => $percent,
+                'testingpercent' => $testingpercent,
+                'totalscore'     => $totalscore,
+                'avgscore'       => $avgscore,
+                'weightscore'    => $weightscore,
+            ));
+
+            //合计 课程数量、总分、权重分
+            if (!$typeinfo['weight']) continue;
+
+            $usercourselearninfo['total']['coursetotalnum'] += $coursetotalnum;
+            $usercourselearninfo['total']['courselearnnum'] += $courselearnnum;
+            $usercourselearninfo['total']['coursenonenum'] += $coursenonenum;
+            $usercourselearninfo['total']['testingtotalnum'] += $testingtotalnum;
+            $usercourselearninfo['total']['testingdonenum']  += $testingdonenum;
+            $usercourselearninfo['total']['testingnonenum']  += $testingnonenum;
+            $usercourselearninfo['total']['totalscore'] += $totalscore;
+            $usercourselearninfo['total']['weightscore'] += $weightscore;
+        }
+
+        //合计 计算平均分
+        $usercourselearninfo['total']['avgscore'] = $usercourselearninfo['total']['testingtotalnum']>0 ? floor($usercourselearninfo['total']['totalscore']/$usercourselearninfo['total']['testingtotalnum']) : 0;
+        $usercourselearninfo['total']['percent'] = $usercourselearninfo['total']['coursetotalnum']>0 ? floor($usercourselearninfo['total']['courselearnnum']/$usercourselearninfo['total']['coursetotalnum']*100) : 0;
+        $usercourselearninfo['total']['testingpercent'] = $usercourselearninfo['total']['testingtotalnum']>0 ? floor($usercourselearninfo['total']['testingdonenum']/$usercourselearninfo['total']['testingtotalnum']*100) : 0;
+
+        return $usercourselearninfo;
+    }
+
     //获取用户上传报告的作业完成情况
     public function getUserWorkFiled($userid=null, $weight=1)
     {
@@ -230,10 +398,7 @@ class UserModel extends CommonModel
         $data = array();
         if (is_array($result)&&!empty($result)) {
             foreach ($result as $d) {
-                $data[$d['zhibuid']] = array(
-                    'zhibuid' => $d['zhibuid'],
-                    'zhibuname' => $d['zhibuname']
-                );
+                $data[$d['zhibuid']] = $d;
             }
         }
 
