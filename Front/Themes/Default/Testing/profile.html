@@ -18,11 +18,12 @@
         <div class="dataprofilecont">
             <form name="examform">
             <ul class="list-unstyled exambox">
+            <script> var i=1; </script>
                 {foreach $testinginfo.exams as $examinfo}
                 <li>
                     <div class="examsubject">
                         <p class="question">
-                            <span class="no">{$examinfo.sortno}.</span>{$examinfo.title}
+                            <span class="no"><script>document.write(i++)</script>.</span>{$examinfo.title}
                             <!-- <span class="myoptions {if $examinfo.result}right{else}wrong{/if}">{$examinfo.useranswer}</span> -->
                         </p>
                         <div class="options row">

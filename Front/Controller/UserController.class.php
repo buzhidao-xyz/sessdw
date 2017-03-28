@@ -256,6 +256,18 @@ class UserController extends BaseController
 
         $this->display();
     }
+    
+    //支部积极分子学习管理
+    //  add by huajun 20161124 start
+    public function zbxxjj()
+    {
+        //各支部学习进度统计
+        $zhibuLearnStatsjj = D('User')->zhibuLearnStatsjj();
+        $this->assign('zhibuLearnStatsjj', $zhibuLearnStatsjj);
+
+        $this->display();
+    }
+    //  add by huajun 20161124 end
 
     //金鸡湖班
     public function jjh()

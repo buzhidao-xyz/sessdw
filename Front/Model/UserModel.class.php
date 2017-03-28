@@ -703,6 +703,107 @@ class UserModel extends CommonModel
 
         return $zhibuLearnStats;
     }
+    
+    //各支部积极分子学习进度统计
+    //  add by huajun 20161124 start 
+    public function zhibuLearnStatsjj()
+    {
+        //查询支部
+        $zhibuList = M('dangzhibu')->order('zhibuid asc')->select();
+        $zhibuIds = array();
+        $zhibuLearnStatsjj = array();
+        foreach ($zhibuList as $d) {
+            $zhibuIds[] = $d['zhibuid'];
+            $zhibuLearnStatsjj[$d['zhibuid']] = array(
+                'zhibuid' => $d['zhibuid'],
+                'zhibuname' => $d['zhibuname'],
+            );
+        }
+
+        //查询支部人数
+        $zhibuUser = M('user')->field('dangzhibu, count(userid) as usernum')->where(array('dangzhibu'=>array('in', $zhibuIds), 'status'=>1,'position'=>array('like','%积极分子')))->group('dangzhibu')->select();
+
+        //查询支部学习人数
+        $zhibuUserSubSqlt = M('user')->alias('a')
+                          ->field('a.dangzhibu, a.userid')
+                          ->join(' __USER_COURSE__ b on a.userid=b.userid and b.status in (0,1,2) ')
+                          ->where(array('a.dangzhibu'=>array('in', $zhibuIds),'a.status'=>1,'position'=>array('like','%积极分子')))  
+                          ->group('a.dangzhibu, a.userid')
+                          ->buildSql();
+        $zhibuUserLearned = M('user')->field('dangzhibu, count(sub.userid) as usernumlearned')->table($zhibuUserSubSqlt.' sub')->group('sub.dangzhibu')->select();
+        //查询支部学习通过人数
+        $zhibuUserSubSqlt = M('user')->alias('a')
+                          ->field('a.dangzhibu, a.userid')
+                          ->join(' __USER_COURSE__ b on a.userid=b.userid and b.status in (2) ')
+                          ->where(array('a.dangzhibu'=>array('in', $zhibuIds),'a.status'=>1,'position'=>array('like' ,'%积极分子'))) 
+                          ->group('a.dangzhibu, a.userid')
+                          ->buildSql();
+        $zhibuUserLearnOK = M('user')->field('dangzhibu, count(sub.userid) as usernumlearnok')->table($zhibuUserSubSqlt.' sub')->group('sub.dangzhibu')->select();
+
+        //统计数据
+        foreach ($zhibuLearnStatsjj as $zhibuid=>$zhibu) {
+            //党员总数
+            $zhibuLearnStatsjj[$zhibuid]['usernum'] = 0;
+            foreach ($zhibuUser as $d) {
+                if ($d['dangzhibu'] == $zhibuid) {
+                    $zhibuLearnStatsjj[$zhibuid]['usernum'] = (int)$d['usernum'];
+                }
+            }
+            //学习人数
+            $zhibuLearnStatsjj[$zhibuid]['usernumlearned'] = 0;
+            foreach ($zhibuUserLearned as $d) {
+                if ($d['dangzhibu'] == $zhibuid) {
+                    $zhibuLearnStatsjj[$zhibuid]['usernumlearned'] = (int)$d['usernumlearned'];
+                }
+            }
+            //通过人数
+            $zhibuLearnStatsjj[$zhibuid]['usernumlearnok'] = 0;
+            foreach ($zhibuUserLearnOK as $d) {
+                if ($d['dangzhibu'] == $zhibuid) {
+                    $zhibuLearnStatsjj[$zhibuid]['usernumlearnok'] = (int)$d['usernumlearnok'];
+                }
+            }
+
+            //学习率
+            $zhibuLearnStatsjj[$zhibuid]['learnpercent'] = $zhibuLearnStatsjj[$zhibuid]['usernum']>0 ? $zhibuLearnStatsjj[$zhibuid]['usernumlearned']/$zhibuLearnStatsjj[$zhibuid]['usernum']*100 : 0;
+            $zhibuLearnStatsjj[$zhibuid]['learnpercent'] = $zhibuLearnStatsjj[$zhibuid]['learnpercent']>0 ? number_format($zhibuLearnStatsjj[$zhibuid]['learnpercent'], 1) : 0;
+            $zhibuLearnStatsjj[$zhibuid]['learnpercent'] = $zhibuLearnStatsjj[$zhibuid]['learnpercent'].'%';
+            //通过率
+            $zhibuLearnStatsjj[$zhibuid]['passpercent'] = $zhibuLearnStatsjj[$zhibuid]['usernum']>0 ? $zhibuLearnStatsjj[$zhibuid]['usernumlearnok']/$zhibuLearnStatsjj[$zhibuid]['usernum']*100 : 0;
+            $zhibuLearnStatsjj[$zhibuid]['passpercent'] = $zhibuLearnStatsjj[$zhibuid]['passpercent']>0 ? number_format($zhibuLearnStatsjj[$zhibuid]['passpercent'], 1) : 0;
+            $zhibuLearnStatsjj[$zhibuid]['passpercent'] = $zhibuLearnStatsjj[$zhibuid]['passpercent'].'%';
+        }
+        //合计数据
+        $usernum = 0;
+        $usernumlearned = 0;
+        $usernumlearnok = 0;
+        foreach ($zhibuLearnStatsjj as $zhibuid=>$zhibu) {
+            $usernum += $zhibu['usernum'];
+            $usernumlearned += $zhibu['usernumlearned'];
+            $usernumlearnok += $zhibu['usernumlearnok'];
+        }
+        //学习率
+        $learnpercent = $usernum>0 ? $usernumlearned/$usernum*100 : 0;
+        $learnpercent = $learnpercent>0 ? number_format($learnpercent, 1) : 0;
+        $learnpercent = $learnpercent.'%';
+        //通过率
+        $passpercent = $usernum>0 ? $usernumlearnok/$usernum*100 : 0;
+        $passpercent = $passpercent>0 ? number_format($passpercent, 1) : 0;
+        $passpercent = $passpercent.'%';
+        $zhibuLearnStatsjj['total'] = array(
+            'zhibuid'        => 0,
+            'zhibuname'      => '党委合计',
+            'usernum'        => $usernum,
+            'usernumlearned' => $usernumlearned,
+            'usernumlearnok' => $usernumlearnok,
+            'learnpercent'   => $learnpercent,
+            'passpercent'    => $passpercent,
+        );
+
+        return $zhibuLearnStatsjj;
+    }
+    
+    //  add by huajun 20161124 end
 
     //金鸡湖班用户
     public function getCourseBanUser($banid=null, $zhibuid=array())
