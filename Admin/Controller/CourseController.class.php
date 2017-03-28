@@ -392,7 +392,7 @@ class CourseController extends CommonController
         //支部
         $zhibu = D('User')->getDangzhibu();
         //用户
-        $users = M('user')->where(array('status'=>1,'dangzhibu'>0))->order('userid asc')->select();
+        $users = M('user')->where(array('status'=>1,'dangzhibu'=>array('gt',0)))->order('userid asc')->select();
         $userlist = $zhibu['data'];
         foreach ($users as $user) {
             $userlist[$user['dangzhibu']]['user'][$user['userid']] = $user;
