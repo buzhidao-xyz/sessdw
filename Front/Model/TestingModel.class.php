@@ -70,7 +70,7 @@ class TestingModel extends CommonModel
     {
         if (!$courseid && !$testingid) return false;
 
-        $testinginfo = $this->getTesting($testingid, $courseid, null, $userid);
+        $testinginfo = $this->getTesting($testingid, $courseid, null, null, $userid);
         $testinginfo = $testinginfo['total'] ? $testinginfo['data'][0] : array();
         if (!empty($testinginfo)) {
             $testingid = $testinginfo['testingid'];

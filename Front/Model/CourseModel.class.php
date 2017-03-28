@@ -74,7 +74,7 @@ class CourseModel extends CommonModel
     {
         if (!$courseid) return false;
 
-        $datainfo = $this->getCourse($courseid, null, $userid);
+        $datainfo = $this->getCourse($courseid, null, null, $userid);
         $courseinfo = $datainfo['total'] ? $datainfo['data'][0] : array();
 
         //获取复习资料

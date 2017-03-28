@@ -572,7 +572,7 @@ class UserModel extends CommonModel
                 $a = $userlearning[$i];
                 $b = $userlearning[$j];
 
-                if ($userlearning[$i]['avgscore']<$userlearning[$j]['avgscore']) {
+                if ($userlearning[$i]['gotscore']<$userlearning[$j]['gotscore']) {
                     $userlearning[$i] = $b;
                     $userlearning[$j] = $a;
                 }
