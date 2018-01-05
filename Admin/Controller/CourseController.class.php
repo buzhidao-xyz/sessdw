@@ -328,6 +328,7 @@ class CourseController extends CommonController
                 'videopath'  => $videopath,
                 'videotime'  => $videotime,
                 'showimg'    => $showimg,
+                'typeid'     => $typeid,
                 'classid'    => $classid,
                 'viewnum'    => 0,
                 'learnnum'   => 0,
